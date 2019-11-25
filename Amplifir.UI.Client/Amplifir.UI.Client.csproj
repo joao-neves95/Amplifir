@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="e2e\tsconfig.e2e.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="e2e\src\app.e2e-spec.ts" />
+    <None Remove="e2e\src\app.po.ts" />
+    <None Remove="src\app\app.component.ts" />
+    <None Remove="src\app\app.module.ts" />
+    <None Remove="src\app\app.server.module.ts" />
+    <None Remove="src\app\counter\counter.component.spec.ts" />
+    <None Remove="src\app\counter\counter.component.ts" />
+    <None Remove="src\app\fetch-data\fetch-data.component.ts" />
+    <None Remove="src\app\home\home.component.ts" />
+    <None Remove="src\app\nav-menu\nav-menu.component.ts" />
+    <None Remove="src\environments\environment.prod.ts" />
+    <None Remove="src\environments\environment.ts" />
+    <None Remove="src\main.ts" />
+    <None Remove="src\polyfills.ts" />
+    <None Remove="src\test.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="e2e\tsconfig.e2e.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.7.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="e2e\src\app.e2e-spec.ts" />
+    <TypeScriptCompile Include="e2e\src\app.po.ts" />
+    <TypeScriptCompile Include="src\app\app.component.ts" />
+    <TypeScriptCompile Include="src\app\app.module.ts" />
+    <TypeScriptCompile Include="src\app\app.server.module.ts" />
+    <TypeScriptCompile Include="src\app\counter\counter.component.spec.ts" />
+    <TypeScriptCompile Include="src\app\counter\counter.component.ts" />
+    <TypeScriptCompile Include="src\app\fetch-data\fetch-data.component.ts" />
+    <TypeScriptCompile Include="src\app\home\home.component.ts" />
+    <TypeScriptCompile Include="src\app\nav-menu\nav-menu.component.ts" />
+    <TypeScriptCompile Include="src\environments\environment.prod.ts" />
+    <TypeScriptCompile Include="src\environments\environment.ts" />
+    <TypeScriptCompile Include="src\main.ts" />
+    <TypeScriptCompile Include="src\polyfills.ts" />
+    <TypeScriptCompile Include="src\test.ts" />
+  </ItemGroup>
+
+</Project>

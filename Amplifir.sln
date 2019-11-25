@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.161
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amplifir.UI.Web", "Amplifir.UI.Web\Amplifir.UI.Web.csproj", "{49A4396C-D91E-43CC-9363-0C14C3977024}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{36F6A499-F0B4-48BD-9B7F-48CC22632F3A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{0F0DA099-8194-4515-AC59-04EB5CCCD0A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{B91C055C-19B9-462A-B2C9-186F8E8AA769}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{338F9384-E483-478D-9BE5-7AFE442BA29C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amplifir.UI.Desktop", "Amplifir.UI.Desktop\Amplifir.UI.Desktop.csproj", "{04A41641-F610-42DD-8389-6AE1D4909419}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amplifir.Core", "Amplifir.Core\Amplifir.Core.csproj", "{E0AFAEA5-0BB8-4206-8042-3FBF1DEE6FD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amplifir.Infrastructure", "Amplifir.Infrastructure\Amplifir.Infrastructure.csproj", "{5B573B48-C7A7-4F90-BFAA-DFCDC91CD787}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amplifir.UI.Client", "Amplifir.UI.Client\Amplifir.UI.Client.csproj", "{176454D0-B58C-4828-A383-C5660177414F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49A4396C-D91E-43CC-9363-0C14C3977024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49A4396C-D91E-43CC-9363-0C14C3977024}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49A4396C-D91E-43CC-9363-0C14C3977024}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49A4396C-D91E-43CC-9363-0C14C3977024}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04A41641-F610-42DD-8389-6AE1D4909419}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04A41641-F610-42DD-8389-6AE1D4909419}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04A41641-F610-42DD-8389-6AE1D4909419}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04A41641-F610-42DD-8389-6AE1D4909419}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0AFAEA5-0BB8-4206-8042-3FBF1DEE6FD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0AFAEA5-0BB8-4206-8042-3FBF1DEE6FD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0AFAEA5-0BB8-4206-8042-3FBF1DEE6FD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0AFAEA5-0BB8-4206-8042-3FBF1DEE6FD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B573B48-C7A7-4F90-BFAA-DFCDC91CD787}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B573B48-C7A7-4F90-BFAA-DFCDC91CD787}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B573B48-C7A7-4F90-BFAA-DFCDC91CD787}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B573B48-C7A7-4F90-BFAA-DFCDC91CD787}.Release|Any CPU.Build.0 = Release|Any CPU
+		{176454D0-B58C-4828-A383-C5660177414F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{176454D0-B58C-4828-A383-C5660177414F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{176454D0-B58C-4828-A383-C5660177414F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{176454D0-B58C-4828-A383-C5660177414F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{49A4396C-D91E-43CC-9363-0C14C3977024} = {36F6A499-F0B4-48BD-9B7F-48CC22632F3A}
+		{04A41641-F610-42DD-8389-6AE1D4909419} = {36F6A499-F0B4-48BD-9B7F-48CC22632F3A}
+		{E0AFAEA5-0BB8-4206-8042-3FBF1DEE6FD6} = {0F0DA099-8194-4515-AC59-04EB5CCCD0A8}
+		{5B573B48-C7A7-4F90-BFAA-DFCDC91CD787} = {B91C055C-19B9-462A-B2C9-186F8E8AA769}
+		{176454D0-B58C-4828-A383-C5660177414F} = {36F6A499-F0B4-48BD-9B7F-48CC22632F3A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {734F76A8-B06D-49E4-95CD-B1FDF7EDA93A}
+	EndGlobalSection
+EndGlobal
