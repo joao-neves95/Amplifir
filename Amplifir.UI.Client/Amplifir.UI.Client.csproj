@@ -9,12 +9,28 @@
   <ItemGroup>
     <Compile Remove="dist\**" />
     <Compile Remove="out-tsc\**" />
+    <Compile Remove="src\app\counter\**" />
+    <Compile Remove="src\app\fetch-data\**" />
+    <Compile Remove="src\app\home\**" />
+    <Compile Remove="src\app\nav-menu\**" />
     <Content Remove="dist\**" />
     <Content Remove="out-tsc\**" />
+    <Content Remove="src\app\counter\**" />
+    <Content Remove="src\app\fetch-data\**" />
+    <Content Remove="src\app\home\**" />
+    <Content Remove="src\app\nav-menu\**" />
     <EmbeddedResource Remove="dist\**" />
     <EmbeddedResource Remove="out-tsc\**" />
+    <EmbeddedResource Remove="src\app\counter\**" />
+    <EmbeddedResource Remove="src\app\fetch-data\**" />
+    <EmbeddedResource Remove="src\app\home\**" />
+    <EmbeddedResource Remove="src\app\nav-menu\**" />
     <None Remove="dist\**" />
     <None Remove="out-tsc\**" />
+    <None Remove="src\app\counter\**" />
+    <None Remove="src\app\fetch-data\**" />
+    <None Remove="src\app\home\**" />
+    <None Remove="src\app\nav-menu\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,11 +43,6 @@
     <None Remove="src\app\app.component.ts" />
     <None Remove="src\app\app.module.ts" />
     <None Remove="src\app\app.server.module.ts" />
-    <None Remove="src\app\counter\counter.component.spec.ts" />
-    <None Remove="src\app\counter\counter.component.ts" />
-    <None Remove="src\app\fetch-data\fetch-data.component.ts" />
-    <None Remove="src\app\home\home.component.ts" />
-    <None Remove="src\app\nav-menu\nav-menu.component.ts" />
     <None Remove="src\environments\environment.prod.ts" />
     <None Remove="src\environments\environment.ts" />
     <None Remove="src\main.ts" />
@@ -48,17 +59,16 @@
     <TypeScriptCompile Include="e2e\src\app.po.ts" />
     <TypeScriptCompile Include="src\app\app.component.ts" />
     <TypeScriptCompile Include="src\app\app.module.ts" />
-    <TypeScriptCompile Include="src\app\app.server.module.ts" />
-    <TypeScriptCompile Include="src\app\counter\counter.component.spec.ts" />
-    <TypeScriptCompile Include="src\app\counter\counter.component.ts" />
-    <TypeScriptCompile Include="src\app\fetch-data\fetch-data.component.ts" />
-    <TypeScriptCompile Include="src\app\home\home.component.ts" />
-    <TypeScriptCompile Include="src\app\nav-menu\nav-menu.component.ts" />
     <TypeScriptCompile Include="src\environments\environment.prod.ts" />
     <TypeScriptCompile Include="src\environments\environment.ts" />
     <TypeScriptCompile Include="src\main.ts" />
     <TypeScriptCompile Include="src\polyfills.ts" />
     <TypeScriptCompile Include="src\test.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="src\app\common\" />
+    <Folder Include="src\app\pages\" />
   </ItemGroup>
 
 </Project>
