@@ -1,0 +1,8 @@
+
+<nav class="nav flex-column">
+
+  <app-router-link *ngFor="let link of navLinks"
+                    [link]="link.url" [label]="link.label">
+  </app-router-link>
+
+</nav>
