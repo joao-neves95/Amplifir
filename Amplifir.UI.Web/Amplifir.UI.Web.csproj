@@ -5,7 +5,7 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
-    <SpaRoot>ClientApp\</SpaRoot>
+    <SpaRoot>..\Amplifir.UI.Client\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
 
     <!-- Set this to true if you enable server-side prerendering -->
@@ -14,6 +14,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.0-preview3.19555.2" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.7.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +25,28 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="..\Amplifir.UI.Client\dist\**" />
+    <None Remove="..\Amplifir.UI.Client\e2e\**" />
+    <None Remove="..\Amplifir.UI.Client\obj\**" />
+    <None Remove="..\Amplifir.UI.Client\out-tsc\e2e\**" />
+    <None Remove="..\Amplifir.UI.Client\src\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="..\Amplifir.UI.Client\.editorconfig" />
+    <None Remove="..\Amplifir.UI.Client\angular.json" />
+    <None Remove="..\Amplifir.UI.Client\browserslist" />
+    <None Remove="..\Amplifir.UI.Client\karma.conf.js" />
+    <None Remove="..\Amplifir.UI.Client\package-lock.json" />
+    <None Remove="..\Amplifir.UI.Client\package.json" />
+    <None Remove="..\Amplifir.UI.Client\README.md" />
+    <None Remove="..\Amplifir.UI.Client\tsconfig.app.json" />
+    <None Remove="..\Amplifir.UI.Client\tsconfig.json" />
+    <None Remove="..\Amplifir.UI.Client\tsconfig.spec.json" />
+    <None Remove="..\Amplifir.UI.Client\tslint.json" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
