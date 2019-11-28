@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { RouterLinkViewModel } from "../viewModels/routerLinkViewModel";
 
@@ -17,7 +17,14 @@ export class NavbarComponent implements OnInit {
     new RouterLinkViewModel( 'Settings', '/settings' )
   ]
 
+  @Output() clicked = new EventEmitter<string>();
+
   ngOnInit() {
+    this.click(this.navLinks[0].label);
+  }
+
+  click(linkLabel: string) {
+    this.clicked.emit(linkLabel);
   }
 
 }

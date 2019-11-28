@@ -1,8 +1,10 @@
 
 <nav class="nav flex-column">
 
-  <app-router-link *ngFor="let link of navLinks"
-                    [link]="link.url" [label]="link.label">
-  </app-router-link>
+  <a *ngFor="let link of navLinks"
+      (click)="click(link.label)"
+      class="nav-link" routerLink="{{ link.url }}" routerLinkActive="active">
+    {{ link.label }}
+  </a>
 
 </nav>
