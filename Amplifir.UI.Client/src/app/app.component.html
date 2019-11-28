@@ -3,11 +3,25 @@
 
   <div class="row">
 
-    <app-navbar class="col-3"></app-navbar>
+    <app-navbar (clicked)="changePageTile($event)" class="col-3">
+    </app-navbar>
 
-    <div class="col-9">
-      <router-outlet></router-outlet>
-    </div>
+    <main class="col-9">
+
+      <div class="row">
+        <div class="col-12 page-header add-border">
+
+          <app-page-header [title]="pageTitle"></app-page-header>
+
+        </div>
+        <div class="col-12 page add-border rm-top-border">
+
+          <router-outlet></router-outlet>
+
+        </div>
+      </div>
+
+    </main>
 
   </div>
 

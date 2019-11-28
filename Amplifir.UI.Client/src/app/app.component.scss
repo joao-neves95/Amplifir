@@ -1,0 +1,36 @@
+@import '../assets/scss/constants.scss';
+
+div.container,
+div.container>div.row {
+  height: 100%;
+  max-height: 100vh;
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+
+  app-navbar {
+    position: absolute;
+    min-width: $sidenavbar-big-width;
+  }
+
+  main {
+    margin-left: $sidenavbar-big-width;
+    margin-top: 0;
+
+    &>.row {
+      height: 100%;
+
+      .page-header {
+        height: $page-header-height;
+        margin-top: -1px;
+        padding-left: $page-margin-left !important;
+        padding-top: 0.5em;
+      }
+
+      .page {
+        padding-top: 0.5em;
+        height: calc(100% - #{ $page-header-height });
+      }
+    }
+  }
+}
