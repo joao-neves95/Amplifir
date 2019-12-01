@@ -5,16 +5,21 @@ using System.Text;
 using Microsoft.AspNet.Identity;
 using Amplifir;
 using Amplifir.Infrastructure.Entities;
+using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Infrastructure.DataAccess
 {
-    public class AppUserDapperContext : DapperDBContext,
-        IUserStore<AppUser, int>,
-        IUserPasswordStore<AppUser, int>,
-        IUserEmailStore<AppUser, int>,
-        IUserPhoneNumberStore<AppUser, int>,
-        IUserLockoutStore<AppUser, int>
+    /// <summary>
+    /// 
+    /// Used for the application's user Identity.
+    /// 
+    /// </summary>
+    public class AppUserDapperStore : DBStoreBase, IAppUserStore<AppUser, int>
     {
+        public AppUserDapperStore(IDBContext dBContext) : base(dBContext)
+        {
+        }
+
         public Task CreateAsync(AppUser user)
         {
             throw new NotImplementedException();
@@ -31,11 +36,6 @@ namespace Amplifir.Infrastructure.DataAccess
         }
 
         public Task<AppUser> FindByIdAsync(int userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<AppUser> FindByIdAsync(string userId)
         {
             throw new NotImplementedException();
         }
