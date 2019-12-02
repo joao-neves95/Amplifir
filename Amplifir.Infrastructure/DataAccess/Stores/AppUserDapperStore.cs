@@ -22,6 +22,13 @@ namespace Amplifir.Infrastructure.DataAccess
 
         public Task CreateAsync(AppUser user)
         {
+            base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
+            {
+                { "INSERT INTO AppUser", new { } },
+                { "INSERT INTO AppUserProfile", new { } },
+                { "INSERT INTO AuditLog", null }
+            } );
+
             throw new NotImplementedException();
         }
 
