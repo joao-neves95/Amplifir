@@ -9,24 +9,28 @@
   <ItemGroup>
     <Compile Remove="dist\**" />
     <Compile Remove="out-tsc\**" />
+    <Compile Remove="src\app\common\**" />
     <Compile Remove="src\app\counter\**" />
     <Compile Remove="src\app\fetch-data\**" />
     <Compile Remove="src\app\home\**" />
     <Compile Remove="src\app\nav-menu\**" />
     <Content Remove="dist\**" />
     <Content Remove="out-tsc\**" />
+    <Content Remove="src\app\common\**" />
     <Content Remove="src\app\counter\**" />
     <Content Remove="src\app\fetch-data\**" />
     <Content Remove="src\app\home\**" />
     <Content Remove="src\app\nav-menu\**" />
     <EmbeddedResource Remove="dist\**" />
     <EmbeddedResource Remove="out-tsc\**" />
+    <EmbeddedResource Remove="src\app\common\**" />
     <EmbeddedResource Remove="src\app\counter\**" />
     <EmbeddedResource Remove="src\app\fetch-data\**" />
     <EmbeddedResource Remove="src\app\home\**" />
     <EmbeddedResource Remove="src\app\nav-menu\**" />
     <None Remove="dist\**" />
     <None Remove="out-tsc\**" />
+    <None Remove="src\app\common\**" />
     <None Remove="src\app\counter\**" />
     <None Remove="src\app\fetch-data\**" />
     <None Remove="src\app\home\**" />
@@ -67,7 +71,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="src\app\common\" />
     <Folder Include="src\app\pages\" />
   </ItemGroup>
 
