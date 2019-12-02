@@ -52,7 +52,7 @@ CREATE TABLE ShoutHashtag (
 
 CREATE TABLE Hashtag (
     Id BIGSERIAL PRIMARY KEY,
-    Label VARCHAR(45) NOT NULL,
+    Label VARCHAR(45) NOT NULL
 );
 
 CREATE TABLE ShoutAsset (
