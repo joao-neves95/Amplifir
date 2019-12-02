@@ -5,9 +5,9 @@ using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {
-    public class ShoutStore : DBStoreBase
+    public class ShoutDapperStore : DBStoreBase
     {
-        public ShoutStore(IDBContext dBContext) : base( dBContext )
+        public ShoutDapperStore(IDBContext dBContext) : base( dBContext )
         {
         }
     }
