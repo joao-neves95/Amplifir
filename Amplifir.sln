@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Amplifir.Infrastructure.DatabaseCode", "Amplifir.Infrastructure.DatabaseCode\Amplifir.Infrastructure.DatabaseCode.sqlproj", "{B63BDBC8-E4D6-4230-8DCD-34B045D49468}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,12 @@ Global
 		{176454D0-B58C-4828-A383-C5660177414F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{176454D0-B58C-4828-A383-C5660177414F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{176454D0-B58C-4828-A383-C5660177414F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B63BDBC8-E4D6-4230-8DCD-34B045D49468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B63BDBC8-E4D6-4230-8DCD-34B045D49468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B63BDBC8-E4D6-4230-8DCD-34B045D49468}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B63BDBC8-E4D6-4230-8DCD-34B045D49468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B63BDBC8-E4D6-4230-8DCD-34B045D49468}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B63BDBC8-E4D6-4230-8DCD-34B045D49468}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +71,7 @@ Global
 		{E0AFAEA5-0BB8-4206-8042-3FBF1DEE6FD6} = {0F0DA099-8194-4515-AC59-04EB5CCCD0A8}
 		{5B573B48-C7A7-4F90-BFAA-DFCDC91CD787} = {B91C055C-19B9-462A-B2C9-186F8E8AA769}
 		{176454D0-B58C-4828-A383-C5660177414F} = {36F6A499-F0B4-48BD-9B7F-48CC22632F3A}
+		{B63BDBC8-E4D6-4230-8DCD-34B045D49468} = {B91C055C-19B9-462A-B2C9-186F8E8AA769}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {734F76A8-B06D-49E4-95CD-B1FDF7EDA93A}
