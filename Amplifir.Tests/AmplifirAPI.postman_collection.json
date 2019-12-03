@@ -1,9 +1,9 @@
 {
-	"info": {
-		"_postman_id": "a2a58bde-6148-4f19-80d6-b06a6fc39b4d",
-		"name": "AmplifirAPI",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [],
-	"protocolProfileBehavior": {}
+  "info": {
+    "_postman_id": "a2a58bde-6148-4f19-80d6-b06a6fc39b4d",
+    "name": "AmplifirAPI",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [],
+  "protocolProfileBehavior": {}
 }
