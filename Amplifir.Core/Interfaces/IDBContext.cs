@@ -7,6 +7,8 @@ namespace Amplifir.Core.Interfaces
 {
     public interface IDBContext : IDisposable
     {
+        DbConnection DbConnection { get; }
+
         /// <summary>
         /// 
         /// To use this overloaded method without a connection string, it is necessary

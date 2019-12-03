@@ -16,6 +16,8 @@ namespace Amplifir.Infrastructure.DataAccess.Interfaces
 
         protected DbConnection _dbConnection;
 
+        public DbConnection DbConnection { get; private set; }
+
         protected readonly string _connectionString = null;
 
         #region IDisposable Support
@@ -27,6 +29,7 @@ namespace Amplifir.Infrastructure.DataAccess.Interfaces
             if (!disposedValue)
             {
                 this._dbConnection.Dispose();
+                this._dbConnection = null;
                 disposedValue = true;
             }
         }
