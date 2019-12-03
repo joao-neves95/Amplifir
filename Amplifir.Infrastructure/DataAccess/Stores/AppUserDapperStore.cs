@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNet.Identity;
-using Amplifir;
+using System.Data.Common;
+using Dapper;
 using Amplifir.Infrastructure.Entities;
 using Amplifir.Core.Interfaces;
 
@@ -12,6 +11,7 @@ namespace Amplifir.Infrastructure.DataAccess
     /// <summary>
     /// 
     /// Used for the application's user Identity.
+    /// This must not be delivered to the API. Its intent is to be used internally.
     /// 
     /// </summary>
     public class AppUserDapperStore : DBStoreBase, IAppUserStore<AppUser, int>
@@ -24,9 +24,19 @@ namespace Amplifir.Infrastructure.DataAccess
         {
             base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
             {
-                { "INSERT INTO AppUser", new { } },
-                { "INSERT INTO AppUserProfile", new { } },
-                { "INSERT INTO AuditLog", null }
+                {
+                    @"INSERT INTO AppUser (UserName, Email, Password)
+                      VALUES (@UserName, @Email, @Password)
+                    ",
+                    new { UserName = user.UserName, Email = user.Email, Password = user.Password }
+                },
+                {
+                    @"INSERT INTO AppUserProfile (UserId)
+                      VALUES ( SELECT currval(pg_get_serial_sequence('AppUser', 'Id')) )
+                    ",
+                    null
+                }
+                // TODO: INSERT into AuditLog
             } );
 
             throw new NotImplementedException();
@@ -37,13 +47,39 @@ namespace Amplifir.Infrastructure.DataAccess
             throw new NotImplementedException();
         }
 
-        public Task<AppUser> FindByEmailAsync(string email)
+        public async Task<AppUser> FindByEmailAsync(string email)
         {
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext)
+            {
+                AppUser appUser = await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
+                    @"SELECT Id, Password, PhoneNumber
+                      FROM AppUser
+                      WHERE Email = @Email
+                    ",
+                    new { Email = email }
+                );
+            }
+
             throw new NotImplementedException();
         }
 
-        public Task<AppUser> FindByIdAsync(int userId)
+        public async Task<AppUser> FindByIdAsync(int userId)
         {
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext)
+            {
+                AppUser appUser = await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
+                    @"SELECT Id, Email, Password, PhoneNumber
+                      FROM AppUser
+                      WHERE Id = @Id
+                    ",
+                    new { Id = userId }
+                );
+            }
+
             throw new NotImplementedException();
         }
 
