@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
-using Amplifir.Infrastructure.Entities;
 
 namespace Amplifir.Core.Interfaces
 {
@@ -21,5 +18,6 @@ namespace Amplifir.Core.Interfaces
 
         where TUser : class, IUser<TKey>
     {
+        Task<bool> EmailExists( string email );
     }
 }
