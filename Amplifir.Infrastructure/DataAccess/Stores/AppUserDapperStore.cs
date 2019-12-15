@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -20,9 +20,9 @@ namespace Amplifir.Infrastructure.DataAccess
         {
         }
 
-        public Task CreateAsync(AppUser user)
+        public async  Task CreateAsync(AppUser user)
         {
-            base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
+            await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
             {
                 {
                     @"INSERT INTO AppUser (UserName, Email, Password)
@@ -42,8 +42,42 @@ namespace Amplifir.Infrastructure.DataAccess
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(AppUser user)
+        public async Task DeleteAsync(AppUser user)
         {
+            await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
+            {
+                {
+                    @"DELETE FROM AppUser
+                      WHERE Id = @Id
+                    ",
+                    new { Id = user.Id }
+                },
+                {
+                    @"DELETE FROM AppUserProfile
+                      WHERE UserId = @UserId
+                    ",
+                    new { UserId = user.Id }
+                }
+            } );
+
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> EmailExists(string email)
+        {
+            await base._dBContext.DbConnection.OpenAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                await base._dBContext.DbConnection.QueryFirstOrDefaultAsync(
+                    @"SELECT 1
+                      FROM AppUser
+                      WHERE Email = @Email
+                    ",
+                    new { @Email = email }
+                );
+            }
+
             throw new NotImplementedException();
         }
 
@@ -51,16 +85,13 @@ namespace Amplifir.Infrastructure.DataAccess
         {
             await base._dBContext.OpenDBConnectionAsync();
 
-            using (base._dBContext)
-            {
-                AppUser appUser = await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
-                    @"SELECT Id, Password, PhoneNumber
-                      FROM AppUser
-                      WHERE Email = @Email
-                    ",
-                    new { Email = email }
-                );
-            }
+            AppUser appUser = await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
+                @"SELECT Id, Password, PhoneNumber
+                  FROM AppUser
+                  WHERE Email = @Email
+                ",
+                new { Email = email }
+            );
 
             throw new NotImplementedException();
         }
@@ -69,18 +100,13 @@ namespace Amplifir.Infrastructure.DataAccess
         {
             await base._dBContext.OpenDBConnectionAsync();
 
-            using (base._dBContext)
-            {
-                AppUser appUser = await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
-                    @"SELECT Id, Email, Password, PhoneNumber
-                      FROM AppUser
-                      WHERE Id = @Id
-                    ",
-                    new { Id = userId }
-                );
-            }
-
-            throw new NotImplementedException();
+            return await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
+                @"SELECT Id, Email, Password, PhoneNumber
+                  FROM AppUser
+                  WHERE Id = @Id
+                ",
+                new { Id = userId }
+            );
         }
 
         public Task<AppUser> FindByNameAsync(string userName)
@@ -93,9 +119,18 @@ namespace Amplifir.Infrastructure.DataAccess
             throw new NotImplementedException();
         }
 
-        public Task<string> GetEmailAsync(AppUser user)
+        public async Task<string> GetEmailAsync(AppUser user)
         {
-            throw new NotImplementedException();
+            await base._dBContext.OpenDBConnectionAsync();
+            user = await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
+                @"SELECT Email
+                  FROM AppUser
+                  WHERE Id = @Id
+                ",
+                new { Id = user.Id }
+            );
+
+            return user.Email;
         }
 
         public Task<bool> GetEmailConfirmedAsync(AppUser user)
