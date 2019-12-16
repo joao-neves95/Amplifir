@@ -69,6 +69,7 @@ namespace Amplifir.Infrastructure.DataAccess
             finally
             {
                 await dbTransaction.DisposeAsync();
+                await base._dbConnection.CloseAsync();
             }
         }
 

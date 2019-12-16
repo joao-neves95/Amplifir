@@ -14,9 +14,9 @@ namespace Amplifir.Infrastructure.DataAccess.Interfaces
             this._connectionString = connectionString;
         }
 
-        protected DbConnection _dbConnection;
+        internal protected DbConnection _dbConnection;
 
-        public DbConnection DbConnection { get; private set; }
+        public DbConnection DbConnection { get; internal protected set; }
 
         protected readonly string _connectionString = null;
 
@@ -28,6 +28,7 @@ namespace Amplifir.Infrastructure.DataAccess.Interfaces
         {
             if (!disposedValue)
             {
+                this._dbConnection.Close();
                 this._dbConnection.Dispose();
                 this._dbConnection = null;
                 disposedValue = true;
