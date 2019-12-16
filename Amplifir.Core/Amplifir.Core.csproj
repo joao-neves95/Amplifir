@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DomainServices\" />
     <Folder Include="DTOs\" />
     <Folder Include="Exceptions\" />
   </ItemGroup>
