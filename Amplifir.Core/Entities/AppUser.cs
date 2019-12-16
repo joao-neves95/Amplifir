@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNet.Identity;
 
-namespace Amplifir.Infrastructure.Entities
+namespace Amplifir.Core.Entities
 {
     public class AppUser : IUser<int>
     {

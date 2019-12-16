@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Data.Common;
 using Dapper;
-using Amplifir.Infrastructure.Entities;
 using Amplifir.Core.Interfaces;
+using Amplifir.Core.Entities;
 
 namespace Amplifir.Infrastructure.DataAccess
 {
