@@ -65,7 +65,7 @@ namespace Amplifir.Infrastructure.DataAccess
 
         public async Task<bool> EmailExists(string email)
         {
-            await base._dBContext.DbConnection.OpenAsync();
+            await base._dBContext.OpenDBConnectionAsync();
 
             using (base._dBContext.DbConnection)
             {
@@ -85,13 +85,16 @@ namespace Amplifir.Infrastructure.DataAccess
         {
             await base._dBContext.OpenDBConnectionAsync();
 
-            AppUser appUser = await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
-                @"SELECT Id, Password, PhoneNumber
-                  FROM AppUser
-                  WHERE Email = @Email
-                ",
-                new { Email = email }
-            );
+            using (base._dBContext.DbConnection)
+            {
+                AppUser appUser = await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
+                    @"SELECT Id, Password, PhoneNumber
+                      FROM AppUser
+                      WHERE Email = @Email
+                      ",
+                    new { Email = email }
+                );
+            }
 
             throw new NotImplementedException();
         }
@@ -100,13 +103,16 @@ namespace Amplifir.Infrastructure.DataAccess
         {
             await base._dBContext.OpenDBConnectionAsync();
 
-            return await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
-                @"SELECT Id, Email, Password, PhoneNumber
-                  FROM AppUser
-                  WHERE Id = @Id
-                ",
-                new { Id = userId }
-            );
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
+                    @"SELECT Id, Email, Password, PhoneNumber
+                      FROM AppUser
+                      WHERE Id = @Id
+                    ",
+                    new { Id = userId }
+                );
+            }
         }
 
         public Task<AppUser> FindByNameAsync(string userName)
@@ -122,13 +128,17 @@ namespace Amplifir.Infrastructure.DataAccess
         public async Task<string> GetEmailAsync(AppUser user)
         {
             await base._dBContext.OpenDBConnectionAsync();
-            user = await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
-                @"SELECT Email
-                  FROM AppUser
-                  WHERE Id = @Id
-                ",
-                new { Id = user.Id }
-            );
+
+            using (base._dBContext.DbConnection)
+            {
+                user = await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
+                    @"SELECT Email
+                      FROM AppUser
+                      WHERE Id = @Id
+                    ",
+                    new { Id = user.Id }
+                );
+            }
 
             return user.Email;
         }
