@@ -20,7 +20,7 @@ namespace Amplifir.Infrastructure.DataAccess
         {
         }
 
-        public async  Task CreateAsync(AppUser user)
+        public async Task CreateAsync(AppUser user)
         {
             await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
             {
