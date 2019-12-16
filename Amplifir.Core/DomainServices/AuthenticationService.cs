@@ -25,7 +25,8 @@ namespace Amplifir.Core.DomainServices
         {
             // 1 - Check if the email already exists.
             // 2 - Check the password's minimun length.
-            // 3 - Create user.
+            // 3 - Hash password.
+            // 4 - Create user.
             throw new NotImplementedException();
         }
     }
