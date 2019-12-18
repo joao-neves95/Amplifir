@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using System.Text;
+using System.Threading.Tasks;
 using System.Security.Cryptography;
 using Isopoh.Cryptography.Argon2;
 using Isopoh.Cryptography.SecureArray;
@@ -27,6 +25,11 @@ namespace Amplifir.Core.Utilities
             HashLength = 32,
             ClearPassword = true
         };
+
+        public static async Task<string> Argon2HashAsync(string data)
+        {
+            return await Task.Run<string>( () => { return DataHasher.Argon2Hash( data ); } );
+        }
 
         public static string Argon2Hash(string data)
         {
