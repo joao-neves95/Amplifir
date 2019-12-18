@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
+using Amplifir.Core.Utilities;
 
 namespace Amplifir.Core.DomainServices
 {
@@ -16,17 +17,36 @@ namespace Amplifir.Core.DomainServices
             this._appUserStore = appUserStore;
         }
 
-        public Task LoginUser(string email, string password)
+        public async Task LoginUser(string email, string password)
         {
             throw new NotImplementedException();
         }
 
-        public Task RegisterUser(string email, string password)
+        public async Task RegisterUser(string email, string password)
         {
-            // 1 - Check if the email already exists.
-            // 2 - Check the password's minimun length.
-            // 3 - Hash password.
-            // 4 - Create user.
+            try
+            {
+                if (password.Length < 8)
+                {
+                    // PasswordTooSmallException.
+                }
+
+                if (await _appUserStore.EmailExists( email ))
+                {
+                    // EmailExistsException.
+                }
+
+                await _appUserStore.CreateAsync( new AppUser()
+                {
+                    Email = email,
+                    Password = await DataHasher.Argon2HashAsync( password )
+                } );
+            }
+            catch (Exception e)
+            {
+                // 500 Error.
+            }
+
             throw new NotImplementedException();
         }
     }
