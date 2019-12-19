@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Amplifir.Core.Interfaces;
+using Amplifir.Core.Exceptions;
 using Amplifir.Core.Entities;
 using Amplifir.Core.Utilities;
 
@@ -28,7 +29,7 @@ namespace Amplifir.Core.DomainServices
             {
                 if (password.Length < 8)
                 {
-                    // PasswordTooSmallException.
+                    throw new PasswordTooSmallException();
                 }
 
                 if (await _appUserStore.EmailExists( email ))
