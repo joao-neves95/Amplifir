@@ -69,16 +69,18 @@ namespace Amplifir.Infrastructure.DataAccess
 
             using (base._dBContext.DbConnection)
             {
-                await base._dBContext.DbConnection.QueryFirstOrDefaultAsync(
-                    @"SELECT 1
-                      FROM AppUser
-                      WHERE Email = @Email
+                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
+                    // COALESCE() is the PostgreSQL's similar function to ISNULL() in SQLServer.
+                    @"SELECT COALESCE(
+                        (SELECT 1
+                         FROM AppUser
+                         WHERE Email = @Email
+                        ), 0
                     ",
                     new { @Email = email }
-                );
-            }
 
-            throw new NotImplementedException();
+                ) == 1;
+            }
         }
 
         public async Task<AppUser> FindByEmailAsync(string email)
@@ -87,16 +89,14 @@ namespace Amplifir.Infrastructure.DataAccess
 
             using (base._dBContext.DbConnection)
             {
-                AppUser appUser = await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
+                return await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
                     @"SELECT Id, Password, PhoneNumber
                       FROM AppUser
                       WHERE Email = @Email
-                      ",
+                    ",
                     new { Email = email }
                 );
             }
-
-            throw new NotImplementedException();
         }
 
         public async Task<AppUser> FindByIdAsync(int userId)
@@ -131,7 +131,7 @@ namespace Amplifir.Infrastructure.DataAccess
 
             using (base._dBContext.DbConnection)
             {
-                user = await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
+                return await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<string>(
                     @"SELECT Email
                       FROM AppUser
                       WHERE Id = @Id
@@ -139,8 +139,6 @@ namespace Amplifir.Infrastructure.DataAccess
                     new { Id = user.Id }
                 );
             }
-
-            return user.Email;
         }
 
         public Task<bool> GetEmailConfirmedAsync(AppUser user)
