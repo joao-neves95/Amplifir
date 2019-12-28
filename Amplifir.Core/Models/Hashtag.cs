@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Amplifir.Core.Entities
+namespace Amplifir.Core.Models
 {
     public class Hashtag
     {

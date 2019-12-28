@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
-using Amplifir.Core.Entities;
+using Amplifir.Core.Models;
 using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
@@ -16,27 +16,22 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
 
         public async Task<bool> CreateAsync(Shout newShout)
         {
-            await base._dBContext.DbConnection.OpenAsync();
-
-            using (base._dBContext.DbConnection)
+            // TODO: Finish .CreateAsync()
+            await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
             {
-                // TODO: Finish .CreateAsync()
-                await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
                 {
-                    {
-                        @"INSERT INTO Shout (UserId, Content)
-                          VALUES (@UserId, @Content)
-                        ",
-                        new { @UserId = newShout.UserId, @Content = newShout.Content }
-                    },
-                    {
-                        @"INSERT INTO ShoutAsset ()
-                          VALUES (@)
-                        ",
-                        null
-                    },
-                } );
-            }
+                    @"INSERT INTO Shout (UserId, Content)
+                        VALUES (@UserId, @Content)
+                    ",
+                    new { @UserId = newShout.UserId, @Content = newShout.Content }
+                },
+                {
+                    @"INSERT INTO ShoutAsset ()
+                        VALUES (@)
+                    ",
+                    null
+                },
+            } );
 
             throw new NotImplementedException();
         }

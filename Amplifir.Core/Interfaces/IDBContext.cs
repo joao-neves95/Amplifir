@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Data.Common;
 using System.Collections.Generic;
@@ -9,15 +9,9 @@ namespace Amplifir.Core.Interfaces
     {
         DbConnection DbConnection { get; }
 
-        /// <summary>
-        /// 
-        /// To use this overloaded method without a connection string, it is necessary
-        /// to instantiate the class with the connection string.
-        /// 
-        /// </summary>
         Task<DbConnection> OpenDBConnectionAsync();
 
-        Task<DbConnection> OpenDBConnectionAsync(string connectionString);
+        Task<DbConnection> OpenDBConnectionAsync( string connectionString );
 
         /// <summary>
         /// 
