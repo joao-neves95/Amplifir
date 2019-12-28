@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using Dapper;
 using Amplifir.Core.Interfaces;
-using Amplifir.Core.Entities;
+using Amplifir.Core.Models;
 
 namespace Amplifir.Infrastructure.DataAccess
 {
@@ -31,12 +31,17 @@ namespace Amplifir.Infrastructure.DataAccess
                     new { UserName = user.UserName, Email = user.Email, Password = user.Password }
                 },
                 {
-                    @"INSERT INTO AppUserProfile (UserId)
-                      VALUES ( SELECT currval(pg_get_serial_sequence('AppUser', 'Id')) )
+                    $@"INSERT INTO AppUserProfile (UserId)
+                       VALUES ( { HelperQueries.SelectLastInsertedUserId() } )
                     ",
                     null
+                },
+                {
+                    $@"INSERT INTO AuditLog (UserId, IPv4, EventTypeId)
+                       VALUES ( { HelperQueries.SelectLastInsertedUserId() }, @IPv4, { EventTypeId.Register } )
+                    ",
+                    new { IPv4 = user.Ipv4 }
                 }
-                // TODO: INSERT into AuditLog
             } );
 
             throw new NotImplementedException();
