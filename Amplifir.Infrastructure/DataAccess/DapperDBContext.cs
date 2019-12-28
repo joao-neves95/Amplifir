@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Data.Common;
 using Npgsql;
 using Dapper;
 using Amplifir.Core.Interfaces;
 using Amplifir.Infrastructure.DataAccess.Interfaces;
-using System.Collections.Generic;
+using Amplifir.Core.Utilities;
 
 namespace Amplifir.Infrastructure.DataAccess
 {
@@ -16,18 +18,35 @@ namespace Amplifir.Infrastructure.DataAccess
 
         public DapperDBContext(string connectionString) : base (connectionString)
         {
+            this.OpenDBConnectionAsync( connectionString );
         }
 
         public async Task<DbConnection> OpenDBConnectionAsync()
         {
-            // TODO: Throw an exeption if the "_connectionString" is null.
-            return await this.OpenDBConnectionAsync( this._connectionString );
+            return await this.OpenDBConnectionAsync( StringUtils.BuildConnectionStringWithSSL(
+                Environment.GetEnvironmentVariable( "DB_SERVER" ),
+                Environment.GetEnvironmentVariable( "DB_PORT" ),
+                Environment.GetEnvironmentVariable( "DB_DATABASE" ),
+                Environment.GetEnvironmentVariable( "DB_USER" ),
+                Environment.GetEnvironmentVariable( "DB_PASSWORD" )
+            ) );
         }
 
         public async Task<DbConnection> OpenDBConnectionAsync(string connectionString)
         {
-            base._dbConnection = new NpgsqlConnection( connectionString );
-            await base._dbConnection.OpenAsync();
+            try
+            {
+                // TODO: Add Retry logic in case of exception.
+                base._dbConnection = new NpgsqlConnection( connectionString );
+                await base._dbConnection.OpenAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine( e.Message );
+                Console.WriteLine( e.StackTrace );
+                throw e;
+            }
+
             return base._dbConnection;
         }
 
