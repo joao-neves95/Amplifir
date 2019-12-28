@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Exceptions;
-using Amplifir.Core.Entities;
+using Amplifir.Core.Models;
 using Amplifir.Core.Utilities;
 
 namespace Amplifir.Core.DomainServices
@@ -25,30 +25,24 @@ namespace Amplifir.Core.DomainServices
 
         public async Task RegisterUser(string email, string password)
         {
-            try
+            if (password.Length < 8)
             {
-                if (password.Length < 8)
-                {
-                    throw new PasswordTooSmallException();
-                }
-
-                if (await _appUserStore.EmailExists( email ))
-                {
-                    // EmailExistsException.
-                }
-
-                await _appUserStore.CreateAsync( new AppUser()
-                {
-                    Email = email,
-                    Password = await DataHasher.Argon2HashAsync( password )
-                } );
-            }
-            catch (Exception e)
-            {
-                // 500 Error.
+                throw new PasswordTooSmallException();
             }
 
-            throw new NotImplementedException();
+            // TODO: Check if it's a valid email.
+            // TODO: Check if it's a temporary email or a spam email.
+
+            if (await _appUserStore.EmailExists( email ))
+            {
+                throw new EmailExistsException();
+            }
+
+            await _appUserStore.CreateAsync( new AppUser()
+            {
+                Email = email,
+                Password = await DataHasher.Argon2HashAsync( password )
+            } );
         }
     }
 }
