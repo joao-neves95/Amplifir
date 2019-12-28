@@ -1,3 +1,5 @@
+using System;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,6 +7,11 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using dotenv.net;
+using Amplifir.ApplicationTypeFactory;
+using Amplifir.Core.Interfaces;
+using Amplifir.Core.Models;
+using Amplifir.Core.Utilities;
 
 namespace Amplifir.UI.Web
 {
@@ -20,7 +27,25 @@ namespace Amplifir.UI.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            DotEnv.Config();
+
+            // services.AddSingleton( (IDBContext)Activator.CreateInstance( TypeFactory.Get( ApplicationTypes.DapperDBContext ), new object[] { "<connection-string>" } ) );
+            services.AddScoped( typeof( IDBContext ), _ => (IDBContext)Activator.CreateInstance(
+                TypeFactory.Get( ApplicationTypes.DapperDBContext ),
+                new object[] { StringUtils.BuildConnectionStringWithSSL(
+                    Environment.GetEnvironmentVariable( "DB_SERVER" ),
+                    Environment.GetEnvironmentVariable( "DB_PORT" ),
+                    Environment.GetEnvironmentVariable( "DB_DATABASE" ),
+                    Environment.GetEnvironmentVariable( "DB_USER" ),
+                    Environment.GetEnvironmentVariable( "DB_PASSWORD" )
+                ) }
+            ) );
+
+            services.AddScoped( typeof( IAppUserStore<AppUser, int> ), TypeFactory.Get( ApplicationTypes.AppUserDapperStore ) );
+            services.AddScoped( typeof( Core.Interfaces.IAuthenticationService ), TypeFactory.Get( ApplicationTypes.AuthenticationService ) );
+
             services.AddControllersWithViews();
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -44,6 +69,7 @@ namespace Amplifir.UI.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
