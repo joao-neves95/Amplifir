@@ -14,7 +14,6 @@ namespace Amplifir.ApplicationTypeFactory
     public static class TypeFactory
     {
         public static Type Get( ApplicationTypes applicationType )
-
         {
             switch (applicationType)
             {
@@ -23,6 +22,9 @@ namespace Amplifir.ApplicationTypeFactory
 
                 case ApplicationTypes.AuthenticationService:
                     return typeof( AuthenticationService );
+
+                case ApplicationTypes.Argon2PasswordService:
+                    return typeof( Argon2PasswordService );
 
                 case ApplicationTypes.AppUserDapperStore:
                     return typeof( AppUserDapperStore );

@@ -8,6 +8,7 @@ namespace Amplifir.ApplicationTypeFactory
     {
         DapperDBContext,
         AuthenticationService,
+        Argon2PasswordService,
         AppUserDapperStore
     }
 }
