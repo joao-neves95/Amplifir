@@ -45,6 +45,11 @@ namespace Amplifir.Core.Utilities
             return DataHasher.Argon2Config.EncodeString( hash.Buffer );
         }
 
+        public static async Task<bool> Argon2CompareAsync(string hashedData, string unhashedData)
+        {
+            return await Task.Run<bool>( () => { return DataHasher.Argon2Compare( hashedData, unhashedData ); } );
+        }
+
         public static bool Argon2Compare(string hashedData, string unhashedData)
         {
             return Argon2.Verify( hashedData, unhashedData );

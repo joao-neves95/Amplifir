@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Amplifir.Core.Enums;
 
 namespace Amplifir.Core.Interfaces
 {
@@ -12,8 +13,8 @@ namespace Amplifir.Core.Interfaces
     /// </summary>
     public interface IAuthenticationService
     {
-        Task RegisterUser( string email, string password );
+        Task<RegisterUserResult> RegisterUserAsync( string email, string password );
 
-        Task LoginUser( string email, string password );
+        Task<ValidateSignInResult> ValidateSignInAsync( string email, string password );
     }
 }

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Amplifir.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Amplifir.Core.Interfaces;
+using Amplifir.Core.DTOs;
 
 namespace Amplifir.UI.Web.Controllers
 {
@@ -19,9 +20,15 @@ namespace Amplifir.UI.Web.Controllers
 
         private readonly IAuthenticationService _authenticationService;
 
-        public void Register() { }
+        [HttpPost]
+        public void Register([FromBody]UserCredentialsDTO userCredentialsDTO) 
+        {
+        }
 
-        public void Login() { }
+        [HttpPost]
+        public void Login([FromBody]UserCredentialsDTO userCredentialsDTO)
+        {
+        }
 
         public void Logout() { }
     }
