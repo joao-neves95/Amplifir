@@ -11,12 +11,12 @@ namespace Amplifir.Core.DomainServices
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly IAppUserStore<AppUser, int> _appUserStore;
-
         public AuthenticationService(IAppUserStore<AppUser, int> appUserStore)
         {
             this._appUserStore = appUserStore;
         }
+
+        private readonly IAppUserStore<AppUser, int> _appUserStore;
 
         public async Task LoginUser(string email, string password)
         {
