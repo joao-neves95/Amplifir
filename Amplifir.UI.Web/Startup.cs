@@ -29,8 +29,8 @@ namespace Amplifir.UI.Web
         {
             DotEnv.Config();
 
-            // services.AddSingleton( (IDBContext)Activator.CreateInstance( TypeFactory.Get( ApplicationTypes.DapperDBContext ), new object[] { "<connection-string>" } ) );
-            services.AddScoped( typeof( IDBContext ), _ => (IDBContext)Activator.CreateInstance(
+            // services.AddScoped();
+            services.AddSingleton( typeof( IDBContext ), _ => (IDBContext)Activator.CreateInstance(
                 TypeFactory.Get( ApplicationTypes.DapperDBContext ),
                 new object[] { StringUtils.BuildConnectionStringWithSSL(
                     Environment.GetEnvironmentVariable( "DB_SERVER" ),
@@ -62,7 +62,7 @@ namespace Amplifir.UI.Web
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler( "/Error" );
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -81,7 +81,7 @@ namespace Amplifir.UI.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action=Index}/{id?}" );
             });
 
             app.UseSpa(spa =>
@@ -93,7 +93,7 @@ namespace Amplifir.UI.Web
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseAngularCliServer( npmScript: "start" );
                 }
             });
         }
