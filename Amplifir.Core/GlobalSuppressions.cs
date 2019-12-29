@@ -1,6 +1,11 @@
-﻿// This file is used by Code Analysis to maintain SuppressMessage
+// This file is used by Code Analysis to maintain SuppressMessage
 // attributes that are applied to this project.
 // Project-level suppressions either have no target or are given
 // a specific target and scoped to a namespace, type, member, etc.
 
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>", Scope = "member", Target = "~M:Amplifir.Core.DomainServices.AuthenticationService.RegisterUser(System.String,System.String)~System.Threading.Tasks.Task" )]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage( "Design", "RCS1090:Call 'ConfigureAwait(false)'.", Justification = "<Pending>", Scope = "member", Target = "~M:Amplifir.Core.DomainServices.AuthenticationService.ValidateSignIn(System.String,System.String)~System.Threading.Tasks.Task{Amplifir.Core.Enums.ValidateSignInResult}" )]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>", Scope = "member", Target = "~M:Amplifir.Core.DomainServices.AuthenticationService.ValidateSignIn(System.String,System.String)~System.Threading.Tasks.Task{Amplifir.Core.Enums.ValidateSignInResult}" )]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage( "Design", "RCS1090:Call 'ConfigureAwait(false)'.", Justification = "<Pending>", Scope = "member", Target = "~M:Amplifir.Core.DomainServices.AuthenticationService.RegisterUser(System.String,System.String)~System.Threading.Tasks.Task{Amplifir.Core.Enums.RegisterUserResult}" )]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>", Scope = "member", Target = "~M:Amplifir.Core.DomainServices.AuthenticationService.RegisterUser(System.String,System.String)~System.Threading.Tasks.Task{Amplifir.Core.Enums.RegisterUserResult}" )]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage( "Design", "RCS1090:Call 'ConfigureAwait(false)'.", Justification = "<Pending>", Scope = "member", Target = "~M:Amplifir.Core.DomainServices.AuthenticationService.RegisterUserAsync(System.String,System.String)~System.Threading.Tasks.Task{Amplifir.Core.Enums.RegisterUserResult}" )]
