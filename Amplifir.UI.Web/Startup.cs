@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,11 +8,14 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using dotenv.net;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Amplifir.ApplicationTypeFactory;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Models;
 using Amplifir.Core.Utilities;
+using Microsoft.AspNetCore.HttpOverrides;
+using Amplifir.Core.DomainServices;
 
 namespace Amplifir.UI.Web
 {
@@ -27,24 +31,47 @@ namespace Amplifir.UI.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            DotEnv.Config();
+            DotNetEnv.Env.Load();
 
             services.AddScoped( typeof( IDBContext ), _ => (IDBContext)Activator.CreateInstance(
                 TypeFactory.Get( ApplicationTypes.DapperDBContext ),
                 new object[] { StringUtils.BuildConnectionStringWithSSL(
-                    Environment.GetEnvironmentVariable( "DB_SERVER" ),
-                    Environment.GetEnvironmentVariable( "DB_PORT" ),
-                    Environment.GetEnvironmentVariable( "DB_DATABASE" ),
-                    Environment.GetEnvironmentVariable( "DB_USER" ),
-                    Environment.GetEnvironmentVariable( "DB_PASSWORD" )
+                    DotNetEnv.Env.GetString( "DB_SERVER" ),
+                    DotNetEnv.Env.GetString( "DB_PORT" ),
+                    DotNetEnv.Env.GetString( "DB_DATABASE" ),
+                    DotNetEnv.Env.GetString( "DB_USER" ),
+                    DotNetEnv.Env.GetString( "DB_PASSWORD" )
                 ) }
             ) );
 
             services.AddScoped( typeof( IAppUserStore<AppUser, int> ), TypeFactory.Get( ApplicationTypes.AppUserDapperStore ) );
-            services.AddScoped( typeof( IPasswordService ), TypeFactory.Get( ApplicationTypes.Argon2PasswordService ) );
-            services.AddScoped( typeof( Core.Interfaces.IAuthenticationService ), TypeFactory.Get( ApplicationTypes.AuthenticationService ) );
+            services.AddScoped( typeof( IPasswordService ), typeof( Argon2PasswordService ) );
+            services.AddScoped( typeof( Amplifir.Core.Interfaces.IAuthenticationService ), typeof( Amplifir.Core.DomainServices.AuthenticationService ) );
 
             services.AddControllersWithViews();
+
+            services.AddAuthentication( options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            } )
+            .AddJwtBearer( options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ClockSkew = TimeSpan.FromMinutes( 5 ),
+                    RequireSignedTokens = true,
+                    RequireExpirationTime = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "",
+                    ValidAudience = "",
+                    IssuerSigningKey = new SymmetricSecurityKey( Encoding.UTF8.GetBytes( DotNetEnv.Env.GetString( "" ) ) )
+                };
+            } );
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -67,7 +94,15 @@ namespace Amplifir.UI.Web
                 app.UseHsts();
             }
 
+            app.UseForwardedHeaders( new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+                ForwardedHostHeaderName = "Anonymous",
+                OriginalHostHeaderName = "Anonymous"
+            } );
+
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseStaticFiles();
 
             if (!env.IsDevelopment())
