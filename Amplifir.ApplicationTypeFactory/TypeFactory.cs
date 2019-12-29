@@ -8,7 +8,7 @@ namespace Amplifir.ApplicationTypeFactory
 {
     /// <summary>
     /// 
-    /// The application's Type factory.
+    /// The application's Type factory for accessing types that are not on the Core project (Infrastructure, etc).
     /// 
     /// </summary>
     public static class TypeFactory
@@ -19,12 +19,6 @@ namespace Amplifir.ApplicationTypeFactory
             {
                 case ApplicationTypes.DapperDBContext:
                     return typeof( DapperDBContext );
-
-                case ApplicationTypes.AuthenticationService:
-                    return typeof( AuthenticationService );
-
-                case ApplicationTypes.Argon2PasswordService:
-                    return typeof( Argon2PasswordService );
 
                 case ApplicationTypes.AppUserDapperStore:
                     return typeof( AppUserDapperStore );
