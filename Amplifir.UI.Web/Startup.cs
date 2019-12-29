@@ -41,6 +41,7 @@ namespace Amplifir.UI.Web
             ) );
 
             services.AddScoped( typeof( IAppUserStore<AppUser, int> ), TypeFactory.Get( ApplicationTypes.AppUserDapperStore ) );
+            services.AddScoped( typeof( IPasswordService ), TypeFactory.Get( ApplicationTypes.Argon2PasswordService ) );
             services.AddScoped( typeof( Core.Interfaces.IAuthenticationService ), TypeFactory.Get( ApplicationTypes.AuthenticationService ) );
 
             services.AddControllersWithViews();
