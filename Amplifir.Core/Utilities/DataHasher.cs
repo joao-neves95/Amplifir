@@ -8,9 +8,9 @@ namespace Amplifir.Core.Utilities
 {
     public static class DataHasher
     {
-        #region Argon2
-
         private static readonly RandomNumberGenerator RNG = RandomNumberGenerator.Create();
+        
+        #region Argon2
 
         private static readonly Argon2Config Argon2Config = new Argon2Config()
         {

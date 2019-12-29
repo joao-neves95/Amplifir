@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Amplifir.UI.Web.Controllers
 {
@@ -44,6 +45,7 @@ namespace Amplifir.UI.Web.Controllers
         /// 
         /// </summary>
         [HttpPut]
+        [Authorize]
         public void Put()
         {
             // Get the claim id from the JWT auth token.

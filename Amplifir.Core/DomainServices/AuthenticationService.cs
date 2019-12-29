@@ -27,7 +27,7 @@ namespace Amplifir.Core.DomainServices
             // TODO: (DEBUG) Check result in case the user does not exist.
             AppUser thisAppUser = await _appUserStore.FindByEmailAsync( email );
 
-            if (thisAppUser == null || String.IsNullOrEmpty( thisAppUser.Email ) || String.IsNullOrEmpty( thisAppUser.Password ) )
+            if ( thisAppUser == null || String.IsNullOrEmpty( thisAppUser.Email ) || String.IsNullOrEmpty( thisAppUser.Password ) )
             {
                 return ValidateSignInResult.NotFound;
             }
@@ -41,7 +41,7 @@ namespace Amplifir.Core.DomainServices
 
         public async Task<RegisterUserResult> RegisterUserAsync(string email, string password)
         {
-            if (!String.IsNullOrEmpty( password ) && password.Length < 8)
+            if ( !String.IsNullOrEmpty( password ) && password.Length < 8 )
             {
                 return RegisterUserResult.PasswordTooSmall;
             }
@@ -49,7 +49,7 @@ namespace Amplifir.Core.DomainServices
             // TODO: Check if it's a valid email.
             // TODO: Check if it's a temporary email or a spam email.
 
-            if (!String.IsNullOrEmpty(email) && await _appUserStore.EmailExists( email ))
+            if ( !String.IsNullOrEmpty(email) && await _appUserStore.EmailExists( email ) )
             {
                 return RegisterUserResult.EmailExists;
             }
