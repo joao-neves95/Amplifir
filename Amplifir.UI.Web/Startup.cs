@@ -29,8 +29,7 @@ namespace Amplifir.UI.Web
         {
             DotEnv.Config();
 
-            // services.AddScoped();
-            services.AddSingleton( typeof( IDBContext ), _ => (IDBContext)Activator.CreateInstance(
+            services.AddScoped( typeof( IDBContext ), _ => (IDBContext)Activator.CreateInstance(
                 TypeFactory.Get( ApplicationTypes.DapperDBContext ),
                 new object[] { StringUtils.BuildConnectionStringWithSSL(
                     Environment.GetEnvironmentVariable( "DB_SERVER" ),
