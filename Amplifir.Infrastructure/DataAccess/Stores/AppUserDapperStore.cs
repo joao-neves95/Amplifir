@@ -1,10 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Data.Common;
 using Dapper;
 using Amplifir.Core.Interfaces;
-using Amplifir.Core.Models;
+using Amplifir.Core.Entities;
 
 namespace Amplifir.Infrastructure.DataAccess
 {
@@ -32,19 +31,17 @@ namespace Amplifir.Infrastructure.DataAccess
                 },
                 {
                     $@"INSERT INTO AppUserProfile (UserId)
-                       VALUES ( { HelperQueries.SelectLastInsertedUserId() } )
+                       VALUES ( { DapperHelperQueries.SelectLastInsertedUserId() } )
                     ",
                     null
                 },
                 {
                     $@"INSERT INTO AuditLog (UserId, IPv4, EventTypeId)
-                       VALUES ( { HelperQueries.SelectLastInsertedUserId() }, @IPv4, { EventTypeId.Register } )
+                       VALUES ( { DapperHelperQueries.SelectLastInsertedUserId() }, @IPv4, { EventTypeId.Register } )
                     ",
                     new { IPv4 = user.Ipv4 }
                 }
             } );
-
-            throw new NotImplementedException();
         }
 
         public async Task DeleteAsync(AppUser user)
@@ -64,8 +61,6 @@ namespace Amplifir.Infrastructure.DataAccess
                     new { UserId = user.Id }
                 }
             } );
-
-            throw new NotImplementedException();
         }
 
         public async Task<bool> EmailExists(string email)
@@ -95,7 +90,7 @@ namespace Amplifir.Infrastructure.DataAccess
             using (base._dBContext.DbConnection)
             {
                 return await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
-                    @"SELECT Id, Password, PhoneNumber
+                    @"SELECT Id, Email, Password
                       FROM AppUser
                       WHERE Email = @Email
                     ",
@@ -111,7 +106,7 @@ namespace Amplifir.Infrastructure.DataAccess
             using (base._dBContext.DbConnection)
             {
                 return await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUser>(
-                    @"SELECT Id, Email, Password, PhoneNumber
+                    @"SELECT Id, Email, Password
                       FROM AppUser
                       WHERE Id = @Id
                     ",
@@ -149,6 +144,16 @@ namespace Amplifir.Infrastructure.DataAccess
         public Task<bool> GetEmailConfirmedAsync(AppUser user)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<int> GetLastInsertedUserId()
+        {
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>( DapperHelperQueries.SelectLastInsertedUserId() );
+            }
         }
 
         public Task<bool> GetLockoutEnabledAsync(AppUser user)

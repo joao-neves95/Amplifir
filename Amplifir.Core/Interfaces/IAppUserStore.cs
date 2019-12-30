@@ -18,6 +18,8 @@ namespace Amplifir.Core.Interfaces
 
         where TUser : class, IUser<TKey>
     {
+        Task<int> GetLastInsertedUserId();
+
         Task<bool> EmailExists( string email );
     }
 }
