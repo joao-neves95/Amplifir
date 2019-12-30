@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
-using Amplifir.Core.Models;
+using Amplifir.Core.Entities;
 using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Amplifir.Infrastructure.DataAccess
 {
-    public static class HelperQueries
+    public static class DapperHelperQueries
     {
         public static string SelectLastInsertedUserId()
         {

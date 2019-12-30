@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Amplifir.Core.Models;
+using Amplifir.Core.Entities;
 
 namespace Amplifir.Core.Interfaces
 {

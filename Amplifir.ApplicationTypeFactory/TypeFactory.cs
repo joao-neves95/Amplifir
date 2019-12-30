@@ -1,7 +1,4 @@
 ﻿using System;
-using Amplifir.Core.Interfaces;
-using Amplifir.Core.Models;
-using Amplifir.Core.DomainServices;
 using Amplifir.Infrastructure.DataAccess;
 
 namespace Amplifir.ApplicationTypeFactory

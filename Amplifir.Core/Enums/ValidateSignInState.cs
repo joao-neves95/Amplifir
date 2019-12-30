@@ -4,12 +4,14 @@ using System.Text;
 
 namespace Amplifir.Core.Enums
 {
-    public enum RegisterUserResult
+    public enum ValidateSignInState
     {
         Success,
-        PasswordTooSmall,
-        EmailExists,
+        NotFound,
         InvalidEmail,
+        InvalidPassword,
+        TwoFactorRequired,
+        LockedOut,
         Unknown
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Amplifir.Core.Models
+namespace Amplifir.Core.Entities
 {
     public class Shout
     {
