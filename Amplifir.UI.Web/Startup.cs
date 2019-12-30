@@ -12,10 +12,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Amplifir.ApplicationTypeFactory;
 using Amplifir.Core.Interfaces;
-using Amplifir.Core.Models;
+using Amplifir.Core.Entities;
 using Amplifir.Core.Utilities;
 using Microsoft.AspNetCore.HttpOverrides;
 using Amplifir.Core.DomainServices;
+using System.Text.Json;
 
 namespace Amplifir.UI.Web
 {
@@ -49,7 +50,8 @@ namespace Amplifir.UI.Web
             services.AddScoped( typeof( Amplifir.Core.Interfaces.IAuthenticationService ), typeof( Amplifir.Core.DomainServices.AuthenticationService ) );
             services.AddSingleton( typeof( IJWTService ), typeof( JWTService ) );
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                    .AddJsonOptions( options => options.JsonSerializerOptions.PropertyNameCaseInsensitive = true );
 
             services.AddAuthentication( options =>
             {
@@ -68,9 +70,9 @@ namespace Amplifir.UI.Web
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "",
-                    ValidAudience = "",
-                    IssuerSigningKey = new SymmetricSecurityKey( Encoding.UTF8.GetBytes( DotNetEnv.Env.GetString( "" ) ) )
+                    ValidIssuer = DotNetEnv.Env.GetString( "JWT_ISSUER" ),
+                    ValidAudience = DotNetEnv.Env.GetString( "JWT_ISSUER" ),
+                    IssuerSigningKey = new SymmetricSecurityKey( Encoding.UTF8.GetBytes( DotNetEnv.Env.GetString( "JWT_KEY" ) ) )
                 };
             } );
 
@@ -113,14 +115,14 @@ namespace Amplifir.UI.Web
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints( endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}" );
-            });
+                 endpoints.MapControllerRoute(
+                     name: "default",
+                     pattern: "{controller}/{action=Index}/{id?}" );
+            } );
 
-            app.UseSpa(spa =>
+            app.UseSpa( spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
@@ -131,7 +133,7 @@ namespace Amplifir.UI.Web
                 {
                     spa.UseAngularCliServer( npmScript: "start" );
                 }
-            });
+            } );
         }
     }
 }
