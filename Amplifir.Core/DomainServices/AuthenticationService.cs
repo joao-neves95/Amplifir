@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Amplifir.Core.Enums;
-using Amplifir.Core.Exceptions;
 using Amplifir.Core.Interfaces;
+using Amplifir.Core.Entities;
 using Amplifir.Core.Models;
-using Amplifir.Core.Utilities;
 
 namespace Amplifir.Core.DomainServices
 {
@@ -29,39 +26,42 @@ namespace Amplifir.Core.DomainServices
 
             if ( thisAppUser == null || String.IsNullOrEmpty( thisAppUser.Email ) || String.IsNullOrEmpty( thisAppUser.Password ) )
             {
-                return ValidateSignInResult.NotFound;
+                return new ValidateSignInResult() { State = ValidateSignInState.NotFound, User = null };
             }
 
             // TODO: Check if the user is locked-out.
 
             return !await _passwordService.ValidatePasswordAsync( thisAppUser.Password, password ) ?
-                ValidateSignInResult.InvalidPassword :
-                ValidateSignInResult.Success;
+                new ValidateSignInResult() { State = ValidateSignInState.InvalidPassword, User = null } :
+                new ValidateSignInResult() { State = ValidateSignInState.Success, User = thisAppUser };
         }
 
         public async Task<RegisterUserResult> RegisterUserAsync(string email, string password)
         {
-            if ( !String.IsNullOrEmpty( password ) && password.Length < 8 )
+            if (!String.IsNullOrEmpty( password ) && password.Length < 8)
             {
-                return RegisterUserResult.PasswordTooSmall;
+                return new RegisterUserResult() { State = RegisterUserState.PasswordTooSmall, User = null };
             }
 
             // TODO: Check if it's a valid email.
             // TODO: Check if it's a temporary email or a spam email.
 
-            if ( !String.IsNullOrEmpty(email) && await _appUserStore.EmailExists( email ) )
+            if (!String.IsNullOrEmpty( email ) && await _appUserStore.EmailExists( email ))
             {
-                return RegisterUserResult.EmailExists;
+                return new RegisterUserResult() { State = RegisterUserState.EmailExists, User = null };
             }
 
-            // This call can return an Exception from the DataAccess layer.
-            await _appUserStore.CreateAsync( new AppUser()
+            AppUser appUser = new AppUser()
             {
                 Email = email,
                 Password = await _passwordService.HashPasswordAsync( password )
-            } );
+            };
 
-            return RegisterUserResult.Success;
+            // This call can return an Exception from the DataAccess layer.
+            await _appUserStore.CreateAsync( appUser );
+            appUser.Id = await _appUserStore.GetLastInsertedUserId();
+
+            return new RegisterUserResult() { State = RegisterUserState.Success, User = appUser };
         }
     }
 }
