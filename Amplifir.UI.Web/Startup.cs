@@ -35,7 +35,7 @@ namespace Amplifir.UI.Web
 
             services.AddScoped( typeof( IDBContext ), _ => (IDBContext)Activator.CreateInstance(
                 TypeFactory.Get( ApplicationTypes.DapperDBContext ),
-                new object[] { StringUtils.BuildConnectionStringWithSSL(
+                new object[] { StringUtils.BuildPostreSQLConnectionStringWithSSL(
                     DotNetEnv.Env.GetString( "DB_SERVER" ),
                     DotNetEnv.Env.GetString( "DB_PORT" ),
                     DotNetEnv.Env.GetString( "DB_DATABASE" ),

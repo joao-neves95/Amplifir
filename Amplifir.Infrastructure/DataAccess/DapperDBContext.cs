@@ -23,7 +23,7 @@ namespace Amplifir.Infrastructure.DataAccess
 
         public async Task<DbConnection> OpenDBConnectionAsync()
         {
-            return await this.OpenDBConnectionAsync( StringUtils.BuildConnectionStringWithSSL(
+            return await this.OpenDBConnectionAsync( StringUtils.BuildPostreSQLConnectionStringWithSSL(
                 Environment.GetEnvironmentVariable( "DB_SERVER" ),
                 Environment.GetEnvironmentVariable( "DB_PORT" ),
                 Environment.GetEnvironmentVariable( "DB_DATABASE" ),
