@@ -20,6 +20,7 @@
     <Import Project="$(NuGetPackageRoot)microsoft.codeanalysis.fxcopanalyzers\2.9.8\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props" Condition="Exists('$(NuGetPackageRoot)microsoft.codeanalysis.fxcopanalyzers\2.9.8\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgNewtonsoft_Json Condition=" '$(PkgNewtonsoft_Json)' == '' ">C:\Program Files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\10.0.1</PkgNewtonsoft_Json>
     <PkgMicrosoft_NetFramework_Analyzers Condition=" '$(PkgMicrosoft_NetFramework_Analyzers)' == '' ">C:\Users\joao9\.nuget\packages\microsoft.netframework.analyzers\2.9.8</PkgMicrosoft_NetFramework_Analyzers>
     <PkgMicrosoft_NetCore_Analyzers Condition=" '$(PkgMicrosoft_NetCore_Analyzers)' == '' ">C:\Users\joao9\.nuget\packages\microsoft.netcore.analyzers\2.9.8</PkgMicrosoft_NetCore_Analyzers>
     <PkgMicrosoft_CodeQuality_Analyzers Condition=" '$(PkgMicrosoft_CodeQuality_Analyzers)' == '' ">C:\Users\joao9\.nuget\packages\microsoft.codequality.analyzers\2.9.8</PkgMicrosoft_CodeQuality_Analyzers>
