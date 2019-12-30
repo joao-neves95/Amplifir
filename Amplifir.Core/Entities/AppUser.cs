@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNet.Identity;
+using Amplifir.Core.Interfaces;
 
-namespace Amplifir.Core.Models
+namespace Amplifir.Core.Entities
 {
-    public class AppUser : IUser<int>
+    public class AppUser : IUser<int>, IAppUser
     {
         public int Id { get; set; }
 
