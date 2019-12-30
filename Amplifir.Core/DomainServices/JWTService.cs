@@ -13,7 +13,7 @@ namespace Amplifir.Core.DomainServices
     {
         // TODO: Test DotNetEnv.Env outside the Web project.
         // If null, pass it as a method paramenter.
-        public string Generate( string email, string userId )
+        public string Generate( int userId )
         {
             JwtSecurityToken token = new JwtSecurityToken(
                 DotNetEnv.Env.GetString( "JWT_ISSUER" ),
@@ -23,20 +23,18 @@ namespace Amplifir.Core.DomainServices
                 {
                     // https://tools.ietf.org/html/rfc7519#section-4
                     // Sub = Subject.
-                    new Claim( JwtRegisteredClaimNames.Sub, email ),
+                    new Claim( JwtRegisteredClaimNames.Sub, userId.ToString() ),
                     // Iat = Issued at.
-                    new Claim( JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString() ),
-                    new Claim( ClaimTypes.NameIdentifier, email ),
-                    new Claim( ClaimTypes.Name, email ),
-                    new Claim( ClaimTypes.Email, email ),
-                    new Claim( "id", userId ),
+                    new Claim( JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(), ClaimValueTypes.DateTime ),
+                    new Claim( "id", userId.ToString() ),
                 },
 
-                expires: DateTime.UtcNow.AddDays( 7 ),
+                notBefore: DateTime.UtcNow,
+                expires: DateTime.UtcNow.AddDays( DotNetEnv.Env.GetInt( "JWT_EXPIRATION_DAYS" ) ),
                 signingCredentials: new SigningCredentials( new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes( DotNetEnv.Env.GetString( "JWT_KEY" ) ) ),
-                    SecurityAlgorithms.RsaSha512
-                 )
+                    SecurityAlgorithms.HmacSha512
+                )
             );
 
             return new JwtSecurityTokenHandler().WriteToken( token );
