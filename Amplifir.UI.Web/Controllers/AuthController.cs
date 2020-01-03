@@ -5,6 +5,8 @@ using Amplifir.Core.Interfaces;
 using Amplifir.Core.DTOs;
 using Amplifir.Core.Enums;
 using Amplifir.Core.Models;
+using Amplifir.Core.Entities;
+using Amplifir.UI.Web.Utilities;
 
 namespace Amplifir.UI.Web.Controllers
 {
@@ -33,7 +35,12 @@ namespace Amplifir.UI.Web.Controllers
         {
             try
             {
-                RegisterUserResult registerUserResult = await this._authenticationService.RegisterUserAsync( userCredentialsDTO.Email, userCredentialsDTO.Password );
+                RegisterUserResult registerUserResult = await this._authenticationService.RegisterUserAsync( new AppUser()
+                {
+                    Email = userCredentialsDTO.Email,
+                    Password = userCredentialsDTO.Password,
+                    Ipv4 = HttpUtils.GetUserIp( HttpContext )
+                } );
 
                 if (registerUserResult.State != RegisterUserState.Success)
                 {
@@ -66,7 +73,8 @@ namespace Amplifir.UI.Web.Controllers
                 }
                 else
                 {
-                    return Ok( new LoginResponse( this._jWTService.Generate( validateSignInResult.User.Id ) ) );
+                    validateSignInResult.User.Ipv4 = HttpUtils.GetUserIp( HttpContext );
+                    return Ok( new LoginResponse( this._jWTService.Generate( validateSignInResult.User ) ) );
                 }
             }
             catch (Exception e)
