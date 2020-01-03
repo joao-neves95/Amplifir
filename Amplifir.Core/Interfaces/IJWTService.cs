@@ -7,7 +7,7 @@ namespace Amplifir.Core.Interfaces
 {
     public interface IJWTService
     {
-        string Generate( int userId );
+        string Generate( IAppUser appUser );
 
         /// <summary>
         /// 

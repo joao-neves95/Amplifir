@@ -13,7 +13,7 @@ namespace Amplifir.Core.DomainServices
     {
         // TODO: Test DotNetEnv.Env outside the Web project.
         // If null, pass it as a method paramenter.
-        public string Generate( int userId )
+        public string Generate( IAppUser appUser )
         {
             JwtSecurityToken token = new JwtSecurityToken(
                 DotNetEnv.Env.GetString( "JWT_ISSUER" ),
@@ -23,10 +23,11 @@ namespace Amplifir.Core.DomainServices
                 {
                     // https://tools.ietf.org/html/rfc7519#section-4
                     // Sub = Subject.
-                    new Claim( JwtRegisteredClaimNames.Sub, userId.ToString() ),
+                    new Claim( JwtRegisteredClaimNames.Sub, appUser.Id.ToString() ),
                     // Iat = Issued at.
                     new Claim( JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(), ClaimValueTypes.DateTime ),
-                    new Claim( "id", userId.ToString() ),
+                    new Claim( "id", appUser.Id.ToString() ),
+                    new Claim( "ipv4", appUser.Ipv4 )
                 },
 
                 notBefore: DateTime.UtcNow,
@@ -53,6 +54,11 @@ namespace Amplifir.Core.DomainServices
         public string GetClaimId(ClaimsPrincipal userClaims)
         {
             return GetClaim( userClaims, "id" );
+        }
+
+        public string GetClaimIPv4(ClaimsPrincipal userClaims)
+        {
+            return GetClaim( userClaims, "ipv4" );
         }
     }
 }
