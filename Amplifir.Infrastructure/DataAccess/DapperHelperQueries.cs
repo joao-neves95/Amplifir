@@ -6,9 +6,9 @@ namespace Amplifir.Infrastructure.DataAccess
 {
     public static class DapperHelperQueries
     {
-        public static string SelectLastInsertedUserId()
+        public static string SelectSessionLastInsertedUserId()
         {
-            return "SELECT currval( pg_get_serial_sequence('AppUser', 'Id') )";
+            return "SELECT currval( pg_get_serial_sequence('AppUser', 'id') )";
         }
     }
 }

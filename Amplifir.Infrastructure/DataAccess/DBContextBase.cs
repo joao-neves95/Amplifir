@@ -17,9 +17,15 @@ namespace Amplifir.Infrastructure.DataAccess.Interfaces
 
         internal protected DbConnection _dbConnection;
 
-        public DbConnection DbConnection { get; internal protected set; }
+        public DbConnection DbConnection
+        {
+            get
+            {
+                return this._dbConnection;
+            }
+        }
 
-        protected readonly string _connectionString = null;
+        internal protected readonly string _connectionString = null;
 
         #region IDisposable Support
 
@@ -27,10 +33,21 @@ namespace Amplifir.Infrastructure.DataAccess.Interfaces
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!disposedValue && this._dbConnection != null)
             {
-                this._dbConnection.Close();
-                this._dbConnection.Dispose();
+                if (this._dbConnection.State == ConnectionState.Open)
+                {
+                    this._dbConnection.CloseAsync();
+                }
+
+                if (this._dbConnection.State != ConnectionState.Connecting &&
+                    this._dbConnection.State != ConnectionState.Executing &&
+                    this._dbConnection.State != ConnectionState.Fetching
+                )
+                {
+                    this._dbConnection.Dispose();
+                }
+
                 this._dbConnection = null;
                 disposedValue = true;
             }
@@ -43,7 +60,7 @@ namespace Amplifir.Infrastructure.DataAccess.Interfaces
 
         public void Dispose()
         {
-            Dispose( true );
+            Dispose( false );
             GC.SuppressFinalize( this );
         }
 

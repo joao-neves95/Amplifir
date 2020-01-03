@@ -20,6 +20,6 @@ namespace Amplifir.Core.Interfaces
         /// 
         /// </summary>
         /// <param name="sqlAndParameters"></param>
-        Task<int> ExecuteTransactionAsync(Dictionary<string, object> sqlAndParameters);
+        Task<int> ExecuteTransactionAsync( Dictionary<string, object> sqlAndParameters, bool disposeConnection = true );
     }
 }

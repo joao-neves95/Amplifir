@@ -18,18 +18,26 @@ namespace Amplifir.Infrastructure.DataAccess
 
         public DapperDBContext(string connectionString) : base (connectionString)
         {
-            this.OpenDBConnectionAsync( connectionString );
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task<DbConnection> OpenDBConnectionAsync()
         {
-            return await this.OpenDBConnectionAsync( StringUtils.BuildPostreSQLConnectionStringWithSSL(
-                Environment.GetEnvironmentVariable( "DB_SERVER" ),
-                Environment.GetEnvironmentVariable( "DB_PORT" ),
-                Environment.GetEnvironmentVariable( "DB_DATABASE" ),
-                Environment.GetEnvironmentVariable( "DB_USER" ),
-                Environment.GetEnvironmentVariable( "DB_PASSWORD" )
-            ) );
+            if (base._dbConnection?.State == System.Data.ConnectionState.Open)
+            {
+                return base._dbConnection;
+            }
+
+            return await this.OpenDBConnectionAsync( !String.IsNullOrEmpty(this._connectionString) ?
+                this._connectionString :
+                StringUtils.BuildPostreSQLConnectionStringWithSSL(
+                    Environment.GetEnvironmentVariable( "DB_SERVER" ),
+                    Environment.GetEnvironmentVariable( "DB_PORT" ),
+                    Environment.GetEnvironmentVariable( "DB_DATABASE" ),
+                    Environment.GetEnvironmentVariable( "DB_USER" ),
+                    Environment.GetEnvironmentVariable( "DB_PASSWORD" )
+                )
+           );
         }
 
         public async Task<DbConnection> OpenDBConnectionAsync(string connectionString)
@@ -52,13 +60,14 @@ namespace Amplifir.Infrastructure.DataAccess
 
         #region WRAPPER METHODS
 
-        public async Task<int> ExecuteTransactionAsync( Dictionary<string, object> sqlAndParameters )
+        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
+        public async Task<int> ExecuteTransactionAsync( Dictionary<string, object> sqlAndParameters, bool disposeConnection = true )
         {
             DbTransaction dbTransaction = null;
 
             try
             {
-                await base._dbConnection.OpenAsync();
+                await this.OpenDBConnectionAsync();
 
                 using (dbTransaction = await base._dbConnection.BeginTransactionAsync())
                 {
@@ -77,18 +86,26 @@ namespace Amplifir.Infrastructure.DataAccess
             }
             catch (DbException e)
             {
+                await dbTransaction?.RollbackAsync();
+                disposeConnection = true;
                 throw e;
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 await dbTransaction?.RollbackAsync();
+                disposeConnection = true;
                 // TODO: Create a Transaction exception.
                 throw e;
             }
             finally
             {
                 await dbTransaction.DisposeAsync();
-                await base._dbConnection.CloseAsync();
+
+                if (disposeConnection)
+                {
+                    await base._dbConnection.CloseAsync();
+                    await base._dbConnection.DisposeAsync();
+                }
             }
         }
 
