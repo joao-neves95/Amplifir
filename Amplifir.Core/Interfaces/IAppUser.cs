@@ -16,5 +16,7 @@ namespace Amplifir.Core.Interfaces
         string Email { get; set; }
 
         string Password { get; set; }
+
+        string Ipv4 { get; set; }
     }
 }
