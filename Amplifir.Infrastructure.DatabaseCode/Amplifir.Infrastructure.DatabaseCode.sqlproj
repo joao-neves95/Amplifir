@@ -60,5 +60,6 @@
   <ItemGroup>
     <None Include="Schema.sql" />
     <None Include="Inserts.sql" />
+    <None Include="UtilityQueries.sql" />
   </ItemGroup>
 </Project>
