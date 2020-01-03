@@ -36,9 +36,9 @@ namespace Amplifir.Core.DomainServices
                 new ValidateSignInResult() { State = ValidateSignInState.Success, User = thisAppUser };
         }
 
-        public async Task<RegisterUserResult> RegisterUserAsync(string email, string password)
+        public async Task<RegisterUserResult> RegisterUserAsync(IAppUser appUser)
         {
-            if (!String.IsNullOrEmpty( password ) && password.Length < 8)
+            if (!String.IsNullOrEmpty( appUser.Password ) && appUser.Password.Length < 8)
             {
                 return new RegisterUserResult() { State = RegisterUserState.PasswordTooSmall, User = null };
             }
@@ -46,19 +46,15 @@ namespace Amplifir.Core.DomainServices
             // TODO: Check if it's a valid email.
             // TODO: Check if it's a temporary email or a spam email.
 
-            if (!String.IsNullOrEmpty( email ) && await _appUserStore.EmailExists( email ))
+            if (!String.IsNullOrEmpty( appUser.Email ) && await _appUserStore.EmailExists( appUser.Email ))
             {
                 return new RegisterUserResult() { State = RegisterUserState.EmailExists, User = null };
             }
 
-            AppUser appUser = new AppUser()
-            {
-                Email = email,
-                Password = await _passwordService.HashPasswordAsync( password )
-            };
+            appUser.Password = await _passwordService.HashPasswordAsync( appUser.Password );
 
             // This call can return an Exception from the DataAccess layer.
-            await _appUserStore.CreateAsync( appUser );
+            await _appUserStore.CreateAsync( appUser as AppUser );
             appUser.Id = await _appUserStore.GetLastInsertedUserId();
 
             return new RegisterUserResult() { State = RegisterUserState.Success, User = appUser };

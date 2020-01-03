@@ -15,7 +15,7 @@ namespace Amplifir.Core.Interfaces
     /// </summary>
     public interface IAuthenticationService
     {
-        Task<RegisterUserResult> RegisterUserAsync( string email, string password );
+        Task<RegisterUserResult> RegisterUserAsync( IAppUser appUser );
 
         Task<ValidateSignInResult> ValidateSignInAsync( string email, string password );
     }
