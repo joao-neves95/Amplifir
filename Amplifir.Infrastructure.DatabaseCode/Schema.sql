@@ -3,11 +3,11 @@ SET TIME ZONE 'UTC';
 
 CREATE TABLE AppUser (
     Id SERIAL PRIMARY KEY,
-    UserName VARCHAR(45) NOT NULL,
+    UserName VARCHAR(45) UNIQUE NOT NULL,
     -- Max email length RFC3696 Errata ID 1690.
-    Email VARCHAR(254) NOT NULL,
+    Email VARCHAR(254) UNIQUE NOT NULL,
     Password VARCHAR(255) NOT NULL,
-    PhoneNumber VARCHAR(50) NULL,
+    PhoneNumber VARCHAR(50) UNIQUE NULL,
     PhoneNumberConfirmed BOOLEAN NOT NULL DEFAULT FALSE,
     EmailConfirmed BOOLEAN NOT NULL DEFAULT FALSE,
     TwoFactorEnabled BOOLEAN NOT NULL DEFAULT FALSE,
@@ -18,7 +18,7 @@ CREATE TABLE AppUser (
 
 CREATE TABLE AppUserProfile (
     Id SERIAL PRIMARY KEY,
-    UserId INT NOT NULL References AppUser(Id),
+    UserId INT UNIQUE NOT NULL References AppUser(Id),
     Bio VARCHAR(200) NULL CHECK( Bio = NULL OR LENGTH( Bio ) > 0 ),
     FollowingCount INT NOT NULL DEFAULT 0,
     FollowersCount INT NOT NULL DEFAULT 0,
@@ -49,7 +49,7 @@ CREATE TABLE ShoutHashtag (
 
 CREATE TABLE Hashtag (
     Id BIGSERIAL PRIMARY KEY,
-    Content VARCHAR(69) NOT NULL CHECK( LENGTH( Content ) > 0 ),
+    Content VARCHAR(69) UNIQUE NOT NULL CHECK( LENGTH( Content ) > 0 ),
     ShoutCount INT NOT NULL DEFAULT 0
 );
 
@@ -109,7 +109,7 @@ CREATE TABLE NotificationType (
 CREATE TABLE AuditLog (
     Id SERIAL PRIMARY KEY,
     UserId INT REFERENCES AppUser(Id),
-    IPv4 VARCHAR(15) CHECK( LENGTH( IPv4 ) = 15 ),
+    IPv4 VARCHAR(15) CHECK( LENGTH( IPv4 ) >= 7 ),
     EventTypeId SMALLINT NOT NULL,
     CreateDate TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT( NOW() AT TIME ZONE 'UTC' )
 );
