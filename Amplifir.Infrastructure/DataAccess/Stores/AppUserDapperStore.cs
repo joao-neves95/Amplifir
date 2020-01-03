@@ -26,23 +26,23 @@ namespace Amplifir.Infrastructure.DataAccess
             {
                 {
                     @"INSERT INTO AppUser (UserName, Email, Password)
-                      VALUES (@UserName, @Email, @Password)
+                      VALUES (@UserName, @Email, @Password);
                     ",
                     new { UserName = user.UserName, Email = user.Email, Password = user.Password }
                 },
                 {
                     $@"INSERT INTO AppUserProfile (UserId)
-                       VALUES ( { DapperHelperQueries.SelectLastInsertedUserId() } )
+                       VALUES ( ( { DapperHelperQueries.SelectSessionLastInsertedUserId() } ) );
                     ",
                     null
                 },
                 {
                     $@"INSERT INTO AuditLog (UserId, IPv4, EventTypeId)
-                       VALUES ( { DapperHelperQueries.SelectLastInsertedUserId() }, @IPv4, { EventTypeId.Register } )
+                       VALUES ( ( { DapperHelperQueries.SelectSessionLastInsertedUserId() } ), @IPv4, { EventTypeId.Register } )
                     ",
                     new { IPv4 = user.Ipv4 }
                 }
-            } );
+            }, false );
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
@@ -65,6 +65,7 @@ namespace Amplifir.Infrastructure.DataAccess
             } );
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task<bool> EmailExists(string email)
         {
             await base._dBContext.OpenDBConnectionAsync();
@@ -77,8 +78,9 @@ namespace Amplifir.Infrastructure.DataAccess
                         (SELECT 1
                          FROM AppUser
                          WHERE Email = @Email
-                        ), 0
-                    ",
+                        ),
+                        0
+                    )",
                     new { @Email = email }
 
                 ) == 1;
@@ -154,7 +156,7 @@ namespace Amplifir.Infrastructure.DataAccess
 
             using (base._dBContext.DbConnection)
             {
-                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>( DapperHelperQueries.SelectLastInsertedUserId() );
+                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>( DapperHelperQueries.SelectSessionLastInsertedUserId() );
             }
         }
 
