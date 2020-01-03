@@ -17,6 +17,8 @@ namespace Amplifir.Core.Interfaces
 
         string Password { get; set; }
 
+        string UserName { get; set; }
+
         string Ipv4 { get; set; }
     }
 }

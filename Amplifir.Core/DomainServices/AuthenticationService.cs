@@ -4,6 +4,7 @@ using Amplifir.Core.Enums;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
 using Amplifir.Core.Models;
+using Amplifir.Core.Utilities;
 
 namespace Amplifir.Core.DomainServices
 {
@@ -36,6 +37,7 @@ namespace Amplifir.Core.DomainServices
                 new ValidateSignInResult() { State = ValidateSignInState.Success, User = thisAppUser };
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task<RegisterUserResult> RegisterUserAsync(IAppUser appUser)
         {
             if (!String.IsNullOrEmpty( appUser.Password ) && appUser.Password.Length < 8)
@@ -51,6 +53,7 @@ namespace Amplifir.Core.DomainServices
                 return new RegisterUserResult() { State = RegisterUserState.EmailExists, User = null };
             }
 
+            appUser.UserName = StringUtils.GenerateRandomString( 8 );
             appUser.Password = await _passwordService.HashPasswordAsync( appUser.Password );
 
             // This call can return an Exception from the DataAccess layer.
