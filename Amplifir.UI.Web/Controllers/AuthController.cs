@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.Common;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.DTOs;
 using Amplifir.Core.Enums;
@@ -52,10 +53,15 @@ namespace Amplifir.UI.Web.Controllers
                     return RedirectToActionPermanent( "login", new UserCredentialsDTO( registerUserResult.User.Email, registerUserResult.User.Password ) );
                 }
             }
+            catch (DbException e)
+            {
+                // TODO: Error handling.
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
             catch (Exception e)
             {
                 // TODO: Error handling.
-                return Problem( detail: "Unknown Error", statusCode: 500 );
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
         }
 
@@ -77,10 +83,15 @@ namespace Amplifir.UI.Web.Controllers
                     return Ok( new LoginResponse( this._jWTService.Generate( validateSignInResult.User ) ) );
                 }
             }
+            catch (DbException e)
+            {
+                // TODO: Error handling.
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
             catch (Exception e)
             {
                 // TODO: Error handling.
-                return Problem( statusCode: 500, detail: "Unknown Error" );
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
         }
 
