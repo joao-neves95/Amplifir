@@ -19,6 +19,7 @@ namespace Amplifir.Infrastructure.DataAccess
         {
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task CreateAsync(AppUser user)
         {
             await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
@@ -44,6 +45,7 @@ namespace Amplifir.Infrastructure.DataAccess
             } );
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task DeleteAsync(AppUser user)
         {
             await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
