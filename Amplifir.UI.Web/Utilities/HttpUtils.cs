@@ -21,7 +21,7 @@ namespace Amplifir.UI.Web.Utilities
             }
             else
             {
-                return httpContext.Connection.RemoteIpAddress.ToString();
+                return httpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
             }
         }
     }
