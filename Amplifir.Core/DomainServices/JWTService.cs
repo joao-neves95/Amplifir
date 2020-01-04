@@ -11,8 +11,6 @@ namespace Amplifir.Core.DomainServices
 {
     public class JWTService : IJWTService
     {
-        // TODO: Test DotNetEnv.Env outside the Web project.
-        // If null, pass it as a method paramenter.
         public string Generate( IAppUser appUser )
         {
             JwtSecurityToken token = new JwtSecurityToken(
