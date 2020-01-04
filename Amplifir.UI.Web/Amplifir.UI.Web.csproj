@@ -69,6 +69,21 @@
     <ProjectReference Include="..\Amplifir.ApplicationTypeFactory\Amplifir.ApplicationTypeFactory.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\Resource_ResponseMessages_en.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resource_ResponseMessages_en.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Resource_ResponseMessages_en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource_ResponseMessages_en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
