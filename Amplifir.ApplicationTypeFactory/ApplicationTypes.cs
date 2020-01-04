@@ -3,6 +3,7 @@
     public enum ApplicationTypes
     {
         DapperDBContext,
+        AuditLogDapperStore,
         AppUserDapperStore
     }
 }

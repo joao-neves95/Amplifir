@@ -45,6 +45,7 @@ namespace Amplifir.UI.Web
                 ) }
             ) );
 
+            services.AddScoped( typeof( IAuditLogStore ), TypeFactory.Get( ApplicationTypes.AuditLogDapperStore ) );
             services.AddScoped( typeof( IAppUserStore<AppUser, int> ), TypeFactory.Get( ApplicationTypes.AppUserDapperStore ) );
             services.AddScoped( typeof( IPasswordService ), typeof( Argon2PasswordService ) );
             services.AddScoped( typeof( Amplifir.Core.Interfaces.IAuthenticationService ), typeof( Amplifir.Core.DomainServices.AuthenticationService ) );
