@@ -8,8 +8,7 @@ namespace Amplifir.Core.Enums
     {
         Success,
         NotFound,
-        InvalidEmail,
-        InvalidPassword,
+        WrongPassword,
         TwoFactorRequired,
         LockedOut,
         Unknown

@@ -22,7 +22,6 @@ namespace Amplifir.Core.DomainServices
 
         public async Task<ValidateSignInResult> ValidateSignInAsync(string email, string password)
         {
-            // TODO: (DEBUG) Check result in case the user does not exist.
             AppUser thisAppUser = await _appUserStore.FindByEmailAsync( email );
 
             if ( thisAppUser == null || String.IsNullOrEmpty( thisAppUser.Email ) || String.IsNullOrEmpty( thisAppUser.Password ) )
@@ -33,7 +32,7 @@ namespace Amplifir.Core.DomainServices
             // TODO: Check if the user is locked-out.
 
             return !await _passwordService.ValidatePasswordAsync( thisAppUser.Password, password ) ?
-                new ValidateSignInResult() { State = ValidateSignInState.InvalidPassword, User = null } :
+                new ValidateSignInResult() { State = ValidateSignInState.WrongPassword, User = null } :
                 new ValidateSignInResult() { State = ValidateSignInState.Success, User = thisAppUser };
         }
 
