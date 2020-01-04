@@ -5,7 +5,7 @@ using Dapper;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
 
-namespace Amplifir.Infrastructure.DataAccess
+namespace Amplifir.Infrastructure.DataAccess.Stores
 {
     /// <summary>
     /// 
@@ -15,7 +15,7 @@ namespace Amplifir.Infrastructure.DataAccess
     /// </summary>
     public class AppUserDapperStore : DBStoreBase, IAppUserStore<AppUser, int>
     {
-        public AppUserDapperStore(IDBContext dBContext) : base(dBContext)
+        public AppUserDapperStore(IDBContext dBContext) : base( dBContext )
         {
         }
 
@@ -37,9 +37,7 @@ namespace Amplifir.Infrastructure.DataAccess
                     null
                 },
                 {
-                    $@"INSERT INTO AuditLog (UserId, IPv4, EventTypeId)
-                       VALUES ( ( { DapperHelperQueries.SelectSessionLastInsertedUserId() } ), @IPv4, { EventTypeId.Register } )
-                    ",
+                    DapperHelperQueries.CreateNewLog( $"( {DapperHelperQueries.SelectSessionLastInsertedUserId()} )", EventTypeId.Register ),
                     new { IPv4 = user.Ipv4 }
                 }
             }, false );
