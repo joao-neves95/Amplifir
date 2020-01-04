@@ -73,12 +73,12 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:44311/api/auth/login",
-							"protocol": "https",
+							"raw": "http://localhost:21291/api/auth/login",
+							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "44311",
+							"port": "21291",
 							"path": [
 								"api",
 								"auth",
