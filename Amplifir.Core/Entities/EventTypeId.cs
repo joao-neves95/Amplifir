@@ -6,8 +6,8 @@ namespace Amplifir.Core.Entities
 {
     public static class EventTypeId
     {
-        public const string Register = "1";
+        public const short Register = 1;
 
-        public const string Login = "2";
+        public const short Login = 2;
     }
 }
