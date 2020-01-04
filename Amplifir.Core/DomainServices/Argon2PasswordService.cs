@@ -14,6 +14,11 @@ namespace Amplifir.Core.DomainServices
             return await DataHasher.Argon2HashAsync( unhashedPassword );
         }
 
+        public bool ValidatePassword(string hashedPassword, string unhashedPassword)
+        {
+            return DataHasher.Argon2Compare( hashedPassword, unhashedPassword );
+        }
+
         public async Task<bool> ValidatePasswordAsync(string hashedPassword, string unhashedPassword)
         {
             return await DataHasher.Argon2CompareAsync( hashedPassword, unhashedPassword );

@@ -9,19 +9,18 @@ namespace Amplifir.Core.Utilities
     public static class DataHasher
     {
         private static readonly RandomNumberGenerator RNG = RandomNumberGenerator.Create();
-        
+
         #region Argon2
 
         private static readonly Argon2Config Argon2Config = new Argon2Config()
         {
             Type = Argon2Type.DataIndependentAddressing,
             Version = Argon2Version.Nineteen,
-            TimeCost = 9,
-            MemoryCost = 24688,
+            TimeCost = 5,
+            MemoryCost = 24248,
             Lanes = 5,
             Threads = 2,
-            // TODO: Create an Argon2 secret string in the .env file.
-            Secret = Encoding.UTF8.GetBytes( "Pyt+47_?_4edT6N%m#;-0937sG" ),
+            Secret = Encoding.UTF8.GetBytes( DotNetEnv.Env.GetString( "ARGON2_SECRET" ) ),
             HashLength = 32,
             ClearPassword = true
         };
@@ -52,7 +51,7 @@ namespace Amplifir.Core.Utilities
 
         public static bool Argon2Compare(string hashedData, string unhashedData)
         {
-            return Argon2.Verify( hashedData, unhashedData );
+            return Argon2.Verify( hashedData, unhashedData, DotNetEnv.Env.GetString( "ARGON2_SECRET" ) );
         }
 
         #endregion Argon2

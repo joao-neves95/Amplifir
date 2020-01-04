@@ -10,5 +10,7 @@ namespace Amplifir.Core.Interfaces
         Task<string> HashPasswordAsync( string unhashedPassword );
 
         Task<bool> ValidatePasswordAsync( string hashedPassword, string unhashedPassword );
+
+        bool ValidatePassword( string hashedPassword, string unhashedPassword );
     }
 }
