@@ -27,5 +27,14 @@ namespace Amplifir.Core.Interfaces
         /// <param name="userClaims"> The User object from context. </param>
         /// <returns></returns>
         string GetClaimId( ClaimsPrincipal userClaims );
+
+        /// <summary>
+        /// 
+        /// Get the IPv4 of a user from the JWT claims.
+        /// 
+        /// </summary>
+        /// <param name="userClaims"></param>
+        /// <returns></returns>
+        string GetClaimIPv4( ClaimsPrincipal userClaims );
     }
 }
