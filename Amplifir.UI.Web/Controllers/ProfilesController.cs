@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Amplifir.Core.Interfaces;
+using Amplifir.Core.DTOs;
+using Amplifir.Core.Entities;
 
 namespace Amplifir.UI.Web.Controllers
 {
@@ -12,6 +15,20 @@ namespace Amplifir.UI.Web.Controllers
     [ApiController]
     public class ProfilesController : ControllerBase
     {
+        public ProfilesController(IUserProfileService userProfileService, IJWTService jWTService)
+        {
+            this._userProfileService = userProfileService;
+            this._jWTService = jWTService;
+        }
+
+        #region PROPERTIES
+
+        private readonly IUserProfileService _userProfileService;
+
+        private readonly IJWTService _jWTService;
+
+        #endregion
+
         /// <summary>
         /// 
         /// <para>
@@ -27,10 +44,26 @@ namespace Amplifir.UI.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}", Name = "Get")]
-        public string Get([FromRoute]int id)
+        [Authorize]
+        public async Task<IActionResult> Get([FromRoute]int id)
         {
-            // Get the claim id from the JWT auth token, if the id == -1.
-            return "value";
+            try
+            {
+                if (id == -1)
+                {
+                    // If FormatException Exception occurs, let the catch handle.
+                    id = Convert.ToInt32( _jWTService.GetClaimId( HttpContext.User ) );
+                }
+
+                return Ok( new ApiResponse<AppUserProfile>()
+                {
+                    EndpointResult = await _userProfileService.GetByUserIdAsync(id)
+                } );
+            }
+            catch (Exception e)
+            {
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
         }
 
         /// <summary>
