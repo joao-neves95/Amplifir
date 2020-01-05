@@ -115,6 +115,7 @@ namespace Amplifir.UI.Web
             }
 
             app.UseRouting();
+            app.UseAuthorization();
 
             app.UseEndpoints( endpoints =>
             {
