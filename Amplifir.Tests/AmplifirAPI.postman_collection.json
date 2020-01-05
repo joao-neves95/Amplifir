@@ -90,6 +90,43 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "profiles",
+			"item": [
+				{
+					"name": "Authenticated User Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxNSIsImlhdCI6IjIwMjAtMDEtMDVUMTI6Mzg6MzciLCJpZCI6IjE1IiwiaXB2NCI6IjAuMC4wLjEiLCJuYmYiOjE1NzgyMjc5MTcsImV4cCI6MTU3ODgzMjcxNywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDoyMTI5MSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEifQ.SxuxWYsHUJkQhR9b9MZ6Pa9_7COAtm0q4UOR0UrpABgJArLYmy5ZiymRiVTU_uFRSzI3R1CD5GbsNlmxS71Y9g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:21291/api/profiles/-1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "21291",
+							"path": [
+								"api",
+								"profiles",
+								"-1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}
