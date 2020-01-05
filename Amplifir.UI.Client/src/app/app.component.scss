@@ -1,4 +1,4 @@
-@import '../assets/scss/constants.scss';
+@import '../app/shared/constants.scss';
 
 div.container,
 div.container>div.row {
@@ -11,6 +11,7 @@ div.container>div.row {
   app-navbar {
     position: absolute;
     min-width: $sidenavbar-big-width;
+    max-width: $sidenavbar-big-width;
   }
 
   main {
