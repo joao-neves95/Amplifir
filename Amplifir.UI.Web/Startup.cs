@@ -84,6 +84,8 @@ namespace Amplifir.UI.Web
             {
                 configuration.RootPath = "../Amplifir.UI.Client/dist";
             });
+
+            services.AddSwaggerDocument();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,6 +117,9 @@ namespace Amplifir.UI.Web
             {
                 app.UseSpaStaticFiles();
             }
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3( options => options.EnableTryItOut = false );
 
             app.UseRouting();
             app.UseAuthorization();
