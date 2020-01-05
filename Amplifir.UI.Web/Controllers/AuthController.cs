@@ -37,7 +37,7 @@ namespace Amplifir.UI.Web.Controllers
 
         #endregion PROPERTIES
 
-        #region METHODS
+        #region ENDPOINT METHODS
 
         [HttpPost( "register" )]
         [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
@@ -148,6 +148,6 @@ namespace Amplifir.UI.Web.Controllers
         [HttpPost( "logout" )]
         public void Logout() { }
 
-        #endregion METHODS
+        #endregion ENDPOINT METHODS
     }
 }
