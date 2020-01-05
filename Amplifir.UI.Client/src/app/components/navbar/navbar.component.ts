@@ -1,6 +1,6 @@
-import { Component, OnInit, Output, EventEmitter, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
 
-import { RouterLinkViewModel } from '../viewModels/routerLinkViewModel';
+import { RouterLinkViewModel } from '../../viewModels/routerLinkViewModel';
 
 @Component({
   selector: 'app-navbar',

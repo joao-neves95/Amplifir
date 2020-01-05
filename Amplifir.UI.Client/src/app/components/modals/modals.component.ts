@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, Input } from '@angular/core';
 
-import { Constants } from '../shared/constants';
-import { ModalType } from '../shared/enums/modalType';
+import { Constants } from '../../shared/constants';
+import { ModalType } from '../../enums/modalType';
 
 @Component({
   selector: 'app-modals',
@@ -17,8 +17,8 @@ export class ModalsComponent implements AfterViewInit {
     this.title = Constants.defaultLabels.authModalTitle;
     this.goBtnLabel = Constants.defaultLabels.authModalTitle;
 
-    if (ModalsComponent._ === this ) {
-      return;
+    if (ModalsComponent._ !== null ) {
+      throw new Error( 'Do not create multiple modals. There can only be one.' );
 
     } else {
       ModalsComponent._ = this;
