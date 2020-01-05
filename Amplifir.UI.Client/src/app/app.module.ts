@@ -8,6 +8,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { FeedComponent } from './pages/feed/feed.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { PageHeaderComponent } from './page-header/page-header.component';
+import { AuthModalComponent } from './modals/auth-modal/auth-modal.component';
+import { ModalsComponent } from './modals/modals.component';
 
 @NgModule({
   declarations: [
@@ -16,13 +18,15 @@ import { PageHeaderComponent } from './page-header/page-header.component';
     ProfileComponent,
     FeedComponent,
     SettingsComponent,
-    PageHeaderComponent
+    PageHeaderComponent,
+    AuthModalComponent,
+    ModalsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
