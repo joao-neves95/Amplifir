@@ -3,13 +3,13 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { FeedComponent } from './pages/feed/feed.component';
-import { SettingsComponent } from './pages/settings/settings.component';
-import { PageHeaderComponent } from './page-header/page-header.component';
-import { AuthModalComponent } from './modals/auth-modal/auth-modal.component';
-import { ModalsComponent } from './modals/modals.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { ProfileComponent } from './components/pages/profile/profile.component';
+import { FeedComponent } from './components/pages/feed/feed.component';
+import { SettingsComponent } from './components/pages/settings/settings.component';
+import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { AuthModalComponent } from './components/modals/auth-modal/auth-modal.component';
+import { ModalsComponent } from './components/modals/modals.component';
 
 @NgModule({
   declarations: [

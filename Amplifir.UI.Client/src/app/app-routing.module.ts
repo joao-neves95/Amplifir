@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ProfileComponent } from './pages/profile/profile.component';
-import { FeedComponent } from './pages/feed/feed.component';
-import { SettingsComponent } from './pages/settings/settings.component';
+import { ProfileComponent } from './components/pages/profile/profile.component';
+import { FeedComponent } from './components/pages/feed/feed.component';
+import { SettingsComponent } from './components/pages/settings/settings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'feed', pathMatch: 'full' },
