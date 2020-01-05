@@ -1,13 +1,13 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, AfterContentInit, AfterViewInit } from '@angular/core';
 
-import { RouterLinkViewModel } from "../viewModels/routerLinkViewModel";
+import { RouterLinkViewModel } from '../viewModels/routerLinkViewModel';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements AfterViewInit {
 
   constructor() { }
 
@@ -19,11 +19,23 @@ export class NavbarComponent implements OnInit {
 
   @Output() clicked = new EventEmitter<string>();
 
-  ngOnInit() {
-    this.click(this.navLinks[0].label);
+  ngAfterViewInit(): void {
+    // TODO: Instead of using localStorage, change the title from a route event.
+    // TEMPORARY.
+    const linkLabel = localStorage.getItem( 'linkLabel' );
+
+    if (linkLabel) {
+      setTimeout(() => {
+        ( document.querySelectorAll( `a.nav-link.${linkLabel}` )[0] as HTMLAnchorElement ).click();
+      });
+
+    } else {
+      this.click( this.navLinks[0].label );
+    }
   }
 
   click(linkLabel: string) {
+    localStorage.setItem( 'linkLabel', linkLabel );
     this.clicked.emit(linkLabel);
   }
 
