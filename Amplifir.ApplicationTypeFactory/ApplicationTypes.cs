@@ -4,6 +4,7 @@
     {
         DapperDBContext,
         AuditLogDapperStore,
-        AppUserDapperStore
+        AppUserDapperStore,
+        AppUserProfileDapperStore
     }
 }

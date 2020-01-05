@@ -24,6 +24,9 @@ namespace Amplifir.ApplicationTypeFactory
                 case ApplicationTypes.AppUserDapperStore:
                     return typeof( AppUserDapperStore );
 
+                case ApplicationTypes.AppUserProfileDapperStore:
+                    return typeof( AppUserProfileDapperStore );
+
                 default:
                     throw new TypeAccessException( "Unknown type: " + Enum.GetName( typeof( ApplicationTypes ), applicationType ) );
             }
