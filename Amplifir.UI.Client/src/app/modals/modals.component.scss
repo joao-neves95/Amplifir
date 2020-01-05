@@ -1,0 +1,32 @@
+@import '../shared/constants.scss';
+
+.modal {
+  background-color: #ffffff4b;
+  border: none;
+  color: #f7fbfe;
+
+  .modal-content {
+    background-color: $background-dark-blue;
+
+    .modal-header {
+      border-bottom: 0.01rem solid $border-color !important;
+
+      .close {
+        color: $blue;
+      }
+    }
+
+    .modal-body {
+      min-height: 10em;
+    }
+
+    .modal-footer {
+      border-top: 0.01rem solid $border-color !important;
+    }
+
+    .btn.go {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+  }
+}
