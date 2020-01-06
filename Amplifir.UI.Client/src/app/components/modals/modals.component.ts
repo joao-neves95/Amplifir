@@ -11,18 +11,14 @@ import { ModalType } from '../../enums/modalType';
 export class ModalsComponent implements AfterViewInit {
 
   constructor() {
+    ModalsComponent._ = this;
+    console.warn( 'ATENTION: Do not create multiple modals. There can only be one.' );
+
     this.id = ModalsComponent.ID;
 
     this.activeModal = ModalType.AuthModal;
     this.title = Constants.defaultLabels.authModalTitle;
     this.goBtnLabel = Constants.defaultLabels.authModalTitle;
-
-    if (ModalsComponent._ !== null ) {
-      throw new Error( 'Do not create multiple modals. There can only be one.' );
-
-    } else {
-      ModalsComponent._ = this;
-    }
   }
 
   /** The current ModalsComponent instance. */
