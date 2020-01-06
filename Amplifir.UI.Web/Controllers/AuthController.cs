@@ -40,6 +40,7 @@ namespace Amplifir.UI.Web.Controllers
         #region ENDPOINT METHODS
 
         [HttpPost( "register" )]
+        [Produces( typeof( ApiResponse<LoginResponse> ) ) ]
         [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task<IActionResult> Register([FromBody]UserCredentialsDTO userCredentialsDTO)
         {
@@ -57,7 +58,7 @@ namespace Amplifir.UI.Web.Controllers
                 if (registerUserResult.State != RegisterUserState.Success)
                 {
                     // TODO: Error handling.
-                    return BadRequest( new ApiResponse<bool>()
+                    return BadRequest( new ApiResponse<LoginResponse>()
                     {
                         Error = true,
                         Message = registerUserResult.State.Switch( new Dictionary<RegisterUserState, Func<string>>()
@@ -92,6 +93,7 @@ namespace Amplifir.UI.Web.Controllers
         }
 
         [HttpPost( "login" )]
+        [Produces( typeof( ApiResponse<LoginResponse> ) )]
         public async Task<IActionResult> Login([FromBody]UserCredentialsDTO userCredentialsDTO)
         {
             try
@@ -101,7 +103,7 @@ namespace Amplifir.UI.Web.Controllers
                 if (validateSignInResult.State != ValidateSignInState.Success)
                 {
                     // TODO: Error handling.
-                    return BadRequest( new ApiResponse<bool>()
+                    return BadRequest( new ApiResponse<LoginResponse>()
                     {
                         Error = true,
                         Message = validateSignInResult.State.Switch( new Dictionary<ValidateSignInState, Func<string>>()
