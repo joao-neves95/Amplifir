@@ -17,6 +17,8 @@ using Amplifir.Core.Utilities;
 using Microsoft.AspNetCore.HttpOverrides;
 using Amplifir.Core.DomainServices;
 using System.Text.Json;
+using NSwag.Generation.Processors.Security;
+using NSwag;
 
 namespace Amplifir.UI.Web
 {
@@ -80,12 +82,19 @@ namespace Amplifir.UI.Web
             } );
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "../Amplifir.UI.Client/dist";
-            });
+            services.AddSpaStaticFiles( configuration => configuration.RootPath = "../Amplifir.UI.Client/dist" );
 
-            services.AddSwaggerDocument();
+            services.AddSwaggerDocument( options =>
+            {
+                options.DocumentProcessors.Add( new SecurityDefinitionAppender( "JWT",
+                    new OpenApiSecurityScheme()
+                    {
+                        Type = OpenApiSecuritySchemeType.ApiKey,
+                        Name = "Authorization",
+                        Description = "'Bearer ' + '[valid JWT token]'",
+                        In = OpenApiSecurityApiKeyLocation.Header
+                    } ) );
+            } );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
