@@ -94,6 +94,8 @@ namespace Amplifir.UI.Web
                         Description = "'Bearer ' + '[valid JWT token]'",
                         In = OpenApiSecurityApiKeyLocation.Header
                     } ) );
+
+                options.OperationProcessors.Add( new OperationSecurityScopeProcessor( "JWT" ) );
             } );
         }
 
