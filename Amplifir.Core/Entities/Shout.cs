@@ -13,9 +13,9 @@ namespace Amplifir.Core.Entities
 
         public DateTime CreateDate { get; set; }
 
-        public int LikesNum { get; set; }
+        public int LikesCount { get; set; }
 
-        public int DislikesNum { get; set; }
+        public int DislikesCount { get; set; }
 
         public List<Hashtag> Hashtags { get; set; }
 
