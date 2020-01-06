@@ -8,16 +8,17 @@ using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class ShoutDapperStore : DBStoreBase, IShoutStore
     {
         public ShoutDapperStore(IDBContext dBContext) : base( dBContext )
         {
         }
 
-        public async Task<bool> CreateAsync(Shout newShout)
+        public async Task<int> CreateAsync(Shout newShout)
         {
             // TODO: Finish .CreateAsync()
-            await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
+            return await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
             {
                 {
                     @"INSERT INTO Shout (UserId, Content)
@@ -26,14 +27,17 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                     new { @UserId = newShout.UserId, @Content = newShout.Content }
                 },
                 {
+                    @"INSERT INTO Hashtag
+                      VALUES ",
+                    null
+                },
+                {
                     @"INSERT INTO ShoutAsset ()
                         VALUES (@)
                     ",
                     null
                 },
             } );
-
-            throw new NotImplementedException();
         }
 
         public async Task<Shout> GetByIdAsync(int shoutId)

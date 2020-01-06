@@ -14,7 +14,7 @@ namespace Amplifir.Core.Interfaces
         /// 
         /// </summary>
         /// <returns></returns>
-        Task<bool> CreateAsync( Shout newShout );
+        Task<int> CreateAsync( Shout newShout );
 
         /// <summary>
         /// 
