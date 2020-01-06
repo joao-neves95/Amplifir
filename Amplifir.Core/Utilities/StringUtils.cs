@@ -7,6 +7,16 @@ namespace Amplifir.Core.Utilities
 {
     public static class StringUtils
     {
+        public static bool Contains(this string @string, char toFind)
+        {
+            return @string.Contains( toFind.ToString() );
+        }
+
+        public static bool Contains(this string @string, string toFind)
+        {
+            return @string.IndexOf( toFind ) >= 0;
+        }
+
         // https://www.connectionstrings.com/
         public static string BuildPostreSQLConnectionString(string server, string port, string database, string userName, string password)
         {
