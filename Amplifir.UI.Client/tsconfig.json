@@ -9,6 +9,7 @@
     "experimentalDecorators": true,
     "strict": true,
     "newLine": "LF",
+    "charset": "utf8",
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
@@ -19,10 +20,10 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
-  }
+  },
 }
