@@ -36,6 +36,36 @@ namespace Amplifir.UI.Web
         {
             DotNetEnv.Env.Load();
 
+            services.AddSwaggerDocument( options =>
+            {
+                options.PostProcess = doc =>
+                {
+                    doc.Info.Title = "Amplifir API";
+                    doc.Info.Description = "The OpenAPI documentation of the Amplifir RestAPI.";
+                    doc.Info.Contact = new NSwag.OpenApiContact
+                    {
+                        Name = "João Pedro Martins Neves (SHIVAYL)",
+                        Url = "https://github.com/joao-neves95/"
+                    };
+                    doc.Info.License = new OpenApiLicense
+                    {
+                        Name = "Use under GNU Lesser General Public License v3.0",
+                        Url = "https://github.com/joao-neves95/Amplifir/blob/master/LICENSE.md"
+                    };
+                };
+
+                options.DocumentProcessors.Add( new SecurityDefinitionAppender( "JWT",
+                    new OpenApiSecurityScheme()
+                    {
+                        Type = OpenApiSecuritySchemeType.ApiKey,
+                        Name = "Authorization",
+                        Description = "'Bearer ' + '[valid JWT token]'",
+                        In = OpenApiSecurityApiKeyLocation.Header
+                    } ) );
+
+                options.OperationProcessors.Add( new OperationSecurityScopeProcessor( "JWT" ) );
+            } );
+
             services.AddScoped( typeof( IDBContext ), _ => (IDBContext)Activator.CreateInstance(
                 TypeFactory.Get( ApplicationTypes.DapperDBContext ),
                 new object[] { StringUtils.BuildPostreSQLConnectionStringWithSSL(
@@ -84,19 +114,6 @@ namespace Amplifir.UI.Web
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles( configuration => configuration.RootPath = "../Amplifir.UI.Client/dist" );
 
-            services.AddSwaggerDocument( options =>
-            {
-                options.DocumentProcessors.Add( new SecurityDefinitionAppender( "JWT",
-                    new OpenApiSecurityScheme()
-                    {
-                        Type = OpenApiSecuritySchemeType.ApiKey,
-                        Name = "Authorization",
-                        Description = "'Bearer ' + '[valid JWT token]'",
-                        In = OpenApiSecurityApiKeyLocation.Header
-                    } ) );
-
-                options.OperationProcessors.Add( new OperationSecurityScopeProcessor( "JWT" ) );
-            } );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
