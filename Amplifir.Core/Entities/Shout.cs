@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Amplifir.Core.DTOs;
 
 namespace Amplifir.Core.Entities
 {
-    public class Shout
+    public class Shout : NewShoutDTO
     {
         public int Id { get; set; }
-
-        public int UserId { get; set; }
-
-        public string Content { get; set; }
 
         public DateTime CreateDate { get; set; }
 
@@ -17,7 +14,7 @@ namespace Amplifir.Core.Entities
 
         public int DislikesCount { get; set; }
 
-        public List<Hashtag> Hashtags { get; set; }
+        public List<string> Hashtags { get; set; }
 
         public List<ShoutAsset> Assets { get; set; }
     }
