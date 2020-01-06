@@ -145,9 +145,6 @@ namespace Amplifir.UI.Web.Controllers
             }
         }
 
-        [HttpPost( "logout" )]
-        public void Logout() { }
-
         #endregion ENDPOINT METHODS
     }
 }
