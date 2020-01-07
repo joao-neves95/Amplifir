@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Amplifir-UI-Client": {
+    "Amplifir-UI-Presentation": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -71,18 +71,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Amplifir-UI-Client:build"
+            "browserTarget": "Amplifir-UI-Presentation:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Amplifir-UI-Client:build:production"
+              "browserTarget": "Amplifir-UI-Presentation:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Amplifir-UI-Client:build"
+            "browserTarget": "Amplifir-UI-Presentation:build"
           }
         },
         "test": {
@@ -119,15 +119,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "Amplifir-UI-Client:serve"
+            "devServerTarget": "Amplifir-UI-Presentation:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "Amplifir-UI-Client:serve:production"
+              "devServerTarget": "Amplifir-UI-Presentation:serve:production"
             }
           }
         }
       }
-    }},
-  "defaultProject": "Amplifir-UI-Client"
+    }
+  },
+  "defaultProject": "Amplifir-UI-Presentation"
 }

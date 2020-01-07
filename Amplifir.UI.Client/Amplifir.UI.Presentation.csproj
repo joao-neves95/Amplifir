@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+
+    <AssemblyName>Amplifir.UI.Presentation</AssemblyName>
+
+    <RootNamespace>Amplifir.UI.Presentation</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
