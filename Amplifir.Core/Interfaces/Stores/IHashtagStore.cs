@@ -19,8 +19,12 @@ namespace Amplifir.Core.Interfaces
         /// <returns></returns>
         Task<List<string>> GetHashtagsAsync( List<string> hashtag );
 
+        Task<int> CreateHashtagAsync( string hashtag );
+
         Task<int> CreateHashtagAsync( List<string> hashtags );
 
-        Task<int> IncrementHashtagShoutCountAsync( List<string> hashtags );
+        Task<int> AddShoutToExistingHashtag( int shoutId, string hashtag );
+
+        Task<int> AddShoutToExistingHashtag( int shoutId, List<string> hashtags );
     }
 }

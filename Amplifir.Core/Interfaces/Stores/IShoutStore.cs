@@ -10,9 +10,10 @@ namespace Amplifir.Core.Interfaces
     {
         /// <summary>
         /// 
-        /// Insert a new Shout.
+        /// Inserts a new Shout and returns its ID.
         /// 
         /// </summary>
+        /// <param name="newShout"></param>
         /// <returns></returns>
         Task<int> CreateAsync( Shout newShout );
 

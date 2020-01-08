@@ -9,6 +9,11 @@ namespace Amplifir.Infrastructure.DataAccess
             return "SELECT currval( pg_get_serial_sequence('AppUser', 'id') )";
         }
 
+        public static string SelectSessionLastInsertedShoutId()
+        {
+            return "SELECT currval( pg_get_serial_sequence('Shout', 'id') )";
+        }
+
         /// <summary>
         /// 
         /// You have to pass the value you want to search for to Dapper

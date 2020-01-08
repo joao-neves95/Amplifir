@@ -20,9 +20,9 @@ namespace Amplifir.Core.DomainServices
 
         private readonly IShoutStore _shoutStore;
 
-        public async Task<bool> CreateAsync(Shout newShout)
+        public async Task CreateAsync(Shout newShout)
         {
-            newShout.Hashtags = this.GetHashtags( newShout.Content ).ToList();
+            newShout.Hashtags = this.GetHashtagsFromShoutContent( newShout.Content ).ToList();
             List<string> hashtagsThatExist = await _shoutStore.GetHashtagsAsync( newShout.Hashtags );
             newShout.Hashtags.RemoveAll( hashtag => hashtagsThatExist.Contains( hashtag ) );
 
@@ -30,18 +30,16 @@ namespace Amplifir.Core.DomainServices
             {
                 // Normalize.
                 newShout.Hashtags = (List<string>)newShout.Hashtags.Select( hashtag => hashtag.ToLower().Trim() );
-                await _shoutStore.CreateHashtagAsync( hashtagsThatExist );
+                await _shoutStore.CreateHashtagAsync( newShout.Hashtags );
             }
 
-            await _shoutStore.IncrementHashtagShoutCountAsync( hashtagsThatExist );
-            await _shoutStore.CreateAsync( newShout );
-
-            throw new NotImplementedException();
+            int insertedShoutId = await _shoutStore.CreateAsync( newShout );
+            await _shoutStore.AddShoutToExistingHashtag( insertedShoutId, hashtagsThatExist );
         }
 
         #region PRIVATE METHODS
 
-        private string[] GetHashtags(string content)
+        private string[] GetHashtagsFromShoutContent(string content)
         {
             if (String.IsNullOrEmpty( content ))
             {

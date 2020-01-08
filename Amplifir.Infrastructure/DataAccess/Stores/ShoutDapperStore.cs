@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Amplifir.Core.Entities;
 using Amplifir.Core.Interfaces;
+using System.Data.Common;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {
@@ -17,39 +18,44 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
 
         public async Task<int> CreateAsync(Shout newShout)
         {
-            throw new NotImplementedException();
+            return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
+                $@"INSERT INTO Shout (UserId, Content)
+                   VALUES (@UserId, @Content);
+                   ${DapperHelperQueries.SelectSessionLastInsertedShoutId()}
+                ",
+                new { @UserId = newShout.UserId, @Content = newShout.Content }
+            );
+        }
 
-            // TODO: Finish .CreateAsync()
-            return await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
+        public async Task<int> CreateHashtagAsync(List<string> hashtags)
+        {
+            List<object> parameters = new List<object>();
+
+            for (int i = 0; i < hashtags.Count; ++i)
             {
-                {
-                    @"INSERT INTO Shout (UserId, Content)
-                        VALUES (@UserId, @Content)
-                    ",
-                    new { @UserId = newShout.UserId, @Content = newShout.Content }
-                },
-                {
-                    @"INSERT INTO Hashtag
-                      VALUES ",
-                    null
-                },
-                {
-                    @"INSERT INTO ShoutAsset ()
-                        VALUES (@)
-                    ",
-                    null
-                },
-            } );
+                parameters.Add( new { Content = hashtags[i] } );
+            }
+
+            return await this.CreateHashtagAsync( parameters );
         }
 
-        public Task<int> CreateHashtagAsync(string[] hashtag)
+        public async Task<int> CreateHashtagAsync(string hashtag)
         {
-            throw new NotImplementedException();
+            return await this.CreateHashtagAsync( new { Content = hashtag } );
         }
 
-        public Task<int> CreateHashtagAsync(List<string> hashtags)
+        private async Task<int> CreateHashtagAsync(object parameters = null)
         {
-            throw new NotImplementedException();
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.ExecuteAsync(
+                    @"INSERT INTO Hashtag (Content)
+                      VALUES (@Content)",
+                    parameters
+                );
+            }
         }
 
         public async Task<Shout> GetByIdAsync(int shoutId)
@@ -110,9 +116,58 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             }
         }
 
-        public Task<int> IncrementHashtagShoutCountAsync(List<string> hashtags)
+        public async Task<int> AddShoutToExistingHashtag(int shoutId, string hashtag)
         {
-            throw new NotImplementedException();
+            return await this.AddShoutToExistingHashtag(
+                shoutId,
+                new { ShoutId = shoutId, Hashtag = hashtag },
+                new { Content = hashtag }
+            );
+        }
+
+        public async Task<int> AddShoutToExistingHashtag(int shoutId, List<string> hashtags)
+        {
+            List<DynamicParameters> hashtagShoutParameters = new List<DynamicParameters>();
+            List<DynamicParameters> hashtagParameters = new List<DynamicParameters>();
+            string currentHashtag;
+            int i;
+
+            for (i = 0; i < hashtags.Count; ++i)
+            {
+                currentHashtag = hashtags[i];
+
+                hashtagShoutParameters.Add( new DynamicParameters( new { ShoutId = shoutId, Hashtag = currentHashtag } ) );
+                hashtagParameters.Add( new DynamicParameters( new { Content = currentHashtag } ) );
+            }
+
+            return await this.AddShoutToExistingHashtag( shoutId, hashtagShoutParameters, hashtagParameters, hashtags.Count );
+        }
+
+        private async Task<int> AddShoutToExistingHashtag(int shoutId, object hashtagShoutParameters, object hashtagParameters, int shoutCount = 1)
+        {
+            return await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
+            {
+                {
+                    @"INSERT INTO HashtagShout (ShoutId, HashtagId)
+                      VALUES (
+                          @ShoutId,
+                          (
+                              SELECT Id
+                              FROM Hashtag
+                              WHERE Content = @Hashtag 
+                          ) 
+                      )
+                    ",
+                    hashtagShoutParameters
+                },
+                {
+                    $@"UPDATE Hashtag
+                       SET ShoutCount = ShoutCount + {shoutCount}
+                       WHERE Content = @Content
+                    ",
+                    hashtagParameters
+                }
+            } );
         }
     }
 }

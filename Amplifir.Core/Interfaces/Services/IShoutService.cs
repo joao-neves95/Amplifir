@@ -8,6 +8,6 @@ namespace Amplifir.Core.Interfaces
 {
     public interface IShoutService
     {
-        Task<bool> CreateAsync( Shout newShout );
+        Task CreateAsync( Shout newShout );
     }
 }
