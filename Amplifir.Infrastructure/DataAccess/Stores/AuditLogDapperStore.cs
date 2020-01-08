@@ -5,14 +5,14 @@ using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class AuditLogDapperStore : DBStoreBase, IAuditLogStore
     {
         public AuditLogDapperStore(IDBContext dBContext) : base( dBContext )
         {
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
-        public async Task<int> CreateLog(AuditLog auditLog)
+        public async Task<int> CreateLogAsync(AuditLog auditLog)
         {
             await base._dBContext.OpenDBConnectionAsync();
 

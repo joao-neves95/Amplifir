@@ -20,6 +20,6 @@ namespace Amplifir.Core.Interfaces
     {
         Task<int> GetLastInsertedUserId();
 
-        Task<bool> EmailExists( string email );
+        Task<bool> EmailExistsAsync( string email );
     }
 }

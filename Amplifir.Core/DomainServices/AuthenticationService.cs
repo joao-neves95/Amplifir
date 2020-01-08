@@ -47,7 +47,7 @@ namespace Amplifir.Core.DomainServices
             // TODO: Check if it's a valid email.
             // TODO: Check if it's a temporary email or a spam email.
 
-            if (!String.IsNullOrEmpty( appUser.Email ) && await _appUserStore.EmailExists( appUser.Email ))
+            if (!String.IsNullOrEmpty( appUser.Email ) && await _appUserStore.EmailExistsAsync( appUser.Email ))
             {
                 return new RegisterUserResult() { State = RegisterUserState.EmailExists, User = null };
             }

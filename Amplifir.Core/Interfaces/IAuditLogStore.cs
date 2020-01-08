@@ -5,6 +5,6 @@ namespace Amplifir.Core.Interfaces
 {
     public interface IAuditLogStore
     {
-        Task<int> CreateLog( AuditLog auditLog );
+        Task<int> CreateLogAsync( AuditLog auditLog );
     }
 }

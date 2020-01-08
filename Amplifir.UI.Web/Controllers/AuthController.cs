@@ -16,6 +16,7 @@ using Amplifir.UI.Web.Resources;
 
 namespace Amplifir.UI.Web.Controllers
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -41,7 +42,6 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpPost( "register" )]
         [Produces( typeof( ApiResponse<LoginResponse> ) ) ]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task<IActionResult> Register([FromBody]UserCredentialsDTO userCredentialsDTO)
         {
             try
@@ -121,7 +121,7 @@ namespace Amplifir.UI.Web.Controllers
 
                     // Do not await in order to respond as fast as possible,
                     // the task completion is not necessary for the response creation.
-                    _ = _auditLogStore.CreateLog( new AuditLog()
+                    _ = _auditLogStore.CreateLogAsync( new AuditLog()
                     {
                         UserId = validateSignInResult.User.Id,
                         EventTypeId = EventTypeId.Login,
