@@ -13,13 +13,13 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
     /// This must not be delivered to the API. Its intent is to be used internally.
     /// 
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class AppUserDapperStore : DBStoreBase, IAppUserStore<AppUser, int>
     {
         public AppUserDapperStore(IDBContext dBContext) : base( dBContext )
         {
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task CreateAsync(AppUser user)
         {
             await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
@@ -43,7 +43,6 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             }, false );
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task DeleteAsync(AppUser user)
         {
             await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
@@ -63,23 +62,15 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             } );
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
-        public async Task<bool> EmailExists(string email)
+        public async Task<bool> EmailExistsAsync(string email)
         {
             await base._dBContext.OpenDBConnectionAsync();
 
             using (base._dBContext.DbConnection)
             {
                 return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
-                    // COALESCE() is the PostgreSQL's similar function to ISNULL() in SQLServer.
-                    @"SELECT COALESCE(
-                        (SELECT 1
-                         FROM AppUser
-                         WHERE Email = @Email
-                        ),
-                        0
-                    )",
-                    new { @Email = email }
+                    DapperHelperQueries.Exists( "AppUser", "Email" ),
+                    new { Value = email }
 
                 ) == 1;
             }

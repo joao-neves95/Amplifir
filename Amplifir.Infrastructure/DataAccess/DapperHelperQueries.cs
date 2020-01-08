@@ -11,16 +11,47 @@ namespace Amplifir.Infrastructure.DataAccess
 
         /// <summary>
         /// 
-        /// It's necessary to pass Dapper the "IPv4" parameter.
-        /// 
+        /// You have to pass the value you want to search for to Dapper
+        ///   on the parameter object with the name "IPv4".
+        ///     
         /// </summary>
-        /// <param name="auditLog"></param>
+        /// <param name="userId"></param>
+        /// <param name="eventTypeId"></param>
         /// <returns></returns>
-        public static string CreateNewLog( string userId, short eventTypeId)
+        public static string CreateNewLog(string userId, short eventTypeId)
         {
             return $@"INSERT INTO AuditLog (UserId, IPv4, EventTypeId)
                       VALUES ( { userId }, @IPv4, { eventTypeId } )
                    ";
+        }
+
+        /// <summary>
+        /// <para>
+        /// 
+        /// You have to pass the value you want to search for to Dapper
+        ///   on the parameter object with the name "Value".
+        ///   
+        /// </para>
+        /// <para>
+        /// 
+        /// The query returns 0 or 1.
+        ///   
+        /// </para>
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="collumnName"></param>
+        /// <returns></returns>
+        public static string Exists(string tableName, string collumnName)
+        {
+            // COALESCE() is the PostgreSQL's similar function to ISNULL() in SQLServer.
+            return $@"SELECT COALESCE(
+                          (
+                               SELECT 1
+                               FROM {tableName}
+                               WHERE {collumnName} = @Value
+                          ),
+                          0
+                      )";
         }
     }
 }
