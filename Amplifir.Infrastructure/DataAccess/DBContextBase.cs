@@ -15,6 +15,8 @@ namespace Amplifir.Infrastructure.DataAccess.Interfaces
             this._connectionString = connectionString;
         }
 
+        internal protected readonly string _connectionString;
+
         internal protected DbConnection _dbConnection;
 
         public DbConnection DbConnection
@@ -24,8 +26,6 @@ namespace Amplifir.Infrastructure.DataAccess.Interfaces
                 return this._dbConnection;
             }
         }
-
-        internal protected readonly string _connectionString = null;
 
         #region IDisposable Support
 
@@ -45,7 +45,7 @@ namespace Amplifir.Infrastructure.DataAccess.Interfaces
                     this._dbConnection.State != ConnectionState.Fetching
                 )
                 {
-                    this._dbConnection.Dispose();
+                    this._dbConnection.DisposeAsync();
                 }
 
                 this._dbConnection = null;

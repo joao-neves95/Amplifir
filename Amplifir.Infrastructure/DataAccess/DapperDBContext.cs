@@ -10,6 +10,7 @@ using Amplifir.Core.Utilities;
 
 namespace Amplifir.Infrastructure.DataAccess
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class DapperDBContext : DBContextBase, IDBContext
     {
         public DapperDBContext()
@@ -20,7 +21,6 @@ namespace Amplifir.Infrastructure.DataAccess
         {
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task<DbConnection> OpenDBConnectionAsync()
         {
             if (base._dbConnection?.State == System.Data.ConnectionState.Open)
@@ -60,7 +60,6 @@ namespace Amplifir.Infrastructure.DataAccess
 
         #region WRAPPER METHODS
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task<int> ExecuteTransactionAsync( Dictionary<string, object> sqlAndParameters, bool disposeConnection = true )
         {
             DbTransaction dbTransaction = null;
@@ -82,7 +81,6 @@ namespace Amplifir.Infrastructure.DataAccess
                     await dbTransaction.CommitAsync();
                     return affectedCollumnsNum;
                 }
-
             }
             catch (DbException e)
             {

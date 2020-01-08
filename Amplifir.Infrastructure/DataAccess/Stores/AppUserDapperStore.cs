@@ -40,6 +40,7 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                     DapperHelperQueries.CreateNewLog( $"( {DapperHelperQueries.SelectSessionLastInsertedUserId()} )", EventTypeId.Register ),
                     new { IPv4 = user.Ipv4 }
                 }
+
             }, false );
         }
 
