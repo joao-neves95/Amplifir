@@ -1,6 +1,7 @@
 ﻿using System;
 using Amplifir.Infrastructure.DataAccess;
 using Amplifir.Infrastructure.DataAccess.Stores;
+using Amplifir.UI.Web.AppSettings;
 
 namespace Amplifir.ApplicationTypeFactory
 {
@@ -15,6 +16,9 @@ namespace Amplifir.ApplicationTypeFactory
         {
             switch (applicationType)
             {
+                case ApplicationTypes.AppSettings:
+                    return typeof( AppSettings );
+
                 case ApplicationTypes.DapperDBContext:
                     return typeof( DapperDBContext );
 
