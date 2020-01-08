@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Amplifir.Core.Entities;
@@ -6,13 +7,34 @@ using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Core.DomainServices
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class ShoutService : IShoutService
     {
+        public ShoutService(IShoutStore shoutStore)
+        {
+            this._shoutStore = shoutStore;
+        }
+
+        private const char HASHTAG_CHAR = '#';
         private const string ALLOWED_HASHTAG_NONAPHANUM_CHARS = "_";
 
-        public Task<bool> Create(Shout newShout)
+        private readonly IShoutStore _shoutStore;
+
+        public async Task<bool> CreateAsync(Shout newShout)
         {
             newShout.Hashtags = this.GetHashtags( newShout.Content ).ToList();
+            List<string> hashtagsThatExist = await _shoutStore.GetHashtagsAsync( newShout.Hashtags );
+            newShout.Hashtags.RemoveAll( hashtag => hashtagsThatExist.Contains( hashtag ) );
+
+            if (newShout.Hashtags.Count > 0)
+            {
+                // Normalize.
+                newShout.Hashtags = (List<string>)newShout.Hashtags.Select( hashtag => hashtag.ToLower().Trim() );
+                await _shoutStore.CreateHashtagAsync( hashtagsThatExist );
+            }
+
+            await _shoutStore.IncrementHashtagShoutCountAsync( hashtagsThatExist );
+            await _shoutStore.CreateAsync( newShout );
 
             throw new NotImplementedException();
         }
@@ -29,7 +51,7 @@ namespace Amplifir.Core.DomainServices
             // In case the string starts with an hashtag (I.e: "#"),
             // the array will start with an empty string before the
             // first hashtag.
-            string[] hashtags = content.Split( '#' );
+            string[] hashtags = content.Split( ShoutService.HASHTAG_CHAR );
 
             // There are no hashtags.
             if (hashtags.Length <= 1)
@@ -64,7 +86,7 @@ namespace Amplifir.Core.DomainServices
                 hashtags[i] = thisHashtag;
             }
 
-            // To account for the first char.
+            // To account for the first string.
             Array.Resize( ref hashtags, hashtags.Length - 1 );
             return hashtags;
         }
