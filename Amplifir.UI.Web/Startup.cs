@@ -16,7 +16,6 @@ using Amplifir.Core.Entities;
 using Amplifir.Core.Utilities;
 using Microsoft.AspNetCore.HttpOverrides;
 using Amplifir.Core.DomainServices;
-using System.Text.Json;
 using NSwag.Generation.Processors.Security;
 using NSwag;
 

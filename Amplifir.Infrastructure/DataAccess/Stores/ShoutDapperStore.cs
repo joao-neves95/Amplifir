@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 using Dapper;
 using Amplifir.Core.Entities;
 using Amplifir.Core.Interfaces;
-using System.Dynamic;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {
