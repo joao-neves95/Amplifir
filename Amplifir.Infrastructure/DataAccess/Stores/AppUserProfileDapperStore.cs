@@ -8,13 +8,13 @@ using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class AppUserProfileDapperStore : DBStoreBase, IAppUserProfileStore
     {
         public AppUserProfileDapperStore(IDBContext dBContext) : base( dBContext )
         {
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task<AppUserProfile> GetByUserIdAsync(int userId)
         {
             await base._dBContext.OpenDBConnectionAsync();

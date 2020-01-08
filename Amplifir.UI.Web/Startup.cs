@@ -112,8 +112,7 @@ namespace Amplifir.UI.Web
             } );
 
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles( configuration => configuration.RootPath = "../Amplifir.UI.Client/dist" );
-
+            services.AddSpaStaticFiles( configuration => configuration.RootPath = "../Amplifir.UI.Presentation/dist" );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -164,7 +163,7 @@ namespace Amplifir.UI.Web
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "../Amplifir.UI.Client";
+                spa.Options.SourcePath = "../Amplifir.UI.Presentation";
 
                 if (env.IsDevelopment())
                 {
