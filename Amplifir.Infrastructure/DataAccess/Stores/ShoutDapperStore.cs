@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 using Dapper;
 using Amplifir.Core.Entities;
 using Amplifir.Core.Interfaces;
+using System.Dynamic;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {
@@ -17,6 +19,8 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
 
         public async Task<int> CreateAsync(Shout newShout)
         {
+            throw new NotImplementedException();
+
             // TODO: Finish .CreateAsync()
             return await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
             {
@@ -40,6 +44,16 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             } );
         }
 
+        public Task<int> CreateHashtagAsync(string[] hashtag)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> CreateHashtagAsync(List<string> hashtags)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Shout> GetByIdAsync(int shoutId)
         {
             throw new NotImplementedException();
@@ -51,6 +65,54 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
         }
 
         public async Task<Shout> GetFollowingShoutsByUserIdAsync(int userId, int lastId = 0, short limit = 10)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<string>> GetHashtagsAsync( List<string> hashtag )
+        {
+            StringBuilder parameterNames = new StringBuilder();
+            DynamicParameters parameters = new DynamicParameters();
+
+            for (int i = 0; i < hashtag.Count; ++i)
+            {
+                parameters.Add( "Value" + i.ToString(), hashtag[i] );
+                parameterNames.Append( "@Value" ).Append( i.ToString() );
+
+                if (i < hashtag.Count - 1)
+                {
+                    parameterNames.Append( ", " );
+                }
+            }
+
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return (List<string>)await base._dBContext.DbConnection.QueryAsync<string>(
+                    $@"SELECT Content
+                       FROM Hashtag
+                       WHERE Content IN( { parameterNames.ToString() } )",
+                    parameters
+                );
+            }
+        }
+
+        public async Task<bool> HashtagExists(string hashtag)
+        {
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
+                    DapperHelperQueries.Exists( "Hashtag", "Content" ),
+                    new { Value = hashtag }
+
+                ) == 1;
+            }
+        }
+
+        public Task<int> IncrementHashtagShoutCountAsync(List<string> hashtags)
         {
             throw new NotImplementedException();
         }

@@ -6,7 +6,7 @@ using Amplifir.Core.Entities;
 
 namespace Amplifir.Core.Interfaces
 {
-    public interface IShoutStore
+    public interface IShoutStore : IHashtagStore
     {
         /// <summary>
         /// 
