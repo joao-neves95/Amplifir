@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Amplifir.Core.Enums;
 using Amplifir.Core.Entities;
 
 namespace Amplifir.Core.Interfaces
 {
     public interface IShoutService
     {
-        Task CreateAsync( Shout newShout );
+        Task<CreateShoutState> CreateAsync( Shout newShout );
     }
 }

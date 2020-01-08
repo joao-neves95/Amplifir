@@ -22,10 +22,7 @@ namespace Amplifir.UI.Desktop
         {
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "../Amplifir.UI.Client/dist";
-            });
+            services.AddSpaStaticFiles( configuration => configuration.RootPath = "../Amplifir.UI.Presentation/dist" );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,7 +34,7 @@ namespace Amplifir.UI.Desktop
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler( "/Error" );
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -51,25 +48,25 @@ namespace Amplifir.UI.Desktop
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
+            app.UseEndpoints( endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-            });
+                    pattern: "{controller}/{action=Index}/{id?}" );
+            } );
 
-            app.UseSpa(spa =>
+            app.UseSpa( spa =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
+               // To learn more about options for serving an Angular SPA from ASP.NET Core,
+               // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "../Amplifir.UI.Client";
+               spa.Options.SourcePath = "../Amplifir.UI.Presentation";
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseAngularCliServer( npmScript: "start" );
                 }
-            });
+            } );
         }
     }
 }

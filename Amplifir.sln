@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amplifir.UI.Web.APIClient",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amplifir.UI.Presentation", "Amplifir.UI.Presentation\Amplifir.UI.Presentation.csproj", "{32E679D8-39AD-4056-A0D9-B7793BAF378A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amplifir.UI.Web.AppSettings", "Amplifir.UI.Web.AppSettings\Amplifir.UI.Web.AppSettings.csproj", "{A8575FF9-9A35-4D7D-B2A2-A6A5CCCFFC84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,8 +62,6 @@ Global
 		{5B573B48-C7A7-4F90-BFAA-DFCDC91CD787}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B573B48-C7A7-4F90-BFAA-DFCDC91CD787}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B63BDBC8-E4D6-4230-8DCD-34B045D49468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B63BDBC8-E4D6-4230-8DCD-34B045D49468}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B63BDBC8-E4D6-4230-8DCD-34B045D49468}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{B63BDBC8-E4D6-4230-8DCD-34B045D49468}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B63BDBC8-E4D6-4230-8DCD-34B045D49468}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B63BDBC8-E4D6-4230-8DCD-34B045D49468}.Release|Any CPU.Deploy.0 = Release|Any CPU
@@ -74,9 +74,11 @@ Global
 		{0FC4F0FC-1BF5-4949-82C3-5A35CD5B949B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FC4F0FC-1BF5-4949-82C3-5A35CD5B949B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32E679D8-39AD-4056-A0D9-B7793BAF378A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32E679D8-39AD-4056-A0D9-B7793BAF378A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32E679D8-39AD-4056-A0D9-B7793BAF378A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32E679D8-39AD-4056-A0D9-B7793BAF378A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8575FF9-9A35-4D7D-B2A2-A6A5CCCFFC84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8575FF9-9A35-4D7D-B2A2-A6A5CCCFFC84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8575FF9-9A35-4D7D-B2A2-A6A5CCCFFC84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +92,7 @@ Global
 		{3DE6556B-4CC1-4803-947C-EC46B8AB8DBC} = {0F0DA099-8194-4515-AC59-04EB5CCCD0A8}
 		{0FC4F0FC-1BF5-4949-82C3-5A35CD5B949B} = {36F6A499-F0B4-48BD-9B7F-48CC22632F3A}
 		{32E679D8-39AD-4056-A0D9-B7793BAF378A} = {36F6A499-F0B4-48BD-9B7F-48CC22632F3A}
+		{A8575FF9-9A35-4D7D-B2A2-A6A5CCCFFC84} = {36F6A499-F0B4-48BD-9B7F-48CC22632F3A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {734F76A8-B06D-49E4-95CD-B1FDF7EDA93A}

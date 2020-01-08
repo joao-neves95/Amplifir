@@ -1,23 +1,23 @@
 using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using NSwag;
+using NSwag.Generation.Processors.Security;
 using Amplifir.ApplicationTypeFactory;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
-using Amplifir.Core.Utilities;
-using Microsoft.AspNetCore.HttpOverrides;
 using Amplifir.Core.DomainServices;
-using NSwag.Generation.Processors.Security;
-using NSwag;
+using Amplifir.Core.Utilities;
 
 namespace Amplifir.UI.Web
 {
@@ -76,7 +76,9 @@ namespace Amplifir.UI.Web
                 ) }
             ) );
 
+            services.AddSingleton( typeof( IAppSettings ), TypeFactory.Get( ApplicationTypes.AppSettings ) );
             services.AddSingleton( typeof( IJWTService ), typeof( JWTService ) );
+            services.AddTransient( typeof( IBadWordsService ), typeof( BadWordsService ) );
             services.AddScoped( typeof( IAuditLogStore ), TypeFactory.Get( ApplicationTypes.AuditLogDapperStore ) );
             services.AddScoped( typeof( IAppUserStore<AppUser, int> ), TypeFactory.Get( ApplicationTypes.AppUserDapperStore ) );
             services.AddScoped( typeof( IPasswordService ), typeof( Argon2PasswordService ) );

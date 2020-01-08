@@ -2,26 +2,36 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Amplifir.Core.Entities;
 using Amplifir.Core.Interfaces;
+using Amplifir.Core.Entities;
+using Amplifir.Core.Enums;
 
 namespace Amplifir.Core.DomainServices
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class ShoutService : IShoutService
     {
-        public ShoutService(IShoutStore shoutStore)
+        public ShoutService(IShoutStore shoutStore, IAppSettings appSettings, IBadWordsService badWordsService)
         {
             this._shoutStore = shoutStore;
+            this._appSettings = appSettings;
+            this._badWordsService = badWordsService;
         }
 
         private const char HASHTAG_CHAR = '#';
         private const string ALLOWED_HASHTAG_NONAPHANUM_CHARS = "_";
 
         private readonly IShoutStore _shoutStore;
+        private readonly IBadWordsService _badWordsService;
+        private readonly IAppSettings _appSettings;
 
-        public async Task CreateAsync(Shout newShout)
+        public async Task<CreateShoutState> CreateAsync(Shout newShout)
         {
+            if (newShout.Content.Length > _appSettings.Shout_MaxLength)
+            {
+                return CreateShoutState.ContentTooLong;
+            }
+
             newShout.Hashtags = this.GetHashtagsFromShoutContent( newShout.Content ).ToList();
             List<string> hashtagsThatExist = await _shoutStore.GetHashtagsAsync( newShout.Hashtags );
             newShout.Hashtags.RemoveAll( hashtag => hashtagsThatExist.Contains( hashtag ) );
@@ -33,8 +43,11 @@ namespace Amplifir.Core.DomainServices
                 await _shoutStore.CreateHashtagAsync( newShout.Hashtags );
             }
 
+            newShout.Content = await _badWordsService.CleanAsync( newShout.Content );
             int insertedShoutId = await _shoutStore.CreateAsync( newShout );
             await _shoutStore.AddShoutToExistingHashtag( insertedShoutId, hashtagsThatExist );
+
+            return CreateShoutState.Success;
         }
 
         #region PRIVATE METHODS

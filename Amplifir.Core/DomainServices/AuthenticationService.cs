@@ -8,6 +8,7 @@ using Amplifir.Core.Utilities;
 
 namespace Amplifir.Core.DomainServices
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class AuthenticationService : IAuthenticationService
     {
         public AuthenticationService(IAppUserStore<AppUser, int> appUserStore, IPasswordService passwordService)
@@ -36,9 +37,9 @@ namespace Amplifir.Core.DomainServices
                 new ValidateSignInResult() { State = ValidateSignInState.Success, User = thisAppUser };
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
         public async Task<RegisterUserResult> RegisterUserAsync(IAppUser appUser)
         {
+            // TODO: Add the password length to a app settings file.
             if (!String.IsNullOrEmpty( appUser.Password ) && appUser.Password.Length < 8)
             {
                 return new RegisterUserResult() { State = RegisterUserState.PasswordTooSmall, User = null };

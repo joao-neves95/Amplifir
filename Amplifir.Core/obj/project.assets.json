@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v3.1": {
+      "Curse-IO/1.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/CurseIO.dll": {}
+        },
+        "runtime": {
+          "lib/CurseIO.dll": {}
+        }
+      },
       "DotNetEnv/1.4.0": {
         "type": "package",
         "dependencies": {
@@ -1562,6 +1571,18 @@
     }
   },
   "libraries": {
+    "Curse-IO/1.0.1": {
+      "sha512": "ksg0n7GO7MqqBKao2jRWq7Mh0XjJWzzVZhshnOFpjJi5/1VyoBJ+h1CpzubKITl04/9Dv/XlWhnRtYkjJihEmg==",
+      "type": "package",
+      "path": "curse-io/1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "curse-io.1.0.1.nupkg.sha512",
+        "curse-io.nuspec",
+        "lib/CurseIO.dll"
+      ]
+    },
     "DotNetEnv/1.4.0": {
       "sha512": "ye3WhbO/bHrgl6C6aE8VKKDewdRxEv1tSSnNMbYE1TxROegwkd1KXo/JjpBcC6nR/FbTpSBPZ2RzjxIimgVlSA==",
       "type": "package",
@@ -5967,6 +5988,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "Curse-IO >= 1.0.1",
       "DotNetEnv >= 1.4.0",
       "Isopoh.Cryptography.Argon2 >= 1.1.3",
       "Microsoft.AspNet.Identity.Core >= 2.2.3",
@@ -5975,23 +5997,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\joao9\\.nuget\\packages\\": {},
+    "C:\\Users\\user\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\joao9\\odrive\\ISTEC\\DEV\\Amplifir\\Amplifir.Core\\Amplifir.Core.csproj",
+      "projectUniqueName": "C:\\Users\\user\\Documents\\REPOS\\Amplifir\\Amplifir.Core\\Amplifir.Core.csproj",
       "projectName": "Amplifir.Core",
-      "projectPath": "D:\\joao9\\odrive\\ISTEC\\DEV\\Amplifir\\Amplifir.Core\\Amplifir.Core.csproj",
-      "packagesPath": "C:\\Users\\joao9\\.nuget\\packages\\",
-      "outputPath": "D:\\joao9\\odrive\\ISTEC\\DEV\\Amplifir\\Amplifir.Core\\obj\\",
+      "projectPath": "C:\\Users\\user\\Documents\\REPOS\\Amplifir\\Amplifir.Core\\Amplifir.Core.csproj",
+      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\user\\Documents\\REPOS\\Amplifir\\Amplifir.Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\joao9\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6015,6 +6037,10 @@
     "frameworks": {
       "netcoreapp3.1": {
         "dependencies": {
+          "Curse-IO": {
+            "target": "Package",
+            "version": "[1.0.1, )"
+          },
           "DotNetEnv": {
             "target": "Package",
             "version": "[1.4.0, )"
@@ -6058,6 +6084,16 @@
     }
   },
   "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Curse-IO 1.0.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "Curse-IO",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",

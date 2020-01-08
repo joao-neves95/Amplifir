@@ -5,7 +5,7 @@
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
-    <SpaRoot>..\Amplifir.UI.Client\</SpaRoot>
+    <SpaRoot>..\Amplifir.UI.Presentation\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
 
     <!-- Set this to true if you enable server-side prerendering -->
@@ -46,25 +46,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="..\Amplifir.UI.Client\dist\**" />
-    <None Remove="..\Amplifir.UI.Client\e2e\**" />
-    <None Remove="..\Amplifir.UI.Client\obj\**" />
-    <None Remove="..\Amplifir.UI.Client\out-tsc\e2e\**" />
-    <None Remove="..\Amplifir.UI.Client\src\**" />
+    <None Remove="..\Amplifir.UI.Presentation\dist\**" />
+    <None Remove="..\Amplifir.UI.Presentation\e2e\**" />
+    <None Remove="..\Amplifir.UI.Presentation\obj\**" />
+    <None Remove="..\Amplifir.UI.Presentation\out-tsc\e2e\**" />
+    <None Remove="..\Amplifir.UI.Presentation\src\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="..\Amplifir.UI.Client\.editorconfig" />
-    <None Remove="..\Amplifir.UI.Client\angular.json" />
-    <None Remove="..\Amplifir.UI.Client\browserslist" />
-    <None Remove="..\Amplifir.UI.Client\karma.conf.js" />
-    <None Remove="..\Amplifir.UI.Client\package-lock.json" />
-    <None Remove="..\Amplifir.UI.Client\package.json" />
-    <None Remove="..\Amplifir.UI.Client\README.md" />
-    <None Remove="..\Amplifir.UI.Client\tsconfig.app.json" />
-    <None Remove="..\Amplifir.UI.Client\tsconfig.json" />
-    <None Remove="..\Amplifir.UI.Client\tsconfig.spec.json" />
-    <None Remove="..\Amplifir.UI.Client\tslint.json" />
+    <None Remove="..\Amplifir.UI.Presentation\.editorconfig" />
+    <None Remove="..\Amplifir.UI.Presentation\angular.json" />
+    <None Remove="..\Amplifir.UI.Presentation\browserslist" />
+    <None Remove="..\Amplifir.UI.Presentation\karma.conf.js" />
+    <None Remove="..\Amplifir.UI.Presentation\package-lock.json" />
+    <None Remove="..\Amplifir.UI.Presentation\package.json" />
+    <None Remove="..\Amplifir.UI.Presentation\README.md" />
+    <None Remove="..\Amplifir.UI.Presentation\tsconfig.app.json" />
+    <None Remove="..\Amplifir.UI.Presentation\tsconfig.json" />
+    <None Remove="..\Amplifir.UI.Presentation\tsconfig.spec.json" />
+    <None Remove="..\Amplifir.UI.Presentation\tslint.json" />
   </ItemGroup>
 
   <ItemGroup>
