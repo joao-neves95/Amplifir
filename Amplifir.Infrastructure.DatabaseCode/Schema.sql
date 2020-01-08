@@ -41,10 +41,10 @@ CREATE TABLE Shout (
     DislikesCount INT NOT NULL DEFAULT 0
 );
 
-CREATE TABLE ShoutHashtag (
+CREATE TABLE HashtagShout (
     Id SERIAL PRIMARY KEY,
-    ShoutId INT NOT NULL REFERENCES Shout(Id),
-    HashtagId BIGINT NOT NULL REFERENCES Hashtag(Id)
+    HashtagId BIGINT NOT NULL REFERENCES Hashtag(Id),
+    ShoutId INT NOT NULL REFERENCES Shout(Id)
 );
 
 CREATE TABLE Hashtag (
