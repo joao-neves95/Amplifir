@@ -10,5 +10,7 @@ namespace Amplifir.Core.Interfaces
     public interface IShoutService
     {
         Task<CreateShoutState> CreateAsync( Shout newShout );
+
+        Task DeleteAsync( int shoutId, int userId );
     }
 }

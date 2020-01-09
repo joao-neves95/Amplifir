@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Amplifir.Core.Entities;
 
 namespace Amplifir.Core.Interfaces
 {
-    public interface IShoutStore : IHashtagStore
+    public interface IShoutStore : IHashtagStore, ICommentStore
     {
         /// <summary>
         /// 
@@ -47,5 +44,18 @@ namespace Amplifir.Core.Interfaces
         /// <param name="limit"></param>
         /// <returns></returns>
         Task<Shout> GetFollowingShoutsByUserIdAsync( int userId, int lastId = 0, short limit = 10 );
+
+        Task<int> LikeAsync();
+
+        Task<int> DislikeAsync();
+
+        /// <summary>
+        /// 
+        /// Deletes everything related to the Shout.
+        /// 
+        /// </summary>
+        /// <param name="shout"></param>
+        /// <returns></returns>
+        Task<int> DeleteAsync( int shoutId, int userId );
     }
 }

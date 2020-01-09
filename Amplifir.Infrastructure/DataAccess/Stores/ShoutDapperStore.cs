@@ -169,5 +169,64 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                 }
             } );
         }
+
+        public async Task<int> DeleteAsync( int shoutId, int userId )
+        {
+            return await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
+            {
+                {
+                    $@"
+                    DELETE FROM ShoutAsset
+                    WHERE ShoutId = { shoutId };
+                    
+                    DELETE FROM CommentReaction
+                    WHERE ShoutId IN (
+                        SELECT Id
+                        FROM Comment
+                        WHERE ShoutId = { shoutId }
+                    );
+                    
+                    DELETE FROM Comment
+                    WHERE ShoutId = { shoutId };
+                    
+                    DELETE FROM ShoutReaction
+                    WHERE ShoutId = { shoutId };
+                    
+                    DELETE FROM HashtagShout
+                    WHERE ShoutId = { shoutId };
+                    
+                    DELETE FROM Shout
+                    WHERE Id = { shoutId } AND UserId = { userId };
+                    ",
+                    // Enforce that the Shout is from the provided user id.
+                    null
+                }
+            } );
+        }
+
+        public Task<int> LikeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> DislikeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> CreateCommentAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> LikeCommentAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> DislikeCommentAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

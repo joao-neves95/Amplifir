@@ -38,8 +38,6 @@ namespace Amplifir.Core.DomainServices
 
             if (newShout.Hashtags.Count > 0)
             {
-                // Normalize.
-                newShout.Hashtags = (List<string>)newShout.Hashtags.Select( hashtag => hashtag.ToLower().Trim() );
                 await _shoutStore.CreateHashtagAsync( newShout.Hashtags );
             }
 
@@ -83,7 +81,7 @@ namespace Amplifir.Core.DomainServices
                 {
                     currentChar = hashtags[i + 1][j];
 
-                    if (Char.IsLetterOrDigit( currentChar ) || ShoutService.ALLOWED_HASHTAG_NONAPHANUM_CHARS.Contains( currentChar ))
+                    if ( Char.IsLetterOrDigit( currentChar ) || ShoutService.ALLOWED_HASHTAG_NONAPHANUM_CHARS.Contains( currentChar ) )
                     {
                         thisHashtag += currentChar;
                     }
@@ -100,6 +98,11 @@ namespace Amplifir.Core.DomainServices
             // To account for the first string.
             Array.Resize( ref hashtags, hashtags.Length - 1 );
             return hashtags;
+        }
+
+        public Task DeleteAsync( int shoutId, int userId )
+        {
+            throw new NotImplementedException();
         }
 
         #endregion PRIVATE METHODS
