@@ -153,7 +153,8 @@ namespace Amplifir.UI.Web
                     builder.AddImgSrc().OverHttps().Self();
                     builder.AddStyleSrc().OverHttps().Self();
                     builder.AddScriptSrc().OverHttps().Self();
-                } );
+                } )
+                .AddCustomHeader( "X-Download-Options", "noopen" );
 
             app.UseForwardedHeaders( new ForwardedHeadersOptions
             {
