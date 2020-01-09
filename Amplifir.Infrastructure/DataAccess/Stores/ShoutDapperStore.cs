@@ -140,10 +140,10 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                 hashtagParameters.Add( new DynamicParameters( new { Content = currentHashtag } ) );
             }
 
-            return await this.AddShoutToExistingHashtag( shoutId, hashtagShoutParameters, hashtagParameters, hashtags.Count );
+            return await this.AddShoutToExistingHashtag( shoutId, hashtagShoutParameters, hashtagParameters );
         }
 
-        private async Task<int> AddShoutToExistingHashtag(int shoutId, object hashtagShoutParameters, object hashtagParameters, int shoutCount = 1)
+        private async Task<int> AddShoutToExistingHashtag(int shoutId, object hashtagShoutParameters, object hashtagParameters)
         {
             return await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
             {
@@ -162,7 +162,7 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                 },
                 {
                     $@"UPDATE Hashtag
-                       SET ShoutCount = ShoutCount + {shoutCount}
+                       SET ShoutCount = ShoutCount + 1
                        WHERE Content = @Content
                     ",
                     hashtagParameters
