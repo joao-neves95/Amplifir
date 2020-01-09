@@ -7,7 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Amplifir.Core\Amplifir.Core.csproj" />
     <ProjectReference Include="..\Amplifir.Infrastructure\Amplifir.Infrastructure.csproj" />
-    <ProjectReference Include="..\Amplifir.UI.Web.AppSettings\Amplifir.UI.Web.AppSettings.csproj" />
+    <ProjectReference Include="..\Amplifir.Settings\Amplifir.Settings.csproj" />
   </ItemGroup>
 
 </Project>

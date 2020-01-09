@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Amplifir.Settings</AssemblyName>
+    <RootNamespace>Amplifir.Settings</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
