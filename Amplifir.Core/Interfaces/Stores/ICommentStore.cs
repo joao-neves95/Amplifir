@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Amplifir.Core.Interfaces
 {
@@ -6,8 +7,10 @@ namespace Amplifir.Core.Interfaces
     {
         Task<int> CreateCommentAsync();
 
-        Task<int> LikeCommentAsync();
+        Task<int> CreateCommentReactionAsync();
 
-        Task<int> DislikeCommentAsync();
+        Task<List<object>> GetCommentsByShoutIdAsync( int shoutId, int lastId = 0, int limit = 10 );
+
+        Task<int> DeleteCommentReactionAsync();
     }
 }

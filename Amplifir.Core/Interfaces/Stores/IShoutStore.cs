@@ -45,9 +45,7 @@ namespace Amplifir.Core.Interfaces
         /// <returns></returns>
         Task<Shout> GetFollowingShoutsByUserIdAsync( int userId, int lastId = 0, short limit = 10 );
 
-        Task<int> LikeAsync();
-
-        Task<int> DislikeAsync();
+        Task<int> CreateReactionAsync();
 
         /// <summary>
         /// 
@@ -57,5 +55,7 @@ namespace Amplifir.Core.Interfaces
         /// <param name="shout"></param>
         /// <returns></returns>
         Task<int> DeleteAsync( int shoutId, int userId );
+
+        Task<int> DeleteReactionAsync();
     }
 }

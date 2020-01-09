@@ -204,12 +204,12 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             } );
         }
 
-        public Task<int> LikeAsync()
+        public Task<int> CreateReactionAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> DislikeAsync()
+        public Task<int> DeleteReactionAsync()
         {
             throw new NotImplementedException();
         }
@@ -219,12 +219,17 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             throw new NotImplementedException();
         }
 
-        public Task<int> LikeCommentAsync()
+        public Task<int> CreateCommentReactionAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> DislikeCommentAsync()
+        public Task<List<object>> GetCommentsByShoutIdAsync(int shoutId, int lastId = 0, int limit = 10)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> DeleteCommentReactionAsync()
         {
             throw new NotImplementedException();
         }
