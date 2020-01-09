@@ -1,7 +1,7 @@
 ﻿using System;
 using Amplifir.Infrastructure.DataAccess;
 using Amplifir.Infrastructure.DataAccess.Stores;
-using Amplifir.UI.Web.AppSettings;
+using Amplifir.Settings;
 
 namespace Amplifir.ApplicationTypeFactory
 {
@@ -16,6 +16,9 @@ namespace Amplifir.ApplicationTypeFactory
         {
             switch (applicationType)
             {
+                case ApplicationTypes.AppSecrets:
+                    return typeof( AppSecrets );
+
                 case ApplicationTypes.AppSettings:
                     return typeof( AppSettings );
 

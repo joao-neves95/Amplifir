@@ -11,15 +11,18 @@ namespace Amplifir.Core.DomainServices
     [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class AuthenticationService : IAuthenticationService
     {
-        public AuthenticationService(IAppUserStore<AppUser, int> appUserStore, IPasswordService passwordService)
+        public AuthenticationService(IAppUserStore<AppUser, int> appUserStore, IPasswordService passwordService, IAppSettings appSettings)
         {
             this._appUserStore = appUserStore;
             this._passwordService = passwordService;
+            this._appSettings = appSettings;
         }
 
         private readonly IAppUserStore<AppUser, int> _appUserStore;
 
         private readonly IPasswordService _passwordService;
+
+        private readonly IAppSettings _appSettings;
 
         public async Task<ValidateSignInResult> ValidateSignInAsync(string email, string password)
         {
@@ -40,7 +43,7 @@ namespace Amplifir.Core.DomainServices
         public async Task<RegisterUserResult> RegisterUserAsync(IAppUser appUser)
         {
             // TODO: Add the password length to a app settings file.
-            if (!String.IsNullOrEmpty( appUser.Password ) && appUser.Password.Length < 8)
+            if (!String.IsNullOrEmpty( appUser.Password ) && appUser.Password.Length < _appSettings.Password_MinLength)
             {
                 return new RegisterUserResult() { State = RegisterUserState.PasswordTooSmall, User = null };
             }

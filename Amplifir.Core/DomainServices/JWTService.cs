@@ -11,11 +11,18 @@ namespace Amplifir.Core.DomainServices
 {
     public class JWTService : IJWTService
     {
+        public JWTService(IAppSecrets appSecrets)
+        {
+            this._appSecrets = appSecrets;
+        }
+
+        private readonly IAppSecrets _appSecrets;
+
         public string Generate( IAppUser appUser )
         {
             JwtSecurityToken token = new JwtSecurityToken(
-                DotNetEnv.Env.GetString( "JWT_ISSUER" ),
-                DotNetEnv.Env.GetString( "JWT_ISSUER" ),
+                _appSecrets.JWT_Issuer,
+                _appSecrets.JWT_Issuer,
 
                 new List<Claim>()
                 {
@@ -29,9 +36,9 @@ namespace Amplifir.Core.DomainServices
                 },
 
                 notBefore: DateTime.UtcNow,
-                expires: DateTime.UtcNow.AddDays( DotNetEnv.Env.GetInt( "JWT_EXPIRATION_DAYS" ) ),
+                expires: DateTime.UtcNow.AddDays( _appSecrets.JWT_ExpirationDays ),
                 signingCredentials: new SigningCredentials( new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes( DotNetEnv.Env.GetString( "JWT_KEY" ) ) ),
+                    Encoding.UTF8.GetBytes( _appSecrets.JWT_Key ) ),
                     SecurityAlgorithms.HmacSha512
                 )
             );
