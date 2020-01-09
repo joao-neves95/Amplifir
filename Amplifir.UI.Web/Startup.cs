@@ -131,6 +131,30 @@ namespace Amplifir.UI.Web
                 app.UseHttpsRedirection();
             }
 
+            // https://www.owasp.org/index.php/OWASP_Secure_Headers_Project#tab=Headers
+            HeaderPolicyCollection headerPolicy = new HeaderPolicyCollection()
+                .AddFrameOptionsDeny()
+                .AddXssProtectionBlock()
+                .AddContentTypeOptionsNoSniff()
+                .AddReferrerPolicySameOrigin()
+                // TODO: In production, increase max-age to 1 year.
+                .AddStrictTransportSecurityMaxAgeIncludeSubDomains( 60 * 60 )
+                .AddContentSecurityPolicy( builder =>
+                {
+                    builder.AddUpgradeInsecureRequests();
+                    builder.AddBlockAllMixedContent();
+                    builder.AddFrameSource().None();
+                    builder.AddFrameAncestors().None();
+                    builder.AddFormAction().OverHttps().Self();
+                    builder.AddDefaultSrc().OverHttps().Self();
+                    builder.AddObjectSrc().None();
+                    // TODO: In the future add any CDN here.
+                    builder.AddFontSrc().OverHttps().Self();
+                    builder.AddImgSrc().OverHttps().Self();
+                    builder.AddStyleSrc().OverHttps().Self();
+                    builder.AddScriptSrc().OverHttps().Self();
+                } );
+
             app.UseForwardedHeaders( new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
