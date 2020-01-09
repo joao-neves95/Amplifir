@@ -41,6 +41,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Curse-IO": {
+              "target": "Package",
+              "version": "[1.0.1, )"
+            },
             "DotNetEnv": {
               "target": "Package",
               "version": "[1.4.0, )"
