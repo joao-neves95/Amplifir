@@ -71,7 +71,7 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             {
                 return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
                     DapperHelperQueries.Exists( "AppUser", "Email" ),
-                    new { Value = email }
+                    new { Value1 = email }
 
                 ) == 1;
             }
