@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Data.Common;
 using Microsoft.AspNetCore.Mvc;
+using Amplifir.Core.Enums;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.DTOs;
-using Amplifir.Core.Enums;
 using Amplifir.Core.Models;
 using Amplifir.Core.Entities;
 using Amplifir.Core.Utilities;

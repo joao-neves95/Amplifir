@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Infrastructure.DataAccess

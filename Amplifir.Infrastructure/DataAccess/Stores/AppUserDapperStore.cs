@@ -2,8 +2,8 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Dapper;
-using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
+using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {

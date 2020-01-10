@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Amplifir.Core.Interfaces;
-using Amplifir.Core.Entities;
 using System.Threading.Tasks;
+using Amplifir.Core.Entities;
+using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Core.DomainServices
 {

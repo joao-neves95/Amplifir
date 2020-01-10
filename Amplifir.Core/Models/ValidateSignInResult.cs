@@ -1,4 +1,4 @@
-﻿using Amplifir.Core.Enums;
+using Amplifir.Core.Enums;
 using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Core.Models

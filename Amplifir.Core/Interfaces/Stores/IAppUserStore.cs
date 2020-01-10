@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 
 namespace Amplifir.Core.Interfaces

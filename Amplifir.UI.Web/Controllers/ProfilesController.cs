@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Amplifir.Core.Interfaces;
-using Amplifir.Core.DTOs;
 using Amplifir.Core.Entities;
+using Amplifir.Core.DTOs;
 
 namespace Amplifir.UI.Web.Controllers
 {

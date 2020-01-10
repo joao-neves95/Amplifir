@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Data.Common;
 using Npgsql;
 using Dapper;
+using Amplifir.Core.Utilities;
 using Amplifir.Core.Interfaces;
 using Amplifir.Infrastructure.DataAccess.Interfaces;
-using Amplifir.Core.Utilities;
 
 namespace Amplifir.Infrastructure.DataAccess
 {

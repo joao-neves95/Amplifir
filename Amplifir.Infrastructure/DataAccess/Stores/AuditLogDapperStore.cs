@@ -1,7 +1,7 @@
-﻿using Dapper;
+using Dapper;
 using System.Threading.Tasks;
-using Amplifir.Core.Entities;
 using Amplifir.Core.Interfaces;
+using Amplifir.Core.Entities;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {

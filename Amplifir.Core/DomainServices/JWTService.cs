@@ -4,8 +4,8 @@ using System.Text;
 using System.Linq;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
-using Amplifir.Core.Interfaces;
 using Microsoft.IdentityModel.Tokens;
+using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Core.DomainServices
 {

@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Amplifir.Core.Enums;
-using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
 using Amplifir.Core.Models;
 using Amplifir.Core.Utilities;
+using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Core.DomainServices
 {

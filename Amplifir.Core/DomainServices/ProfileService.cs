@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
 

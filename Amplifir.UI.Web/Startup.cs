@@ -16,8 +16,8 @@ using NSwag.Generation.Processors.Security;
 using Amplifir.ApplicationTypeFactory;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
-using Amplifir.Core.DomainServices;
 using Amplifir.Core.Utilities;
+using Amplifir.Core.DomainServices;
 
 namespace Amplifir.UI.Web
 {
