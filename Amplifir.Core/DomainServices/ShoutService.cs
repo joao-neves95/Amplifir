@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amplifir.Core.Enums;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
-using Amplifir.Core.Enums;
+using Amplifir.Core.Models;
 
 namespace Amplifir.Core.DomainServices
 {
@@ -25,11 +26,13 @@ namespace Amplifir.Core.DomainServices
         private readonly IBadWordsService _badWordsService;
         private readonly IAppSettings _appSettings;
 
-        public async Task<CreateShoutState> CreateAsync(Shout newShout)
+        #region PUBLIC FAÇADE METHODS
+
+        public async Task<CreateShoutResult> CreateAsync(Shout newShout)
         {
             if (newShout.Content.Length > _appSettings.Shout_MaxLength)
             {
-                return CreateShoutState.ContentTooLong;
+                return new CreateShoutResult() { State = CreateShoutState.ContentTooLong, NewShout = null };
             }
 
             newShout.Hashtags = this.GetHashtagsFromShoutContent( newShout.Content ).ToList();
@@ -42,16 +45,58 @@ namespace Amplifir.Core.DomainServices
             }
 
             newShout.Content = await _badWordsService.CleanAsync( newShout.Content );
-            int insertedShoutId = await _shoutStore.CreateAsync( newShout );
-            await _shoutStore.AddShoutToExistingHashtag( insertedShoutId, hashtagsThatExist );
+            newShout.Id = await _shoutStore.CreateAsync( newShout );
+            await _shoutStore.AddShoutToExistingHashtag( newShout.Id, hashtagsThatExist );
 
-            return CreateShoutState.Success;
+            return new CreateShoutResult() { State = CreateShoutState.Success, NewShout = newShout };
+        }
+
+        public async Task<CreateReactionResult> CreateReactionAsync(EntityType entityType, int entityId, int userId, short reactionTypeId)
+        {
+            CreateReactionResult createReactionResult = new CreateReactionResult()
+            {
+                EntityType = entityType,
+                ReactionId = -1
+            };
+
+            if (entityId < 0 || userId < 0 || reactionTypeId < 0)
+            {
+                createReactionResult.State = CreateReactionState.BadRequest;
+                return createReactionResult;
+            }
+
+            if (await _shoutStore.UserReactionExistsAsync( entityId, userId ))
+            {
+                createReactionResult.State = CreateReactionState.ReactionExists;
+                return createReactionResult;
+            }
+
+            createReactionResult.ReactionId = await _shoutStore.CreateReactionAsync( entityType, entityId, userId, reactionTypeId );
+            createReactionResult.State = CreateReactionState.Success;
+            return createReactionResult;
         }
 
         public async Task DeleteAsync( int shoutId, int userId )
         {
+            if (shoutId < 0 || userId < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
             await _shoutStore.DeleteAsync( shoutId, userId );
         }
+
+        public async Task DeleteReactionAsync(EntityType entityType, int entityId, int userId)
+        {
+            if (entityId < 0 || userId < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            await _shoutStore.DeleteReactionAsync( entityType, entityId, userId );
+        }
+
+        #endregion PUBLIC FAÇADE METHODS
 
         #region PRIVATE METHODS
 

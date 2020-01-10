@@ -1,11 +1,12 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
-using Amplifir.Core.Entities;
+using Amplifir.Core.Constants;
 using Amplifir.Core.Interfaces;
-using System.Data.Common;
+using Amplifir.Core.Entities;
+using Amplifir.Core.Enums;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {
@@ -102,20 +103,6 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             }
         }
 
-        public async Task<bool> HashtagExists(string hashtag)
-        {
-            await base._dBContext.OpenDBConnectionAsync();
-
-            using (base._dBContext.DbConnection)
-            {
-                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
-                    DapperHelperQueries.Exists( "Hashtag", "Content" ),
-                    new { Value = hashtag }
-
-                ) == 1;
-            }
-        }
-
         public async Task<int> AddShoutToExistingHashtag(int shoutId, string hashtag)
         {
             return await this.AddShoutToExistingHashtag(
@@ -170,7 +157,54 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             } );
         }
 
-        public async Task<int> DeleteAsync( int shoutId, int userId )
+        public async Task<int> CreateReactionAsync(EntityType entityType, int entityId, int userId, short reactionTypeId)
+        {
+            string reactionTableName = entityType == EntityType.Shout ? TableNames.ShoutReaction : TableNames.CommentReaction;
+            string entityTableName = entityType == EntityType.Shout ? TableNames.Shout : TableNames.Comment;
+
+            string reactionType = reactionTypeId == ReactionTypeId.Like ?
+                ReactionTypeColumnNames.Like :
+                ReactionTypeColumnNames.Dislike;
+
+            await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
+            {
+                {
+                    $@"INSERT INTO {reactionTableName} ({entityTableName}Id, UserId, ReactionTypeId)
+                       VALUES ( {entityId.ToString()}, {userId.ToString()}, {reactionTypeId.ToString()} )",
+                    null
+                },
+                {
+                    $@"UPDATE {entityTableName}
+                       SET {reactionType} = {reactionType} + 1
+                       WHERE Id = {entityId}",
+                    null
+                }
+            }, false );
+
+            // Reuse "shoutId" variable to alocate less memory.
+            entityId = await base._dBContext.DbConnection.ExecuteScalarAsync<int>( DapperHelperQueries.Exists( reactionTableName, "id" ) );
+            // Do not await.
+            _ = base._dBContext.DbConnection.DisposeAsync();
+            return entityId;
+        }
+
+        public async Task<int> CreateCommentAsync(Comment newComment)
+        {
+            return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
+                $@"INSERT INTO Comment (UserId, Content)
+                   VALUES (@UserId, @Content);
+                   ${DapperHelperQueries.SelectSessionLastInsertedShoutId()}
+                ",
+                new { @UserId = newComment.UserId, @Content = newComment.Content }
+            );
+        }
+
+        public Task<List<Comment>> GetCommentsByShoutIdAsync(int shoutId, int lastId = 0, int limit = 10)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<int> DeleteAsync(int shoutId, int userId)
         {
             return await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
             {
@@ -204,34 +238,47 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             } );
         }
 
-        public Task<int> CreateReactionAsync()
+        public async Task<int> DeleteReactionAsync(EntityType entityType, int entityId, int userId)
         {
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.ExecuteAsync(
+                    $@"DELETE FROM {(entityType == EntityType.Shout ? TableNames.ShoutReaction : TableNames.CommentReaction)}
+                       WHERE Id = {entityId} AND UserId = {userId}"
+                );
+            }
+
             throw new NotImplementedException();
         }
 
-        public Task<int> DeleteReactionAsync()
+        public async Task<bool> HashtagExists(string hashtag)
         {
-            throw new NotImplementedException();
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
+                    DapperHelperQueries.Exists( "Hashtag", "Content" ),
+                    new { Value1 = hashtag }
+
+                ) == 1;
+            }
         }
 
-        public Task<int> CreateCommentAsync()
+        public async Task<bool> UserReactionExistsAsync(int shoutId, int userId)
         {
-            throw new NotImplementedException();
-        }
+            await base._dBContext.OpenDBConnectionAsync();
 
-        public Task<int> CreateCommentReactionAsync()
-        {
-            throw new NotImplementedException();
-        }
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
+                    DapperHelperQueries.Exists( "ShoutReaction", new string[] { "ShoutId", "UserId" } ),
+                    new { Value1 = shoutId, Value2 = userId }
 
-        public Task<List<Comment>> GetCommentsByShoutIdAsync(int shoutId, int lastId = 0, int limit = 10)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> DeleteCommentReactionAsync()
-        {
-            throw new NotImplementedException();
+                ) == 1;
+            }
         }
     }
 }
