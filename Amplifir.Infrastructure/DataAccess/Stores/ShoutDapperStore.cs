@@ -224,7 +224,7 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             throw new NotImplementedException();
         }
 
-        public Task<List<object>> GetCommentsByShoutIdAsync(int shoutId, int lastId = 0, int limit = 10)
+        public Task<List<Comment>> GetCommentsByShoutIdAsync(int shoutId, int lastId = 0, int limit = 10)
         {
             throw new NotImplementedException();
         }
