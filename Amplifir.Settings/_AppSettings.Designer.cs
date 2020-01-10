@@ -77,5 +77,14 @@ namespace Amplifir.Settings {
                 return ResourceManager.GetString("Shout_MaxLength", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1.
+        /// </summary>
+        internal static string Shout_MinLength {
+            get {
+                return ResourceManager.GetString("Shout_MinLength", resourceCulture);
+            }
+        }
     }
 }

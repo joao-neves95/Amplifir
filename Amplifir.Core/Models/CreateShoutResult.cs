@@ -10,6 +10,6 @@ namespace Amplifir.Core.Models
     {
         public CreateShoutState State { get; set; }
 
-        public Shout NewShout { get; set }
+        public Shout NewShout { get; set; }
     }
 }

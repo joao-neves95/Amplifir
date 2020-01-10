@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using Amplifir.Core.Enums;
 using Amplifir.Core.Entities;
+using Amplifir.Core.Enums;
 
 namespace Amplifir.Core.Interfaces
 {
@@ -20,11 +20,12 @@ namespace Amplifir.Core.Interfaces
         /// Creates a Shout reaction, returning its ID.
         /// 
         /// </summary>
-        /// <param name="shoutId"></param>
+        /// <param name="entityType"></param>
+        /// <param name="entityId"> The ID of the Shout or Comment. </param>
         /// <param name="userId"></param>
         /// <param name="reactionTypeId"> Use the ReactionTypeId class in Core/Entities/ </param>
         /// <returns></returns>
-        Task<int> CreateReactionAsync( EntityType entityType, int shoutId, int userId, short reactionTypeId );
+        Task<int> CreateReactionAsync( EntityType entityType, int entityId, int userId, short reactionTypeId );
 
         /// <summary>
         /// 
@@ -57,10 +58,11 @@ namespace Amplifir.Core.Interfaces
         /// <returns></returns>
         Task<Shout> GetFollowingShoutsByUserIdAsync( int userId, int lastId = 0, short limit = 10 );
 
+        Task<ShoutReaction> GetShoutReactionAsync( int shoutId, int userId );
 
         /// <summary>
         /// 
-        /// Deletes everything related to the Shout.
+        /// Deletes everything related to a Shout.
         /// 
         /// </summary>
         /// <param name="shoutId"></param>
@@ -75,10 +77,10 @@ namespace Amplifir.Core.Interfaces
         /// 
         /// </summary>
         /// <param name="entityType"></param>
-        /// <param name="entityId"></param>
+        /// <param name="id"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<int> DeleteReactionAsync( EntityType entityType, int entityId, int userId );
+        Task<int> DeleteReactionByIdAsync( EntityType entityType, int id, int userId );
 
         Task<bool> UserReactionExistsAsync( int shoutId, int userId );
     }

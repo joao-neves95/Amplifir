@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Amplifir.Core.Enums;
 using Amplifir.Core.Entities;
@@ -12,6 +9,8 @@ namespace Amplifir.Core.Interfaces
     {
         Task<CreateShoutResult> CreateAsync( Shout newShout );
 
+        Task<CreateCommentResult> CreateCommentAsync( Comment newComment );
+
         /// <summary>
         ///
         /// Creates a Shout or Comment reaction.
@@ -22,9 +21,11 @@ namespace Amplifir.Core.Interfaces
         /// <param name="userId"></param>
         /// <param name="reactionTypeId"></param>
         /// <returns></returns>
-        Task<CreateReactionResult> CreateReactionAsync( EntityType entityType, int entityId, int userId, short reactionTypeId );
+        Task<CreateReactionResult<IReaction>> CreateReactionAsync( EntityType entityType, int entityId, int userId, short reactionTypeId );
 
         Task DeleteAsync( int shoutId, int userId );
+
+        Task DeleteCommentAsync( int commentId, int userId );
 
         Task DeleteReactionAsync( EntityType entityType, int entityId, int userId );
     }

@@ -123,4 +123,7 @@
   <data name="Shout_MaxLength" xml:space="preserve">
     <value>90</value>
   </data>
+  <data name="Shout_MinLength" xml:space="preserve">
+    <value>1</value>
+  </data>
 </root>

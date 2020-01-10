@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapper;
 using Amplifir.Core.Constants;
+using Amplifir.Core.Enums;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
-using Amplifir.Core.Enums;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {
@@ -137,6 +137,7 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                        WHERE Id = {entityId}",
                     null
                 }
+
             }, false );
 
             // Reuse "shoutId" variable to alocate less memory.
@@ -149,11 +150,11 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
         public async Task<int> CreateCommentAsync(Comment newComment)
         {
             return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
-                $@"INSERT INTO Comment (UserId, Content)
-                   VALUES (@UserId, @Content);
-                   ${DapperHelperQueries.SelectSessionLastInsertedShoutId()}
+                $@"INSERT INTO Comment (ShoutId, UserId, Content)
+                   VALUES ({ newComment.ShoutId.ToString() }, { newComment.UserId.ToString() }, @Content);
+                   ${DapperHelperQueries.SelectSessionLastInserted( "Comment", "id" )}
                 ",
-                new { @UserId = newComment.UserId, @Content = newComment.Content }
+                new { Content = newComment.Content }
             );
         }
 
@@ -208,6 +209,38 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
         public Task<List<Comment>> GetCommentsByShoutIdAsync(int shoutId, int lastId = 0, int limit = 10)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ShoutReaction> GetShoutReactionAsync(int shoutId, int userId)
+        {
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<ShoutReaction>(
+                    this.GetReactionQuery( EntityType.Shout, shoutId, userId )
+                );
+            }
+        }
+
+        public async Task<CommentReaction> GetCommentReactionAsync(int commentId, int userId)
+        {
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<CommentReaction>(
+                    this.GetReactionQuery( EntityType.Comment, commentId, userId )
+                );
+            }
+        }
+
+        private string GetReactionQuery(EntityType entityType, int entityId, int userId)
+        {
+            return $@"SELECT *
+                      FROM {(entityType == EntityType.Shout ? TableNames.ShoutReaction : TableNames.CommentReaction) }
+                      WHERE UserId = {userId.ToString()} AND {(entityType == EntityType.Shout ? TableNames.Shout : TableNames.Comment)}Id = {entityId.ToString()}
+                   ";
         }
 
         #region EXISTS
@@ -272,27 +305,42 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                     WHERE ShoutId = { shoutId };
                     
                     DELETE FROM Shout
+                                               -- Enforce that the Shout is from the provided user id.
                     WHERE Id = { shoutId } AND UserId = { userId };
                     ",
-                    // Enforce that the Shout is from the provided user id.
                     null
                 }
             } );
         }
 
-        public async Task<int> DeleteReactionAsync(EntityType entityType, int entityId, int userId)
+        public async Task<int> DeleteCommentByIdAsync(int id, int userId)
+        {
+            return await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
+            {
+                {
+                    $@"                  
+                    DELETE FROM CommentReaction
+                    WHERE ShoutId = { id }
+                    
+                    DELETE FROM Comment
+                    WHERE Id = { id } AND UserId = { userId };
+                    ",
+                    null
+                }
+            } );
+        }
+
+        public async Task<int> DeleteReactionByIdAsync(EntityType entityType, int id, int userId)
         {
             await base._dBContext.OpenDBConnectionAsync();
 
             using (base._dBContext.DbConnection)
             {
                 return await base._dBContext.DbConnection.ExecuteAsync(
-                    $@"DELETE FROM {(entityType == EntityType.Shout ? TableNames.ShoutReaction : TableNames.CommentReaction)}
-                       WHERE Id = {entityId} AND UserId = {userId}"
+                    $@"DELETE FROM { (entityType == EntityType.Shout ? TableNames.ShoutReaction : TableNames.CommentReaction) }
+                       WHERE Id = { id } AND UserId = { userId }"
                 );
             }
-
-            throw new NotImplementedException();
         }
 
         #endregion DELETE

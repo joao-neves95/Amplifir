@@ -30,11 +30,24 @@ namespace Amplifir.Core.DomainServices
 
         public async Task<CreateShoutResult> CreateAsync(Shout newShout)
         {
-            if (newShout.Content.Length > _appSettings.Shout_MaxLength)
+            CreateShoutResult createShoutResult = new CreateShoutResult()
             {
-                return new CreateShoutResult() { State = CreateShoutState.ContentTooLong, NewShout = null };
+                NewShout = null
+            };
+
+            if (newShout.Content.Length < _appSettings.Shout_MinLength)
+            {
+                createShoutResult.State = CreateShoutState.ContentTooSmall;
+                return createShoutResult;
             }
 
+            if (newShout.Content.Length > _appSettings.Shout_MaxLength)
+            {
+                createShoutResult.State = CreateShoutState.ContentTooLong;
+                return createShoutResult;
+            }
+
+            newShout.Content = await _badWordsService.CleanAsync( newShout.Content );
             newShout.Hashtags = this.GetHashtagsFromShoutContent( newShout.Content ).ToList();
             List<string> hashtagsThatExist = await _shoutStore.GetHashtagsAsync( newShout.Hashtags );
             newShout.Hashtags.RemoveAll( hashtag => hashtagsThatExist.Contains( hashtag ) );
@@ -44,19 +57,47 @@ namespace Amplifir.Core.DomainServices
                 await _shoutStore.CreateHashtagAsync( newShout.Hashtags );
             }
 
-            newShout.Content = await _badWordsService.CleanAsync( newShout.Content );
             newShout.Id = await _shoutStore.CreateAsync( newShout );
             await _shoutStore.AddShoutToExistingHashtag( newShout.Id, hashtagsThatExist );
 
-            return new CreateShoutResult() { State = CreateShoutState.Success, NewShout = newShout };
+            createShoutResult.State = CreateShoutState.Success;
+            createShoutResult.NewShout = newShout;
+            return createShoutResult;
         }
 
-        public async Task<CreateReactionResult> CreateReactionAsync(EntityType entityType, int entityId, int userId, short reactionTypeId)
+        public async Task<CreateCommentResult> CreateCommentAsync(Comment newComment)
         {
-            CreateReactionResult createReactionResult = new CreateReactionResult()
+            CreateCommentResult createCommentResult = new CreateCommentResult()
+            {
+                NewComment = null
+            };
+
+            if (newComment.Content.Length < _appSettings.Shout_MinLength)
+            {
+                createCommentResult.State = CreateShoutState.ContentTooSmall;
+                return createCommentResult;
+            }
+
+            if (newComment.Content.Length > _appSettings.Shout_MaxLength)
+            {
+                createCommentResult.State = CreateShoutState.ContentTooLong;
+                return createCommentResult;
+            }
+
+            newComment.Content = await _badWordsService.CleanAsync( newComment.Content );
+            newComment.Id = await _shoutStore.CreateCommentAsync( newComment );
+
+            createCommentResult.State = CreateShoutState.Success;
+            createCommentResult.NewComment = newComment;
+            return createCommentResult;
+        }
+
+        public async Task<CreateReactionResult<IReaction>> CreateReactionAsync(EntityType entityType, int entityId, int userId, short reactionTypeId)
+        {
+            CreateReactionResult<IReaction> createReactionResult = new CreateReactionResult<IReaction>()
             {
                 EntityType = entityType,
-                ReactionId = -1
+                EntityId = entityId
             };
 
             if (entityId < 0 || userId < 0 || reactionTypeId < 0)
@@ -65,13 +106,38 @@ namespace Amplifir.Core.DomainServices
                 return createReactionResult;
             }
 
-            if (await _shoutStore.UserReactionExistsAsync( entityId, userId ))
+            createReactionResult.Reaction = null;
+
+            if (entityType == EntityType.Shout)
             {
-                createReactionResult.State = CreateReactionState.ReactionExists;
-                return createReactionResult;
+                createReactionResult.Reaction = await _shoutStore.GetShoutReactionAsync( entityId, userId );
+            }
+            else
+            {
+                createReactionResult.Reaction = await _shoutStore.GetCommentReactionAsync( entityId, userId );
             }
 
-            createReactionResult.ReactionId = await _shoutStore.CreateReactionAsync( entityType, entityId, userId, reactionTypeId );
+            if (createReactionResult.Reaction != null)
+            {
+                if (createReactionResult.Reaction.ReactionTypeId == reactionTypeId)
+                {
+                    createReactionResult.State = CreateReactionState.ReactionExists;
+                    return createReactionResult;
+                }
+                else
+                {
+                    // (Toggle Like/Dislike).
+                    await _shoutStore.DeleteReactionByIdAsync( entityType, createReactionResult.Reaction.Id, userId );
+                }
+            }
+            else
+            {
+                createReactionResult.Reaction = entityType == EntityType.Shout ? new ShoutReaction() as IReaction : new CommentReaction() as IReaction;
+                createReactionResult.Reaction.ReactionTypeId = reactionTypeId;
+                createReactionResult.Reaction.UserId = userId;
+            }
+
+            createReactionResult.Reaction.Id = await _shoutStore.CreateReactionAsync( entityType, entityId, userId, reactionTypeId );
             createReactionResult.State = CreateReactionState.Success;
             return createReactionResult;
         }
@@ -86,6 +152,16 @@ namespace Amplifir.Core.DomainServices
             await _shoutStore.DeleteAsync( shoutId, userId );
         }
 
+        public async Task DeleteCommentAsync(int commentId, int userId)
+        {
+            if (commentId < 0 || userId < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            await _shoutStore.DeleteCommentByIdAsync( commentId, userId );
+        }
+
         public async Task DeleteReactionAsync(EntityType entityType, int entityId, int userId)
         {
             if (entityId < 0 || userId < 0)
@@ -93,7 +169,7 @@ namespace Amplifir.Core.DomainServices
                 throw new ArgumentOutOfRangeException();
             }
 
-            await _shoutStore.DeleteReactionAsync( entityType, entityId, userId );
+            await _shoutStore.DeleteReactionByIdAsync( entityType, entityId, userId );
         }
 
         #endregion PUBLIC FAÇADE METHODS
