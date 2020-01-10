@@ -48,6 +48,11 @@ namespace Amplifir.Core.DomainServices
             return CreateShoutState.Success;
         }
 
+        public Task DeleteAsync( int shoutId, int userId )
+        {
+            throw new NotImplementedException();
+        }
+
         #region PRIVATE METHODS
 
         private string[] GetHashtagsFromShoutContent(string content)
@@ -98,11 +103,6 @@ namespace Amplifir.Core.DomainServices
             // To account for the first string.
             Array.Resize( ref hashtags, hashtags.Length - 1 );
             return hashtags;
-        }
-
-        public Task DeleteAsync( int shoutId, int userId )
-        {
-            throw new NotImplementedException();
         }
 
         #endregion PRIVATE METHODS
