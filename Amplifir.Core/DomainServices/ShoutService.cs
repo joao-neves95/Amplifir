@@ -48,9 +48,9 @@ namespace Amplifir.Core.DomainServices
             return CreateShoutState.Success;
         }
 
-        public Task DeleteAsync( int shoutId, int userId )
+        public async Task DeleteAsync( int shoutId, int userId )
         {
-            throw new NotImplementedException();
+            await _shoutStore.DeleteAsync( shoutId, userId );
         }
 
         #region PRIVATE METHODS
