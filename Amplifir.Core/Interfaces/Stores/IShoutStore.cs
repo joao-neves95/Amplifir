@@ -17,6 +17,17 @@ namespace Amplifir.Core.Interfaces
 
         /// <summary>
         /// 
+        /// Creates a Shout reaction, returning its ID.
+        /// 
+        /// </summary>
+        /// <param name="shoutId"></param>
+        /// <param name="userId"></param>
+        /// <param name="reactionTypeId"> Use the ReactionTypeId class in Core/Entities/ </param>
+        /// <returns></returns>
+        Task<int> CreateReactionAsync( EntityType entityType, int shoutId, int userId, short reactionTypeId );
+
+        /// <summary>
+        /// 
         /// Get Shout by ID.
         /// 
         /// </summary>
@@ -46,16 +57,6 @@ namespace Amplifir.Core.Interfaces
         /// <returns></returns>
         Task<Shout> GetFollowingShoutsByUserIdAsync( int userId, int lastId = 0, short limit = 10 );
 
-        /// <summary>
-        /// 
-        /// Creates a Shout reaction, returning its ID.
-        /// 
-        /// </summary>
-        /// <param name="shoutId"></param>
-        /// <param name="userId"></param>
-        /// <param name="reactionTypeId"> Use the ReactionTypeId class in Core/Entities/ </param>
-        /// <returns></returns>
-        Task<int> CreateReactionAsync( EntityType entityType, int shoutId, int userId, short reactionTypeId );
 
         /// <summary>
         /// 
