@@ -127,6 +127,197 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "shouts",
+			"item": [
+				{
+					"name": "comments",
+					"item": [
+						{
+							"name": "Delete Shout Comment",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:21291/api/shouts/1/comments/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "21291",
+									"path": [
+										"api",
+										"shouts",
+										"1",
+										"comments",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Like Shout Comment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:21291/api/shouts/1/comments/1/likes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "21291",
+									"path": [
+										"api",
+										"shouts",
+										"1",
+										"comments",
+										"1",
+										"likes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Dislike Shout Comment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:21291/api/shouts/1/comments/1/dislikes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "21291",
+									"path": [
+										"api",
+										"shouts",
+										"1",
+										"comments",
+										"1",
+										"dislikes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Shout Comment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:21291/api/shouts/1/comments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "21291",
+									"path": [
+										"api",
+										"shouts",
+										"1",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Post Shout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:21291/api/shouts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "21291",
+							"path": [
+								"api",
+								"shouts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Shout",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:21291/api/shouts/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "21291",
+							"path": [
+								"api",
+								"shouts",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Like Shout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:21291/api/shouts/1/likes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "21291",
+							"path": [
+								"api",
+								"shouts",
+								"1",
+								"likes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dislike Shout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:21291/api/shouts/1/dislikes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "21291",
+							"path": [
+								"api",
+								"shouts",
+								"1",
+								"dislikes"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}
