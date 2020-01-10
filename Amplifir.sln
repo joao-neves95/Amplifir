@@ -24,6 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amplifir.Infrastructure", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{14796EEF-7026-4486-91C9-674A89F2CAAD}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		LICENSE.md = LICENSE.md
 		README.md = README.md
