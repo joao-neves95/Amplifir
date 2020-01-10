@@ -124,6 +124,27 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:21291/api/profiles/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "21291",
+							"path": [
+								"api",
+								"profiles",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -226,6 +247,50 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Get Comments",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "efb429e8-e6d5-4188-981f-5a23718eb782",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "3b3d92c0-d46a-4279-ba77-90c15128d591",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:21291/api/shouts/1/comments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "21291",
+									"path": [
+										"api",
+										"shouts",
+										"1",
+										"comments"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
@@ -311,6 +376,47 @@
 								"shouts",
 								"1",
 								"dislikes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shouts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:21291/api/shouts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "21291",
+							"path": [
+								"api",
+								"shouts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:21291/api/shouts/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "21291",
+							"path": [
+								"api",
+								"shouts",
+								"1"
 							]
 						}
 					},
