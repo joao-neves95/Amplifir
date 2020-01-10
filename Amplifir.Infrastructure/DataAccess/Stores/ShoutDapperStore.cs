@@ -17,6 +17,8 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
         {
         }
 
+        #region CREATE
+
         public async Task<int> CreateAsync(Shout newShout)
         {
             return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
@@ -54,50 +56,6 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                 return await base._dBContext.DbConnection.ExecuteAsync(
                     @"INSERT INTO Hashtag (Content)
                       VALUES (@Content)",
-                    parameters
-                );
-            }
-        }
-
-        public async Task<Shout> GetByIdAsync(int shoutId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Shout> GetByUserIdAsync(int userId, int lastId = 0, short limit = 10)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Shout> GetFollowingShoutsByUserIdAsync(int userId, int lastId = 0, short limit = 10)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<string>> GetHashtagsAsync( List<string> hashtag )
-        {
-            StringBuilder parameterNames = new StringBuilder();
-            DynamicParameters parameters = new DynamicParameters();
-
-            for (int i = 0; i < hashtag.Count; ++i)
-            {
-                parameters.Add( "Value" + i.ToString(), hashtag[i] );
-                parameterNames.Append( "@Value" ).Append( i.ToString() );
-
-                if (i < hashtag.Count - 1)
-                {
-                    parameterNames.Append( ", " );
-                }
-            }
-
-            await base._dBContext.OpenDBConnectionAsync();
-
-            using (base._dBContext.DbConnection)
-            {
-                return (List<string>)await base._dBContext.DbConnection.QueryAsync<string>(
-                    $@"SELECT Content
-                       FROM Hashtag
-                       WHERE Content IN( { parameterNames.ToString() } )",
                     parameters
                 );
             }
@@ -199,10 +157,94 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             );
         }
 
+        #endregion CREATE
+
+        #region GET
+
+        public async Task<Shout> GetByIdAsync(int shoutId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Shout> GetByUserIdAsync(int userId, int lastId = 0, short limit = 10)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Shout> GetFollowingShoutsByUserIdAsync(int userId, int lastId = 0, short limit = 10)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<string>> GetHashtagsAsync( List<string> hashtag )
+        {
+            StringBuilder parameterNames = new StringBuilder();
+            DynamicParameters parameters = new DynamicParameters();
+
+            for (int i = 0; i < hashtag.Count; ++i)
+            {
+                parameters.Add( "Value" + i.ToString(), hashtag[i] );
+                parameterNames.Append( "@Value" ).Append( i.ToString() );
+
+                if (i < hashtag.Count - 1)
+                {
+                    parameterNames.Append( ", " );
+                }
+            }
+
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return (List<string>)await base._dBContext.DbConnection.QueryAsync<string>(
+                    $@"SELECT Content
+                       FROM Hashtag
+                       WHERE Content IN( { parameterNames.ToString() } )",
+                    parameters
+                );
+            }
+        }
+
         public Task<List<Comment>> GetCommentsByShoutIdAsync(int shoutId, int lastId = 0, int limit = 10)
         {
             throw new NotImplementedException();
         }
+
+        #region EXISTS
+
+        public async Task<bool> HashtagExists(string hashtag)
+        {
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
+                    DapperHelperQueries.Exists( "Hashtag", "Content" ),
+                    new { Value1 = hashtag }
+
+                ) == 1;
+            }
+        }
+
+        public async Task<bool> UserReactionExistsAsync(int shoutId, int userId)
+        {
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
+                    DapperHelperQueries.Exists( "ShoutReaction", new string[] { "ShoutId", "UserId" } ),
+                    new { Value1 = shoutId, Value2 = userId }
+
+                ) == 1;
+            }
+        }
+
+        #endregion EXISTS
+
+        #endregion GET
+
+        #region DELETE
 
         public async Task<int> DeleteAsync(int shoutId, int userId)
         {
@@ -253,32 +295,6 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             throw new NotImplementedException();
         }
 
-        public async Task<bool> HashtagExists(string hashtag)
-        {
-            await base._dBContext.OpenDBConnectionAsync();
-
-            using (base._dBContext.DbConnection)
-            {
-                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
-                    DapperHelperQueries.Exists( "Hashtag", "Content" ),
-                    new { Value1 = hashtag }
-
-                ) == 1;
-            }
-        }
-
-        public async Task<bool> UserReactionExistsAsync(int shoutId, int userId)
-        {
-            await base._dBContext.OpenDBConnectionAsync();
-
-            using (base._dBContext.DbConnection)
-            {
-                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
-                    DapperHelperQueries.Exists( "ShoutReaction", new string[] { "ShoutId", "UserId" } ),
-                    new { Value1 = shoutId, Value2 = userId }
-
-                ) == 1;
-            }
-        }
+        #endregion DELETE
     }
 }
