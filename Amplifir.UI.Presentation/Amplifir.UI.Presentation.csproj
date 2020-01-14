@@ -18,6 +18,7 @@
     <Compile Remove="src\app\fetch-data\**" />
     <Compile Remove="src\app\home\**" />
     <Compile Remove="src\app\nav-menu\**" />
+    <Compile Remove="src\app\pages\**" />
     <Content Remove="dist\**" />
     <Content Remove="out-tsc\**" />
     <Content Remove="src\app\common\**" />
@@ -25,6 +26,7 @@
     <Content Remove="src\app\fetch-data\**" />
     <Content Remove="src\app\home\**" />
     <Content Remove="src\app\nav-menu\**" />
+    <Content Remove="src\app\pages\**" />
     <EmbeddedResource Remove="dist\**" />
     <EmbeddedResource Remove="out-tsc\**" />
     <EmbeddedResource Remove="src\app\common\**" />
@@ -32,6 +34,7 @@
     <EmbeddedResource Remove="src\app\fetch-data\**" />
     <EmbeddedResource Remove="src\app\home\**" />
     <EmbeddedResource Remove="src\app\nav-menu\**" />
+    <EmbeddedResource Remove="src\app\pages\**" />
     <None Remove="dist\**" />
     <None Remove="out-tsc\**" />
     <None Remove="src\app\common\**" />
@@ -39,6 +42,7 @@
     <None Remove="src\app\fetch-data\**" />
     <None Remove="src\app\home\**" />
     <None Remove="src\app\nav-menu\**" />
+    <None Remove="src\app\pages\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,10 +76,6 @@
     <TypeScriptCompile Include="src\main.ts" />
     <TypeScriptCompile Include="src\polyfills.ts" />
     <TypeScriptCompile Include="src\test.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="src\app\pages\" />
   </ItemGroup>
 
 </Project>

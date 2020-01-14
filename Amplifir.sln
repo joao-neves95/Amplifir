@@ -26,6 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		Amplifir.sln.licenseheader = Amplifir.sln.licenseheader
 		LICENSE.md = LICENSE.md
 		README.md = README.md
 	EndProjectSection
@@ -94,7 +95,7 @@ Global
 		{3DE6556B-4CC1-4803-947C-EC46B8AB8DBC} = {0F0DA099-8194-4515-AC59-04EB5CCCD0A8}
 		{0FC4F0FC-1BF5-4949-82C3-5A35CD5B949B} = {36F6A499-F0B4-48BD-9B7F-48CC22632F3A}
 		{32E679D8-39AD-4056-A0D9-B7793BAF378A} = {36F6A499-F0B4-48BD-9B7F-48CC22632F3A}
-		{9B218F18-0447-414F-BA78-3292531A6390} = {36F6A499-F0B4-48BD-9B7F-48CC22632F3A}
+		{9B218F18-0447-414F-BA78-3292531A6390} = {0F0DA099-8194-4515-AC59-04EB5CCCD0A8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {734F76A8-B06D-49E4-95CD-B1FDF7EDA93A}
