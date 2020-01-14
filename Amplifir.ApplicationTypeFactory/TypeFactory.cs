@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Amplifir.Infrastructure.DataAccess;
 using Amplifir.Infrastructure.DataAccess.Stores;
 using Amplifir.Settings;
@@ -33,6 +33,9 @@ namespace Amplifir.ApplicationTypeFactory
 
                 case ApplicationTypes.AppUserProfileDapperStore:
                     return typeof( AppUserProfileDapperStore );
+
+                case ApplicationTypes.ShoutDapperStore:
+                    return typeof( ShoutDapperStore );
 
                 default:
                     throw new TypeAccessException( "Unknown type: " + Enum.GetName( typeof( ApplicationTypes ), applicationType ) );

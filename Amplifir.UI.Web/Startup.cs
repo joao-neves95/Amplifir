@@ -81,11 +81,13 @@ namespace Amplifir.UI.Web
             services.AddSingleton( typeof( IAppSecrets ), TypeFactory.Get( ApplicationTypes.AppSecrets ) );
             services.AddSingleton( typeof( IAppSettings ), TypeFactory.Get( ApplicationTypes.AppSettings ) );
             services.AddScoped( typeof( IAuditLogStore ), TypeFactory.Get( ApplicationTypes.AuditLogDapperStore ) );
-            services.AddScoped( typeof( IAppUserStore<AppUser, int> ), TypeFactory.Get( ApplicationTypes.AppUserDapperStore ) );
-            services.AddScoped( typeof( IPasswordService ), typeof( Argon2PasswordService ) );
             services.AddScoped( typeof( Amplifir.Core.Interfaces.IAuthenticationService ), typeof( Amplifir.Core.DomainServices.AuthenticationService ) );
+            services.AddScoped( typeof( IAppUserStore<AppUser, int> ), TypeFactory.Get( ApplicationTypes.AppUserDapperStore ) );
             services.AddScoped( typeof( IAppUserProfileStore ), TypeFactory.Get( ApplicationTypes.AppUserProfileDapperStore ) );
+            services.AddScoped( typeof( IShoutStore ), TypeFactory.Get( ApplicationTypes.ShoutDapperStore ) );
+            services.AddScoped( typeof( IPasswordService ), typeof( Argon2PasswordService ) );
             services.AddScoped( typeof( IUserProfileService ), typeof( UserProfileService ) );
+            services.AddScoped( typeof( IShoutService ), typeof( ShoutService ) );
 
             services.AddControllersWithViews()
                     .AddJsonOptions( options => options.JsonSerializerOptions.PropertyNameCaseInsensitive = true );

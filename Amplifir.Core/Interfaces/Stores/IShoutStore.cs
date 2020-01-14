@@ -4,6 +4,13 @@ using Amplifir.Core.Enums;
 
 namespace Amplifir.Core.Interfaces
 {
+    /// <summary>
+    ///
+    /// This must not be used directly from the API, only to be used internally.
+    /// Must be encapsulated within a service (façade) with the business logic
+    /// and consumed from there.
+    /// 
+    /// </summary>
     public interface IShoutStore : IHashtagStore, ICommentStore
     {
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace Amplifir.ApplicationTypeFactory
+namespace Amplifir.ApplicationTypeFactory
 {
     public enum ApplicationTypes
     {
@@ -7,6 +7,7 @@
         DapperDBContext,
         AuditLogDapperStore,
         AppUserDapperStore,
-        AppUserProfileDapperStore
+        AppUserProfileDapperStore,
+        ShoutDapperStore
     }
 }
