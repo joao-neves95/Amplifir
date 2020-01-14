@@ -4,10 +4,18 @@ using Microsoft.AspNet.Identity;
 namespace Amplifir.Core.Interfaces
 {
     /// <summary>
+    /// <para>
     /// 
-    /// Used for the application's user Identity.
-    /// This must not be delivered to the API. Its intent is to be used internally.
+    /// Used for the application's user Identity and management.
     /// 
+    /// </para>
+    /// <para>
+    /// 
+    /// This must not be used directly from the API, only to be used internally.
+    /// Must be encapsulated within a service (façade) with the business logic
+    /// and consumed from there.
+    /// 
+    /// </para>
     /// </summary>
     public interface IAppUserStore<TUser, TKey> :
         IUserStore<TUser, TKey>,

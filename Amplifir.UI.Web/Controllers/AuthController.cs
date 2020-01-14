@@ -38,7 +38,7 @@ namespace Amplifir.UI.Web.Controllers
 
         #endregion PROPERTIES
 
-        #region ENDPOINT METHODS
+        #region PUBLIC ENDPOINTS
 
         [HttpPost( "register" )]
         [Produces( typeof( ApiResponse<LoginResponse> ) ) ]
@@ -147,6 +147,6 @@ namespace Amplifir.UI.Web.Controllers
             }
         }
 
-        #endregion ENDPOINT METHODS
+        #endregion PUBLIC ENDPOINTS
     }
 }

@@ -7,12 +7,6 @@ using Amplifir.Core.Interfaces;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {
-    /// <summary>
-    /// 
-    /// Used for the application's user Identity.
-    /// This must not be delivered to the API. Its intent is to be used internally.
-    /// 
-    /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class AppUserDapperStore : DBStoreBase, IAppUserStore<AppUser, int>
     {
