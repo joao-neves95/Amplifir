@@ -61,6 +61,24 @@ namespace Amplifir.UI.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The content is too long..
+        /// </summary>
+        internal static string ContentTooLong {
+            get {
+                return ResourceManager.GetString("ContentTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The content is too small..
+        /// </summary>
+        internal static string ContentTooSmall {
+            get {
+                return ResourceManager.GetString("ContentTooSmall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The email already exists..
         /// </summary>
         internal static string EmailExists {

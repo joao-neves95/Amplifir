@@ -1,24 +1,41 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Amplifir.Core.Interfaces;
 using Amplifir.Core.DTOs;
+using Amplifir.Core.Entities;
+using Amplifir.Core.Models;
+using Amplifir.Core.Enums;
+using Amplifir.Core.Utilities;
+using Amplifir.UI.Web.Resources;
+
+// TODO: Before production, remove every API exception returns.
 
 namespace Amplifir.UI.Web.Controllers
 {
     [Route("api/shouts")]
     [ApiController]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class ShoutsController : ControllerBase
     {
-        public ShoutsController()
+        public ShoutsController(IShoutService shoutService)
         {
+            this._shoutService = shoutService;
         }
 
         #region PROPERTIES
+
+        private readonly IShoutService _shoutService;
+
         #endregion
+
+        #region PUBLIC ENDPOINTS
+
+        #region GET
 
         /// <summary>
         /// 
@@ -87,5 +104,48 @@ namespace Amplifir.UI.Web.Controllers
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
         }
+
+        #endregion GET
+
+        #region POST
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Post([FromBody]NewShoutDTO newShoutDTO)
+        {
+            ApiResponse<CreateShoutResult> apiResponse = new ApiResponse<CreateShoutResult>();
+
+            try
+            {
+                CreateShoutResult createShoutResult = await this._shoutService.CreateAsync( newShoutDTO as Shout );
+
+                if (createShoutResult.State != CreateShoutState.Success)
+                {
+                    apiResponse.Error = true;
+                    apiResponse.Message = createShoutResult.State.Switch( new Dictionary<CreateShoutState, Func<string>>()
+                    {
+                        { CreateShoutState.ContentTooLong, () => Resource_ResponseMessages_en.ContentTooLong },
+                        { CreateShoutState.ContentTooSmall, () => Resource_ResponseMessages_en.ContentTooSmall }
+                    },
+                        () => Resource_ResponseMessages_en.Unknown
+                    );
+
+                    return BadRequest( apiResponse );
+                }
+
+                return Ok( new ApiResponse<CreateShoutResult>()
+                {
+                    EndpointResult = createShoutResult
+                } );
+            }
+            catch (Exception e)
+            {
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
+        }
+
+        #endregion POST
+
+        #endregion PUBLIC ENDPOINTS
     }
 }
