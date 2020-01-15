@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\joao9\\odrive\\ISTEC\\DEV\\Amplifir\\Amplifir.Core\\Amplifir.Core.csproj": {}
+    "C:\\Users\\user\\Documents\\REPOS\\Amplifir\\Amplifir.Core\\Amplifir.Core.csproj": {}
   },
   "projects": {
-    "D:\\joao9\\odrive\\ISTEC\\DEV\\Amplifir\\Amplifir.Core\\Amplifir.Core.csproj": {
+    "C:\\Users\\user\\Documents\\REPOS\\Amplifir\\Amplifir.Core\\Amplifir.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\joao9\\odrive\\ISTEC\\DEV\\Amplifir\\Amplifir.Core\\Amplifir.Core.csproj",
+        "projectUniqueName": "C:\\Users\\user\\Documents\\REPOS\\Amplifir\\Amplifir.Core\\Amplifir.Core.csproj",
         "projectName": "Amplifir.Core",
-        "projectPath": "D:\\joao9\\odrive\\ISTEC\\DEV\\Amplifir\\Amplifir.Core\\Amplifir.Core.csproj",
-        "packagesPath": "C:\\Users\\joao9\\.nuget\\packages\\",
-        "outputPath": "D:\\joao9\\odrive\\ISTEC\\DEV\\Amplifir\\Amplifir.Core\\obj\\",
+        "projectPath": "C:\\Users\\user\\Documents\\REPOS\\Amplifir\\Amplifir.Core\\Amplifir.Core.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\user\\Documents\\REPOS\\Amplifir\\Amplifir.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\joao9\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
