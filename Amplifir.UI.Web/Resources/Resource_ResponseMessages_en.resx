@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BadRequest" xml:space="preserve">
+    <value>The requet was not properly formated.</value>
+  </data>
   <data name="ContentTooLong" xml:space="preserve">
     <value>The content is too long.</value>
   </data>
@@ -137,6 +140,9 @@
   </data>
   <data name="PasswordTooSmall" xml:space="preserve">
     <value>The password is too small. Please, use at least 8 characters.</value>
+  </data>
+  <data name="ReactionExists" xml:space="preserve">
+    <value>Reaction already exists.</value>
   </data>
   <data name="RegisterSuccess" xml:space="preserve">
     <value>The registration was successful.</value>
