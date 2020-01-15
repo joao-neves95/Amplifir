@@ -100,9 +100,9 @@ namespace Amplifir.Core.DomainServices
             return createCommentResult;
         }
 
-        public async Task<CreateReactionResult<IReaction>> CreateReactionAsync(EntityType entityType, int entityId, int userId, short reactionTypeId)
+        public async Task<CreateReactionResult> CreateReactionAsync(EntityType entityType, int entityId, int userId, short reactionTypeId)
         {
-            CreateReactionResult<IReaction> createReactionResult = new CreateReactionResult<IReaction>()
+            CreateReactionResult createReactionResult = new CreateReactionResult()
             {
                 EntityType = entityType,
                 EntityId = entityId
