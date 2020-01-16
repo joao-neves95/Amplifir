@@ -1,1 +1,29 @@
-<p>profile works!</p>
+
+<header>
+  <h2> &#64;{{ userName }}</h2>
+
+  <p> {{ bio }} </p>
+  <p> {{ website }} </p>
+  <address class="text-grey"> {{ location }} </address>
+  <time class="text-grey"> {{ birthDate }} </time>
+  <p class="follow-count text-grey"><b> {{ followingCount }} </b> Following </p> <p class="follow-count text-grey"><b> {{ followersCount }} </b> Followers </p>
+
+</header>
+
+<section>
+  <h3 class="add-border-bottom"> Shouts </h3>
+
+  <div *ngIf="shouts.length == 0"
+       class="empty-shouts">
+
+    <p class="text-grey"> {{ CONSTANTS.defaultLabels.emptyProfileShouts }} </p>
+    <i class="fi fi-arrow-down text-grey anim anim-slow zoomInOut"></i>
+    <button type="button" class="btn btn-primary"> {{ CONSTANTS.defaultLabels.shoutModalTitle }} </button>
+
+  </div>
+
+  <article *ngFor="let shout of shouts">
+    {{ shout }}
+  </article>
+
+</section>
