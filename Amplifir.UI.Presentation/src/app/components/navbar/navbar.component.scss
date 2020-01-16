@@ -1,25 +1,41 @@
 @import '../../shared/constants.scss';
 
 nav {
-  padding-right: 5em;
-
   a {
     border-radius: 9999px;
     color: white;
     font-weight: bold;
     font-size: large;
+    height: 3.3em;
     margin-bottom: 0.5em;
     padding: 0.6em;
-    padding-right: calc( #{ $sidenavbar-big-width } * 0.18 );
+    padding-right: calc(#{ $sidenavbar-big-width } * 0.18);
     transition: 0.3s;
     transition-duration: 0.3s;
+
+    @media (max-width: $max-width-mobile) {
+      height: 3em;
+      width: 3em;
+    }
 
     &:hover {
       background-color: rgb(36, 60, 85);
     }
 
-    &:hover, &.active {
-      color: rgba(29,161,242,1.00);
+    &:hover,
+    &.active {
+      color: rgba(29, 161, 242, 1.00);
+    }
+
+    figure {
+      display: inline-block;
+      font-size: 1.5rem;
+      margin-right: 0.5em;
+    }
+
+    label {
+      cursor: pointer;
+      vertical-align: middle;
     }
 
   }

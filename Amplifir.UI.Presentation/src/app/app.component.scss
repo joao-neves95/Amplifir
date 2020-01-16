@@ -8,15 +8,31 @@ div.container>div.row {
   width: 100%;
   position: relative;
 
+  @media (max-width: $max-width-mobile) {
+    padding-right: 0;
+    width: inherit;
+  }
+
   app-navbar {
     position: absolute;
+    padding-top: 3em;
     min-width: $sidenavbar-big-width;
     max-width: $sidenavbar-big-width;
+
+    @media (max-width: $max-width-mobile) {
+      min-width: $sidenavbar-small-width;
+      max-width: $sidenavbar-small-width;
+    }
   }
 
   main {
     margin-left: $sidenavbar-big-width;
     margin-top: 0;
+
+    @media (max-width: $max-width-mobile) {
+      margin-left: $sidenavbar-small-width;
+      padding-right: 0;
+    }
 
     &>.row {
       height: 100%;
