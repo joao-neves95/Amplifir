@@ -52,6 +52,8 @@ namespace Amplifir.UI.Web.Controllers
         [Produces( typeof( ApiResponse<LoginResponse> ) ) ]
         public async Task<IActionResult> Register([FromBody]UserCredentialsDTO userCredentialsDTO)
         {
+            ApiResponse<LoginResponse> apiResponse = new ApiResponse<LoginResponse>();
+
             try
             {
                 IAppUser newAppUser = new AppUser()
@@ -65,36 +67,35 @@ namespace Amplifir.UI.Web.Controllers
 
                 if (registerUserResult.State != RegisterUserState.Success)
                 {
-                    // TODO: Error handling.
-                    return BadRequest( new ApiResponse<LoginResponse>()
+                    apiResponse.Error = true;
+                    apiResponse.Message = registerUserResult.State.Switch( new Dictionary<RegisterUserState, Func<string>>()
                     {
-                        Error = true,
-                        Message = registerUserResult.State.Switch( new Dictionary<RegisterUserState, Func<string>>()
-                        {
-                            { RegisterUserState.EmailExists, () => Resource_ResponseMessages_en.EmailExists },
-                            { RegisterUserState.PasswordTooSmall, () => Resource_ResponseMessages_en.PasswordTooSmall },
-                            { RegisterUserState.InvalidEmail, () => Resource_ResponseMessages_en.InvalidEmail }
-                        },
-                            () => Resource_ResponseMessages_en.Unknown
-                        )
-                    } );
+                        { RegisterUserState.EmailExists, () => Resource_ResponseMessages_en.EmailExists },
+                        { RegisterUserState.PasswordTooSmall, () => Resource_ResponseMessages_en.PasswordTooSmall },
+                        { RegisterUserState.InvalidEmail, () => Resource_ResponseMessages_en.InvalidEmail }
+                    },
+                        () => Resource_ResponseMessages_en.Unknown
+                    );
+
+                    return BadRequest( apiResponse );
                 }
-                else
-                {
-                    return Ok( new ApiResponse<LoginResponse>()
-                    {
-                        Message = Resource_ResponseMessages_en.RegisterSuccess,
-                        EndpointResult = new LoginResponse( this._jWTService.Generate( newAppUser ) )
-                    } );
-                }
+
+                apiResponse.Message = Resource_ResponseMessages_en.RegisterSuccess;
+                apiResponse.EndpointResult = new LoginResponse( this._jWTService.Generate( newAppUser ) );
+
+                return Ok( apiResponse );
             }
             catch (DbException e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 // TODO: Error handling.
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
             catch (Exception e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 // TODO: Error handling.
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
@@ -104,52 +105,53 @@ namespace Amplifir.UI.Web.Controllers
         [Produces( typeof( ApiResponse<LoginResponse> ) )]
         public async Task<IActionResult> Login([FromBody]UserCredentialsDTO userCredentialsDTO)
         {
+            ApiResponse<LoginResponse> apiResponse = new ApiResponse<LoginResponse>();
+
             try
             {
                 ValidateSignInResult validateSignInResult = await this._authenticationService.ValidateSignInAsync( userCredentialsDTO.Email, userCredentialsDTO.Password );
 
                 if (validateSignInResult.State != ValidateSignInState.Success)
                 {
-                    // TODO: Error handling.
-                    return BadRequest( new ApiResponse<LoginResponse>()
+                    apiResponse.Error = true;
+                    apiResponse.Message = validateSignInResult.State.Switch( new Dictionary<ValidateSignInState, Func<string>>()
                     {
-                        Error = true,
-                        Message = validateSignInResult.State.Switch( new Dictionary<ValidateSignInState, Func<string>>()
-                        {
-                            { ValidateSignInState.NotFound, () => Resource_ResponseMessages_en.UserNotFound  },
-                            { ValidateSignInState.WrongPassword, () => Resource_ResponseMessages_en.WrongPassword  }
-                        },
-                            () => Resource_ResponseMessages_en.Unknown
-                        )
-                    } );
+                        { ValidateSignInState.NotFound, () => Resource_ResponseMessages_en.UserNotFound  },
+                        { ValidateSignInState.WrongPassword, () => Resource_ResponseMessages_en.WrongPassword  }
+                    },
+                        () => Resource_ResponseMessages_en.Unknown
+                    );
+
+                    return BadRequest( apiResponse );
                 }
-                else
+
+                validateSignInResult.User.Ipv4 = HttpUtils.GetUserIp( HttpContext );
+
+                // Do not await in order to respond as fast as possible,
+                // the task completion is not necessary for the response creation.
+                _ = _auditLogStore.CreateLogAsync( new AuditLog()
                 {
-                    validateSignInResult.User.Ipv4 = HttpUtils.GetUserIp( HttpContext );
+                    UserId = validateSignInResult.User.Id,
+                    EventTypeId = EventTypeId.Login,
+                    IPv4 = validateSignInResult.User.Ipv4
+                } );
 
-                    // Do not await in order to respond as fast as possible,
-                    // the task completion is not necessary for the response creation.
-                    _ = _auditLogStore.CreateLogAsync( new AuditLog()
-                    {
-                        UserId = validateSignInResult.User.Id,
-                        EventTypeId = EventTypeId.Login,
-                        IPv4 = validateSignInResult.User.Ipv4
-                    } );
+                apiResponse.Message = Resource_ResponseMessages_en.LoginSuccess;
+                apiResponse.EndpointResult = new LoginResponse( this._jWTService.Generate( validateSignInResult.User ) );
 
-                    return Ok( new ApiResponse<LoginResponse>()
-                    {
-                        Message = Resource_ResponseMessages_en.LoginSuccess,
-                        EndpointResult = new LoginResponse( this._jWTService.Generate( validateSignInResult.User ) )
-                    } );
-                }
+                return Ok( apiResponse );
             }
             catch (DbException e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 // TODO: Error handling.
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
             catch (Exception e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 // TODO: Error handling.
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
