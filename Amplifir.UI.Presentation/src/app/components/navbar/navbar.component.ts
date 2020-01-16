@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 - 2020 Jo„o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
+ * Copyright (c) 2019 - 2020 Jo√£o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
  *
  * Amplifir and all its content is licensed under the GNU Lesser General Public License (LGPL),
  * version 3, located in the root of this project, under the name "LICENSE.md".
@@ -20,9 +20,10 @@ export class NavbarComponent implements AfterViewInit {
   constructor() { }
 
   navLinks: RouterLinkViewModel[] = [
-    new RouterLinkViewModel( 'Feed', '/feed' ),
-    new RouterLinkViewModel( 'Profile', '/profile' ),
-    new RouterLinkViewModel( 'Settings', '/settings' )
+    new RouterLinkViewModel( 'Feed', '/feed', 'fi fi-earth' ),
+    // new RouterLinkViewModel( 'Explore', '/explore', 'fi fi-hashtag' ),
+    new RouterLinkViewModel( 'Profile', '/profile', 'fi fi-person' ),
+    new RouterLinkViewModel( 'Settings', '/settings', 'fi fi-player-settings' )
   ]
 
   @Output() clicked = new EventEmitter<string>();

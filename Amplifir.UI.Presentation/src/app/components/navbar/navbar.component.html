@@ -4,7 +4,15 @@
   <a *ngFor="let link of navLinks"
       (click)="click(link.label)"
       class="nav-link {{ link.label }}" routerLink="{{ link.url }}" routerLinkActive="active">
-    {{ link.label }}
+
+    <figure>
+      <i class="{{ link.icon }}"></i>
+    </figure>
+
+    <label class="hide-sm">
+      {{ link.label }}
+    </label>
+
   </a>
 
 </nav>
