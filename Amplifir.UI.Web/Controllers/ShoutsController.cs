@@ -149,11 +149,15 @@ namespace Amplifir.UI.Web.Controllers
             }
             catch (DbException e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 // TODO: Error handling.
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
             catch (Exception e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
         }
@@ -204,11 +208,15 @@ namespace Amplifir.UI.Web.Controllers
             }
             catch (DbException e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 // TODO: Error handling.
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
             catch (Exception e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
         }
@@ -260,11 +268,15 @@ namespace Amplifir.UI.Web.Controllers
             }
             catch (DbException e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 // TODO: Error handling.
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
             catch (Exception e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
         }
@@ -300,6 +312,40 @@ namespace Amplifir.UI.Web.Controllers
             }
             catch (Exception e)
             {
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
+        }
+
+        [HttpDelete( "{shoutId}/comments/{commentId}" )]
+        [Authorize]
+        [Produces( typeof( ApiResponse<bool> ) )]
+        public async Task<IActionResult> DeleteComment([FromRoute]int commentId)
+        {
+            ApiResponse<bool> apiResponse = new ApiResponse<bool>();
+
+            try
+            {
+                await this._shoutService.DeleteCommentAsync( commentId, Convert.ToInt32( this._JWTService.GetClaimId( HttpContext.User ) ) );
+
+                apiResponse.EndpointResult = true;
+                return Ok( apiResponse );
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.BadRequest;
+                return BadRequest( apiResponse );
+            }
+            catch (DbException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
+            catch (Exception e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
         }
