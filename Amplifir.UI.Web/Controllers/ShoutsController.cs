@@ -128,6 +128,7 @@ namespace Amplifir.UI.Web.Controllers
 
             try
             {
+                newShoutDTO.UserId = Convert.ToInt32( this._JWTService.GetClaimId( HttpContext.User ) );
                 apiResponse.EndpointResult = await this._shoutService.CreateAsync( newShoutDTO as Shout );
 
                 if (apiResponse.EndpointResult.State != CreateShoutState.Success)
