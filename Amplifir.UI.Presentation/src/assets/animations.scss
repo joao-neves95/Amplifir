@@ -1,0 +1,41 @@
+
+.anim {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  -moz-transition: all 1s ease;
+  -webkit-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
+}
+
+.anim-slow {
+  animation-duration: 2.5s;
+}
+
+.anim-loop {
+  animation-iteration-count: infinite;
+}
+
+@keyframes zoomInOut {
+
+  $begining-transform: scale3d( 1, 1, 1 );
+
+  from {
+    transform: $begining-transform;
+  }
+
+  50% {
+    transform: scale3d( 1.5, 1.5, 1.5 );
+  }
+
+  to {
+    transform: $begining-transform;
+  }
+
+}
+
+.zoomInOut {
+  @extend .anim-loop;
+  animation-name: zoomInOut;
+}
