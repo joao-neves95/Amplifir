@@ -167,8 +167,8 @@ namespace Amplifir.UI.Web.Controllers
         }
 
         [Authorize]
-        [Produces( typeof( ApiResponse<CreateReactionResult> ) )]
         [HttpPost( "{shoutId}/dislikes" )]
+        [Produces( typeof( ApiResponse<CreateReactionResult> ) )]
         public async Task<IActionResult> PostDislike([FromRoute]int shoutId)
         {
             return await this.PostReaction( shoutId, true, false );
@@ -176,6 +176,7 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpPost( "{shoutId}/comments" )]
         [Authorize]
+        [Produces( typeof( ApiResponse<CreateCommentResult> ) )]
         public async Task<IActionResult> PostComment([FromRoute]int shoutId, [FromBody]NewCommentDTO newCommentDTO)
         {
             ApiResponse<CreateCommentResult> apiResponse = new ApiResponse<CreateCommentResult>();
@@ -220,9 +221,9 @@ namespace Amplifir.UI.Web.Controllers
             return await this.PostReaction( commentId, false, true );
         }
 
+        [HttpPost( "{shoutId}/comments/{commentId}/dislikes" )]
         [Authorize]
         [Produces( typeof( ApiResponse<CreateReactionResult> ) )]
-        [HttpPost( "{shoutId}/comments/{commentId}/dislikes" )]
         public async Task<IActionResult> PostCommentDislike([FromRoute]int commentId)
         {
             return await this.PostReaction( commentId, false, false );
@@ -269,6 +270,41 @@ namespace Amplifir.UI.Web.Controllers
         }
 
         #endregion POST
+
+        #region DELETE
+
+        [HttpDelete("{shoutId}")]
+        [Authorize]
+        [Produces( typeof( ApiResponse<bool> ) )]
+        public async Task<IActionResult> Delete([FromRoute]int shoutId)
+        {
+            ApiResponse<bool> apiResponse = new ApiResponse<bool>();
+
+            try
+            {
+                await this._shoutService.DeleteAsync( shoutId, Convert.ToInt32( this._JWTService.GetClaimId( HttpContext.User ) ) );
+
+                apiResponse.EndpointResult = true;
+                return Ok( apiResponse );
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.BadRequest;
+                return BadRequest( apiResponse );
+            }
+            catch (DbException e)
+            {
+                // TODO: Error handling.
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
+            catch (Exception e)
+            {
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
+        }
+
+        #endregion DELETE
 
         #endregion PUBLIC ENDPOINTS
     }
