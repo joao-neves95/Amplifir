@@ -19,17 +19,3 @@ html {
     }
   }
 }
-
-.add-border {
-  border: 0.01rem solid $border-color !important;
-}
-
-.rm-top-border {
-  border-top: 0 !important;
-}
-
-.hide-sm {
-  @media (max-width: $max-width-mobile) {
-    display: none;
-  }
-}

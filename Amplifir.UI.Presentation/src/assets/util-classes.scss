@@ -1,0 +1,23 @@
+@import '../app/shared/constants.scss';
+
+.add-border {
+  border: $border;
+}
+
+.add-border-bottom {
+  border-bottom: $border;
+}
+
+.rm-top-border {
+  border-top: 0 !important;
+}
+
+.hide-sm {
+  @media (max-width: $max-width-mobile) {
+    display: none;
+  }
+}
+
+.text-grey {
+  color: $grey-text;
+}
