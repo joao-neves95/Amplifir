@@ -29,6 +29,8 @@
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/assets/util-classes.scss",
+              "src/assets/animations.scss",
               "src/styles.scss"
             ],
             "scripts": [

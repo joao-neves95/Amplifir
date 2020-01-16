@@ -20,7 +20,7 @@ export class NavbarComponent implements AfterViewInit {
   constructor() { }
 
   navLinks: RouterLinkViewModel[] = [
-    new RouterLinkViewModel( 'Feed', '/feed', 'fi fi-earth' ),
+    new RouterLinkViewModel( 'Feed', '/feed', 'fi fi-podcast' /* 'fi fi-earth' */ ),
     // new RouterLinkViewModel( 'Explore', '/explore', 'fi fi-hashtag' ),
     new RouterLinkViewModel( 'Profile', '/profile', 'fi fi-person' ),
     new RouterLinkViewModel( 'Settings', '/settings', 'fi fi-player-settings' )
