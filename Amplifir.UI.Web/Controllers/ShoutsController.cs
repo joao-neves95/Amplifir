@@ -145,6 +145,8 @@ namespace Amplifir.UI.Web.Controllers
                     return BadRequest( apiResponse );
                 }
 
+                apiResponse.Message = Resource_ResponseMessages_en.CreateShoutSuccess;
+
                 return Ok( apiResponse );
             }
             catch (DbException e)
@@ -204,6 +206,8 @@ namespace Amplifir.UI.Web.Controllers
                     return BadRequest( apiResponse );
                 }
 
+                apiResponse.Message = Resource_ResponseMessages_en.CreateCommentSuccess;
+
                 return Ok( apiResponse );
             }
             catch (DbException e)
@@ -254,15 +258,17 @@ namespace Amplifir.UI.Web.Controllers
                 {
                     apiResponse.Error = true;
                     apiResponse.Message = apiResponse.EndpointResult.State.Switch( new Dictionary<CreateReactionState, Func<string>>()
-                {
-                    { CreateReactionState.ReactionExists, () => Resource_ResponseMessages_en.ReactionExists },
-                    { CreateReactionState.BadRequest, () => Resource_ResponseMessages_en.BadRequest }
-                },
+                    {
+                        { CreateReactionState.ReactionExists, () => Resource_ResponseMessages_en.ReactionExists },
+                        { CreateReactionState.BadRequest, () => Resource_ResponseMessages_en.BadRequest }
+                    },
                         () => Resource_ResponseMessages_en.Unknown
                     );
 
                     return BadRequest( apiResponse );
                 }
+
+                apiResponse.Message = Resource_ResponseMessages_en.Success;
 
                 return Ok( apiResponse );
             }
@@ -296,6 +302,7 @@ namespace Amplifir.UI.Web.Controllers
             {
                 await this._shoutService.DeleteAsync( shoutId, Convert.ToInt32( this._JWTService.GetClaimId( HttpContext.User ) ) );
 
+                apiResponse.Message = Resource_ResponseMessages_en.DeleteShoutSuccess;
                 apiResponse.EndpointResult = true;
                 return Ok( apiResponse );
             }
@@ -316,6 +323,15 @@ namespace Amplifir.UI.Web.Controllers
             }
         }
 
+        [HttpDelete( "{shoutId}/likes" )]
+        [HttpDelete( "{shoutId}/dislikes" )]
+        [Authorize]
+        [Produces( typeof( ApiResponse<bool> ) )]
+        public async Task<IActionResult> DeleteShoutReaction([FromRoute]int shoutId)
+        {
+            return await this.DeleteReaction( shoutId, true );
+        }
+
         [HttpDelete( "{shoutId}/comments/{commentId}" )]
         [Authorize]
         [Produces( typeof( ApiResponse<bool> ) )]
@@ -327,6 +343,52 @@ namespace Amplifir.UI.Web.Controllers
             {
                 await this._shoutService.DeleteCommentAsync( commentId, Convert.ToInt32( this._JWTService.GetClaimId( HttpContext.User ) ) );
 
+                apiResponse.Message = Resource_ResponseMessages_en.DeleteCommentSuccess;
+                apiResponse.EndpointResult = true;
+                return Ok( apiResponse );
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.BadRequest;
+                return BadRequest( apiResponse );
+            }
+            catch (DbException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
+            catch (Exception e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
+        }
+
+        [HttpDelete( "{shoutId}/comments/{commentId}/likes" )]
+        [HttpDelete( "{shoutId}/comments/{commentId}/dislikes" )]
+        [Authorize]
+        [Produces( typeof( ApiResponse<bool> ) )]
+        public async Task<IActionResult> DeleteCommentReaction([FromRoute]int commentId)
+        {
+            return await this.DeleteReaction( commentId, false );
+        }
+
+        private async Task<IActionResult> DeleteReaction(int entityId, bool isShout)
+        {
+            ApiResponse<bool> apiResponse = new ApiResponse<bool>();
+
+            try
+            {
+                await this._shoutService.DeleteReactionAsync(
+                    isShout ? EntityType.Shout : EntityType.Comment,
+                    entityId,
+                    Convert.ToInt32( this._JWTService.GetClaimId( HttpContext.User ) )
+                );
+
+                apiResponse.Message = Resource_ResponseMessages_en.Success;
                 apiResponse.EndpointResult = true;
                 return Ok( apiResponse );
             }
