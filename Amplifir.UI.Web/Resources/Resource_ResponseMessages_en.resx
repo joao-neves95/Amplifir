@@ -126,6 +126,18 @@
   <data name="ContentTooSmall" xml:space="preserve">
     <value>The content is too small.</value>
   </data>
+  <data name="CreateCommentSuccess" xml:space="preserve">
+    <value>The comment was successfully created.</value>
+  </data>
+  <data name="CreateShoutSuccess" xml:space="preserve">
+    <value>The shout was successfully created.</value>
+  </data>
+  <data name="DeleteCommentSuccess" xml:space="preserve">
+    <value>The comment was successfully deleted.</value>
+  </data>
+  <data name="DeleteShoutSuccess" xml:space="preserve">
+    <value>The shout was successfully deleted.</value>
+  </data>
   <data name="EmailExists" xml:space="preserve">
     <value>The email already exists.</value>
   </data>
@@ -146,6 +158,9 @@
   </data>
   <data name="RegisterSuccess" xml:space="preserve">
     <value>The registration was successful.</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>An unknown error occured.</value>

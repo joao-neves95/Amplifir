@@ -88,6 +88,42 @@ namespace Amplifir.UI.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The comment was successfully created..
+        /// </summary>
+        internal static string CreateCommentSuccess {
+            get {
+                return ResourceManager.GetString("CreateCommentSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The shout was successfully created..
+        /// </summary>
+        internal static string CreateShoutSuccess {
+            get {
+                return ResourceManager.GetString("CreateShoutSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The comment was successfully deleted..
+        /// </summary>
+        internal static string DeleteCommentSuccess {
+            get {
+                return ResourceManager.GetString("DeleteCommentSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The shout was successfully deleted..
+        /// </summary>
+        internal static string DeleteShoutSuccess {
+            get {
+                return ResourceManager.GetString("DeleteShoutSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The email already exists..
         /// </summary>
         internal static string EmailExists {
@@ -147,6 +183,15 @@ namespace Amplifir.UI.Web.Resources {
         internal static string RegisterSuccess {
             get {
                 return ResourceManager.GetString("RegisterSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Success.
+        /// </summary>
+        internal static string Success {
+            get {
+                return ResourceManager.GetString("Success", resourceCulture);
             }
         }
         
