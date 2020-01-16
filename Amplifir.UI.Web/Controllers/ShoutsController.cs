@@ -163,7 +163,7 @@ namespace Amplifir.UI.Web.Controllers
         [Produces( typeof( ApiResponse<CreateReactionResult> ) )]
         public async Task<IActionResult> PostLike([FromRoute]int shoutId)
         {
-            return await this.PostReaction( shoutId, true );
+            return await this.PostReaction( shoutId, true, true );
         }
 
         [Authorize]
@@ -171,47 +171,7 @@ namespace Amplifir.UI.Web.Controllers
         [HttpPost( "{shoutId}/dislikes" )]
         public async Task<IActionResult> PostDislike([FromRoute]int shoutId)
         {
-            return await this.PostReaction( shoutId, false );
-        }
-
-        private async Task<IActionResult> PostReaction(int shoutId, bool isLike)
-        {
-            ApiResponse<CreateReactionResult> apiResponse = new ApiResponse<CreateReactionResult>();
-
-            try
-            {
-                apiResponse.EndpointResult = await this._shoutService.CreateReactionAsync(
-                    EntityType.Shout,
-                    shoutId,
-                    Convert.ToInt32( _JWTService.GetClaimId( HttpContext.User ) ),
-                    isLike ? ReactionTypeId.Like : ReactionTypeId.Dislike
-                );
-
-                if (apiResponse.EndpointResult.State != CreateReactionState.Success)
-                {
-                    apiResponse.Error = true;
-                    apiResponse.Message = apiResponse.EndpointResult.State.Switch( new Dictionary<CreateReactionState, Func<string>>()
-                {
-                    { CreateReactionState.ReactionExists, () => Resource_ResponseMessages_en.ReactionExists },
-                    { CreateReactionState.BadRequest, () => Resource_ResponseMessages_en.BadRequest }
-                },
-                        () => Resource_ResponseMessages_en.Unknown
-                    );
-
-                    return BadRequest( apiResponse );
-                }
-
-                return Ok( apiResponse );
-            }
-            catch (DbException e)
-            {
-                // TODO: Error handling.
-                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
-            }
-            catch (Exception e)
-            {
-                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
-            }
+            return await this.PostReaction( shoutId, true, false );
         }
 
         [HttpPost( "{shoutId}/comments" )]
@@ -233,6 +193,62 @@ namespace Amplifir.UI.Web.Controllers
                         { CreateShoutState.ContentTooLong, () => Resource_ResponseMessages_en.ContentTooLong },
                         { CreateShoutState.ContentTooSmall, () => Resource_ResponseMessages_en.ContentTooSmall }
                     },
+                        () => Resource_ResponseMessages_en.Unknown
+                    );
+
+                    return BadRequest( apiResponse );
+                }
+
+                return Ok( apiResponse );
+            }
+            catch (DbException e)
+            {
+                // TODO: Error handling.
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
+            catch (Exception e)
+            {
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
+        }
+
+        [HttpPost( "{shoutId}/comments/{commentId}/likes" )]
+        [Authorize]
+        [Produces( typeof( ApiResponse<CreateReactionResult> ) )]
+        public async Task<IActionResult> PostCommentLike([FromRoute]int commentId)
+        {
+            return await this.PostReaction( commentId, false, true );
+        }
+
+        [Authorize]
+        [Produces( typeof( ApiResponse<CreateReactionResult> ) )]
+        [HttpPost( "{shoutId}/comments/{commentId}/dislikes" )]
+        public async Task<IActionResult> PostCommentDislike([FromRoute]int commentId)
+        {
+            return await this.PostReaction( commentId, false, false );
+        }
+
+        private async Task<IActionResult> PostReaction(int entityId, bool isShout, bool isLike)
+        {
+            ApiResponse<CreateReactionResult> apiResponse = new ApiResponse<CreateReactionResult>();
+
+            try
+            {
+                apiResponse.EndpointResult = await this._shoutService.CreateReactionAsync(
+                    isShout ? EntityType.Shout : EntityType.Comment,
+                    entityId,
+                    Convert.ToInt32( _JWTService.GetClaimId( HttpContext.User ) ),
+                    isLike ? ReactionTypeId.Like : ReactionTypeId.Dislike
+                );
+
+                if (apiResponse.EndpointResult.State != CreateReactionState.Success)
+                {
+                    apiResponse.Error = true;
+                    apiResponse.Message = apiResponse.EndpointResult.State.Switch( new Dictionary<CreateReactionState, Func<string>>()
+                {
+                    { CreateReactionState.ReactionExists, () => Resource_ResponseMessages_en.ReactionExists },
+                    { CreateReactionState.BadRequest, () => Resource_ResponseMessages_en.BadRequest }
+                },
                         () => Resource_ResponseMessages_en.Unknown
                     );
 
