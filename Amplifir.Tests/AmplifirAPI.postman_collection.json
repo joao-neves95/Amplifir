@@ -54,6 +54,16 @@
 				{
 					"name": "Login",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0xOFQxOTo0ODowOCIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5Mzc2ODg4LCJleHAiOjE1Nzk5ODE2ODgsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.LRG8ryRrjLL1_mjeT7ONgUQIu9bIpDeDQqbGJvq8ZnyxD9tq1RrDhOIYFuzouB80ao4_lUzJ90XGzAk2LvuIig",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -299,8 +309,34 @@
 				{
 					"name": "Post Shout",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0xOFQxOTo0OToxNCIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5Mzc2OTU0LCJleHAiOjE1Nzk5ODE3NTQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.oVBV92z6NyAP-4AYmc8hgev-aJnIJt1Mbd0MFL8obrU9hQMhKqAE29kMDNALrWbrZ0L34deEY61qaeUN2br_Dw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\": \"This is a test shout! Arrrgh! #test\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://localhost:21291/api/shouts",
 							"protocol": "http",
