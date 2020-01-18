@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 - 2020 Jo„o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
+ * Copyright (c) 2019 - 2020 Jo√£o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
  *
  * Amplifir and all its content is licensed under the GNU Lesser General Public License (LGPL),
  * version 3, located in the root of this project, under the name "LICENSE.md".
@@ -29,13 +29,19 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
 
         public async Task<int> CreateAsync(Shout newShout)
         {
-            return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
-                $@"INSERT INTO Shout (UserId, Content)
-                   VALUES (@UserId, @Content);
-                   ${DapperHelperQueries.SelectSessionLastInsertedShoutId()}
-                ",
-                new { @UserId = newShout.UserId, @Content = newShout.Content }
-            );
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
+                    $@"INSERT INTO Shout (UserId, Content)
+                       VALUES (@UserId, @Content);
+                       { DapperHelperQueries.SelectSessionLastInsertedShoutId() }
+                    ",
+                    new { UserId = newShout.UserId, Content = newShout.Content }
+                );
+            }
+
         }
 
         public async Task<int> CreateHashtagAsync(List<string> hashtags)
@@ -80,6 +86,11 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
 
         public async Task<int> AddShoutToExistingHashtag(int shoutId, List<string> hashtags)
         {
+            if (hashtags.Count == 0)
+            {
+                return 0;
+            }
+
             List<DynamicParameters> hashtagShoutParameters = new List<DynamicParameters>();
             List<DynamicParameters> hashtagParameters = new List<DynamicParameters>();
             string currentHashtag;
@@ -185,17 +196,22 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             throw new NotImplementedException();
         }
 
-        public async Task<List<string>> GetHashtagsAsync( List<string> hashtag )
+        public async Task<List<string>> GetHashtagsAsync( List<string> hashtags )
         {
+            if (hashtags.Count == 0)
+            {
+                return new List<string>();
+            }
+
             StringBuilder parameterNames = new StringBuilder();
             DynamicParameters parameters = new DynamicParameters();
 
-            for (int i = 0; i < hashtag.Count; ++i)
+            for (int i = 0; i < hashtags.Count; ++i)
             {
-                parameters.Add( "Value" + i.ToString(), hashtag[i] );
+                parameters.Add( "Value" + i.ToString(), hashtags[i] );
                 parameterNames.Append( "@Value" ).Append( i.ToString() );
 
-                if (i < hashtag.Count - 1)
+                if (i < hashtags.Count - 1)
                 {
                     parameterNames.Append( ", " );
                 }

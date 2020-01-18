@@ -66,8 +66,14 @@ namespace Amplifir.Core.DomainServices
             }
 
             newShout.Id = await _shoutStore.CreateAsync( newShout );
-            await _shoutStore.AddShoutToExistingHashtag( newShout.Id, hashtagsThatExist );
+            newShout.CreateDate = DateTime.UtcNow;
 
+            if (hashtagsThatExist.Count > 0)
+            {
+                await _shoutStore.AddShoutToExistingHashtag( newShout.Id, hashtagsThatExist );
+            }
+
+            newShout.Hashtags.AddRange( hashtagsThatExist );
             createShoutResult.State = CreateShoutState.Success;
             createShoutResult.NewShout = newShout;
             return createShoutResult;

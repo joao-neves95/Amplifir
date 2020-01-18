@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 - 2020 Jo„o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
+ * Copyright (c) 2019 - 2020 Jo√£o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
  *
  * Amplifir and all its content is licensed under the GNU Lesser General Public License (LGPL),
  * version 3, located in the root of this project, under the name "LICENSE.md".
@@ -96,7 +96,7 @@ namespace Amplifir.Infrastructure.DataAccess
 
             for (int  i = 0; i < columnNames.Length; ++i)
             {
-                statement.Append( columnNames[i] ).Append( " = @Value" ).Append( (i - 1).ToString() );
+                statement.Append( columnNames[i] ).Append( " = @Value" ).Append( i + 1 );
 
                 if (i != columnNames.Length - 1)
                 {
@@ -109,7 +109,7 @@ namespace Amplifir.Infrastructure.DataAccess
                           (
                                SELECT 1
                                FROM {tableName}
-                               WHERE { statement }
+                               WHERE { statement.ToString() }
                           ),
                           0
                       )";
