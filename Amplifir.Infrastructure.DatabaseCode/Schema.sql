@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 - 2020 João Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
+ * Copyright (c) 2019 - 2020 JoÃ£o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
  *
  * Amplifir and all its content is licensed under the GNU Lesser General Public License (LGPL),
  * version 3, located in the root of this project, under the name "LICENSE.md".
@@ -27,11 +27,12 @@ CREATE TABLE AppUser (
 CREATE TABLE AppUserProfile (
     Id SERIAL PRIMARY KEY,
     UserId INT UNIQUE NOT NULL References AppUser(Id),
-    Bio VARCHAR(200) NULL CHECK( Bio = NULL OR LENGTH( Bio ) > 0 ),
+    Bio VARCHAR(250) NULL DEFAULT NULL CHECK( Bio = NULL OR LENGTH( Bio ) > 0 ),
+    Website VARCHAR(254) NULL DEFAULT NULL CHECK( Website = NULL OR LENGTH( Website ) > 0 ),
+    UserLocation VARCHAR(45) NULL DEFAULT NULL CHECK( UserLocation = NULL OR LENGTH( UserLocation ) > 1 ),
+    BirthDate TIMESTAMP WITHOUT TIME ZONE NULL DEFAULT NULL CHECK( BirthDate = NULL OR BirthDate < (NOW() AT TIME ZONE 'UTC') ),
     FollowingCount INT NOT NULL DEFAULT 0,
-    FollowersCount INT NOT NULL DEFAULT 0,
-    UserLocation VARCHAR(45) NULL CHECK( UserLocation = NULL OR LENGTH( UserLocation ) > 1 ),
-    BirthDate TIMESTAMP WITHOUT TIME ZONE NULL CHECK( BirthDate = NULL OR BirthDate < (NOW() AT TIME ZONE 'UTC') )
+    FollowersCount INT NOT NULL DEFAULT 0
 );
 
 CREATE TABLE Follower (
@@ -49,16 +50,16 @@ CREATE TABLE Shout (
     DislikesCount INT NOT NULL DEFAULT 0
 );
 
-CREATE TABLE HashtagShout (
-    Id SERIAL PRIMARY KEY,
-    HashtagId BIGINT NOT NULL REFERENCES Hashtag(Id),
-    ShoutId INT NOT NULL REFERENCES Shout(Id)
-);
-
 CREATE TABLE Hashtag (
     Id BIGSERIAL PRIMARY KEY,
     Content VARCHAR(69) UNIQUE NOT NULL CHECK( LENGTH( Content ) > 0 ),
     ShoutCount INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE HashtagShout (
+    Id SERIAL PRIMARY KEY,
+    HashtagId BIGINT NOT NULL REFERENCES Hashtag(Id),
+    ShoutId INT NOT NULL REFERENCES Shout(Id)
 );
 
 CREATE TABLE ShoutAsset (

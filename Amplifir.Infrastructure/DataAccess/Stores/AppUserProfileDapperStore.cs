@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 - 2020 Jo„o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
+ * Copyright (c) 2019 - 2020 Jo√£o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
  *
  * Amplifir and all its content is licensed under the GNU Lesser General Public License (LGPL),
  * version 3, located in the root of this project, under the name "LICENSE.md".
@@ -27,7 +27,7 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             using (base._dBContext.DbConnection)
             {
                 return await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<AppUserProfile>(
-                    $@"SELECT Id, UserId, Bio, FollowingCount, FollowersCount, UserLocation, BirthDate
+                    $@"SELECT Id, UserId, Bio, Website, UserLocation, BirthDate, FollowingCount, FollowersCount
                        FROM AppUserProfile
                        WHERE UserId = {userId}
                     "
