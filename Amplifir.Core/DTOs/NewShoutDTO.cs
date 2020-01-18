@@ -6,9 +6,7 @@
  *
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Amplifir.Core.Entities;
 
 namespace Amplifir.Core.DTOs
 {
@@ -22,5 +20,17 @@ namespace Amplifir.Core.DTOs
         public int UserId { get; set; }
 
         public string Content { get; set; }
+    }
+
+    public static class NewShoutDTOMappers
+    {
+        public static Shout ToShout(this NewShoutDTO newShoutDTO)
+        {
+            return new Shout()
+            {
+                UserId = newShoutDTO.UserId,
+                Content = newShoutDTO.Content
+            };
+        }
     }
 }
