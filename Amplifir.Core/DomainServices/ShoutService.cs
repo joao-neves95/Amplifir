@@ -56,13 +56,13 @@ namespace Amplifir.Core.DomainServices
             }
 
             newShout.Content = await _badWordsService.CleanAsync( newShout.Content );
-            newShout.Hashtags = this.GetHashtagsFromShoutContent( newShout.Content ).ToList();
-            List<string> hashtagsThatExist = await _shoutStore.GetHashtagsAsync( newShout.Hashtags );
-            newShout.Hashtags.RemoveAll( hashtag => hashtagsThatExist.Contains( hashtag ) );
+            List<string> newShoutHashtags = this.GetHashtagsFromShoutContent( newShout.Content ).ToList();
+            List<string> hashtagsThatExist = await _shoutStore.GetHashtagsAsync( newShoutHashtags );
+            newShoutHashtags.RemoveAll( hashtag => hashtagsThatExist.Contains( hashtag ) );
 
-            if (newShout.Hashtags.Count > 0)
+            if (newShoutHashtags.Count > 0)
             {
-                await _shoutStore.CreateHashtagAsync( newShout.Hashtags );
+                await _shoutStore.CreateHashtagAsync( newShoutHashtags );
             }
 
             newShout.Id = await _shoutStore.CreateAsync( newShout );
@@ -73,7 +73,6 @@ namespace Amplifir.Core.DomainServices
                 await _shoutStore.AddShoutToExistingHashtag( newShout.Id, hashtagsThatExist );
             }
 
-            newShout.Hashtags.AddRange( hashtagsThatExist );
             createShoutResult.State = CreateShoutState.Success;
             createShoutResult.NewShout = newShout;
             return createShoutResult;
