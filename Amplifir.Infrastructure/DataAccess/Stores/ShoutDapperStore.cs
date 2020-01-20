@@ -313,7 +313,7 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                     WHERE ShoutId = { shoutId };
                     
                     DELETE FROM CommentReaction
-                    WHERE ShoutId IN (
+                    WHERE CommentId IN (
                         SELECT Id
                         FROM Comment
                         WHERE ShoutId = { shoutId }
