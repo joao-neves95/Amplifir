@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 - 2020 Jo„o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
+ * Copyright (c) 2019 - 2020 Jo√£o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
  *
  * Amplifir and all its content is licensed under the GNU Lesser General Public License (LGPL),
  * version 3, located in the root of this project, under the name "LICENSE.md".
@@ -76,19 +76,17 @@ namespace Amplifir.Infrastructure.DataAccess
             {
                 await this.OpenDBConnectionAsync();
 
-                using (dbTransaction = await base._dbConnection.BeginTransactionAsync())
+                dbTransaction = await base._dbConnection.BeginTransactionAsync();
+                int affectedCollumnsNum = 0;
+
+                foreach (KeyValuePair<string, object> sqlAndParameter in sqlAndParameters)
                 {
-                    int affectedCollumnsNum = 0;
-
-                    foreach (KeyValuePair<string, object> sqlAndParameter in sqlAndParameters)
-                    {
-                        await base._dbConnection.ExecuteAsync( sqlAndParameter.Key, sqlAndParameter.Value, dbTransaction );
-                        ++affectedCollumnsNum;
-                    }
-
-                    await dbTransaction.CommitAsync();
-                    return affectedCollumnsNum;
+                    await base._dbConnection.ExecuteAsync( sqlAndParameter.Key, sqlAndParameter.Value, dbTransaction );
+                    ++affectedCollumnsNum;
                 }
+
+                await dbTransaction.CommitAsync();
+                return affectedCollumnsNum;
             }
             catch (DbException e)
             {
@@ -105,12 +103,11 @@ namespace Amplifir.Infrastructure.DataAccess
             }
             finally
             {
-                await dbTransaction.DisposeAsync();
+                _ = dbTransaction.DisposeAsync();
 
                 if (disposeConnection)
                 {
-                    await base._dbConnection.CloseAsync();
-                    await base._dbConnection.DisposeAsync();
+                    _ = base._dbConnection.DisposeAsync();
                 }
             }
         }
