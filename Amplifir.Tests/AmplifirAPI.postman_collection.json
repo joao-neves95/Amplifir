@@ -59,7 +59,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0xOFQxOTo0ODowOCIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5Mzc2ODg4LCJleHAiOjE1Nzk5ODE2ODgsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.LRG8ryRrjLL1_mjeT7ONgUQIu9bIpDeDQqbGJvq8ZnyxD9tq1RrDhOIYFuzouB80ao4_lUzJ90XGzAk2LvuIig",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0yMVQwMDozNTo0NyIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5NTY2OTQ3LCJleHAiOjE1ODAxNzE3NDcsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.HL2DfMVwThVPXGvh-g1KdVSlgulKgzX2ge7FTN6BIgfnwCtaEG0kr2h2ailKaXVMzUR2oq0cFhb0BVYunuzjFw",
 									"type": "string"
 								}
 							]
@@ -314,7 +314,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0xOFQxOTo0OToxNCIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5Mzc2OTU0LCJleHAiOjE1Nzk5ODE3NTQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.oVBV92z6NyAP-4AYmc8hgev-aJnIJt1Mbd0MFL8obrU9hQMhKqAE29kMDNALrWbrZ0L34deEY61qaeUN2br_Dw",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0yMVQwMDozNjoxMyIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5NTY2OTczLCJleHAiOjE1ODAxNzE3NzMsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.Vffxvb6Ip4rW73vO-tlEqhKSo613WGx6Ew1x7OQsqIfEviwjq-ngi0y07DkYULetCeXC1pvNSP8G_8xNe_S7Dg",
 									"type": "string"
 								}
 							]
@@ -355,6 +355,16 @@
 				{
 					"name": "Delete Shout",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0xOFQxOTo0OToxNCIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5Mzc2OTU0LCJleHAiOjE1Nzk5ODE3NTQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.oVBV92z6NyAP-4AYmc8hgev-aJnIJt1Mbd0MFL8obrU9hQMhKqAE29kMDNALrWbrZ0L34deEY61qaeUN2br_Dw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -432,6 +442,44 @@
 							"path": [
 								"api",
 								"shouts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shouts By User Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0yMVQwMDozNjoxMyIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5NTY2OTczLCJleHAiOjE1ODAxNzE3NzMsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.Vffxvb6Ip4rW73vO-tlEqhKSo613WGx6Ew1x7OQsqIfEviwjq-ngi0y07DkYULetCeXC1pvNSP8G_8xNe_S7Dg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:21291/api/shouts/user/1?limit=15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "21291",
+							"path": [
+								"api",
+								"shouts",
+								"user",
+								"1"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "15"
+								}
 							]
 						}
 					},
