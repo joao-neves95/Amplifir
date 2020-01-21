@@ -81,8 +81,7 @@ namespace Amplifir.Infrastructure.DataAccess
 
                 foreach (KeyValuePair<string, object> sqlAndParameter in sqlAndParameters)
                 {
-                    await base._dbConnection.ExecuteAsync( sqlAndParameter.Key, sqlAndParameter.Value, dbTransaction );
-                    ++affectedCollumnsNum;
+                    affectedCollumnsNum += await base._dbConnection.ExecuteAsync( sqlAndParameter.Key, sqlAndParameter.Value, dbTransaction );
                 }
 
                 await dbTransaction.CommitAsync();
