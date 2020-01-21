@@ -400,7 +400,7 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                     {
                         $@"UPDATE {( entityType == EntityType.Shout ? TableNames.Shout : TableNames.Comment )}
                            SET {reactionName} = {reactionName} - 1
-                           WHERE Id = {entityId}",
+                           WHERE Id = { entityId }",
                         null
                     }
                 } );

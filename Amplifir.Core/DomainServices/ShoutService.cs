@@ -140,7 +140,7 @@ namespace Amplifir.Core.DomainServices
                 else
                 {
                     // (Toggle Like/Dislike).
-                    await _shoutStore.DeleteReactionByIdAsync( entityType, createReactionResult.Reaction as ReactionBase, createReactionResult.Reaction.Id );
+                    await _shoutStore.DeleteReactionByIdAsync( entityType, createReactionResult.Reaction as ReactionBase, entityId );
                 }
             }
             else
