@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2019 - 2020 João Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
  *
  * Amplifir and all its content is licensed under the GNU Lesser General Public License (LGPL),
@@ -15,10 +15,24 @@ namespace Amplifir.Core.Entities
     {
         public int Id { get; set; }
 
+        public int ShoutId { get; set; }
+
+        public int UserId { get; set; }
+
         public DateTime CreateDate { get; set; }
 
         public int LikesCount { get; set; }
 
         public int DislikesCount { get; set; }
+    }
+
+    public static class CommentExtensions
+    {
+        public static Comment AddIds(this Comment comment, int shoutId, int userId)
+        {
+            comment.ShoutId = shoutId;
+            comment.UserId = userId;
+            return comment;
+        }
     }
 }

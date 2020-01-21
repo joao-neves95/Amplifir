@@ -22,7 +22,7 @@ namespace Amplifir.Core.DTOs
         public string Content { get; set; }
     }
 
-    public static class NewShoutDTOMappers
+    public static class NewShoutDTOExtensions
     {
         public static Shout ToShout(this NewShoutDTO newShoutDTO)
         {

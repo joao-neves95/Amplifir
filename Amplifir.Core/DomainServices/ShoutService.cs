@@ -99,6 +99,9 @@ namespace Amplifir.Core.DomainServices
 
             newComment.Content = await _badWordsService.CleanAsync( newComment.Content );
             newComment.Id = await _shoutStore.CreateCommentAsync( newComment );
+            newComment.ShoutId = newComment.ShoutId;
+            newComment.UserId = newComment.UserId;
+            newComment.CreateDate = DateTime.UtcNow;
 
             createCommentResult.State = CreateShoutState.Success;
             createCommentResult.NewComment = newComment;

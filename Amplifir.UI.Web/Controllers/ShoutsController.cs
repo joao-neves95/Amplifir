@@ -213,8 +213,9 @@ namespace Amplifir.UI.Web.Controllers
 
             try
             {
-                newCommentDTO.UserId = Convert.ToInt32( this._JWTService.GetClaimId( HttpContext.User ) );
-                apiResponse.EndpointResult = await this._shoutService.CreateCommentAsync( newCommentDTO as Comment );
+                apiResponse.EndpointResult = await this._shoutService.CreateCommentAsync(
+                    newCommentDTO.ToComment().AddIds( shoutId, Convert.ToInt32( this._JWTService.GetClaimId( HttpContext.User ) ) )
+                );
 
                 if (apiResponse.EndpointResult.State != CreateShoutState.Success)
                 {
