@@ -34,6 +34,18 @@
 
 -- End of SELECTS
 
+-- SHOUT REACTIONS
+
+--select * from shoutreaction where ShoutId = 1;
+
+--delete from shoutreaction where id = 11;
+
+--update shout
+--set likesCount = , dislikesCount = 
+--where id = 1
+
+-- End of SHOUT REACTIONS
+
 -- DELETE USER.
 
 --delete from appuserprofile where userid = 14;
