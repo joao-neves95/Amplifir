@@ -348,12 +348,19 @@ namespace Amplifir.UI.Web.Controllers
         }
 
         [HttpDelete( "{shoutId}/likes" )]
+        [Authorize]
+        [Produces( typeof( ApiResponse<bool> ) )]
+        public async Task<IActionResult> DeleteShoutLike([FromRoute]int shoutId)
+        {
+            return await this.DeleteReaction( shoutId, true, true );
+        }
+
         [HttpDelete( "{shoutId}/dislikes" )]
         [Authorize]
         [Produces( typeof( ApiResponse<bool> ) )]
-        public async Task<IActionResult> DeleteShoutReaction([FromRoute]int shoutId)
+        public async Task<IActionResult> DeleteShoutDislike([FromRoute]int shoutId)
         {
-            return await this.DeleteReaction( shoutId, true );
+            return await this.DeleteReaction( shoutId, true, false );
         }
 
         [HttpDelete( "{shoutId}/comments/{commentId}" )]
@@ -392,15 +399,22 @@ namespace Amplifir.UI.Web.Controllers
         }
 
         [HttpDelete( "{shoutId}/comments/{commentId}/likes" )]
+        [Authorize]
+        [Produces( typeof( ApiResponse<bool> ) )]
+        public async Task<IActionResult> DeleteCommentLike([FromRoute]int commentId)
+        {
+            return await this.DeleteReaction( commentId, false, true );
+        }
+
         [HttpDelete( "{shoutId}/comments/{commentId}/dislikes" )]
         [Authorize]
         [Produces( typeof( ApiResponse<bool> ) )]
-        public async Task<IActionResult> DeleteCommentReaction([FromRoute]int commentId)
+        public async Task<IActionResult> DeleteCommentDislike([FromRoute]int commentId)
         {
-            return await this.DeleteReaction( commentId, false );
+            return await this.DeleteReaction( commentId, false, false );
         }
 
-        private async Task<IActionResult> DeleteReaction(int entityId, bool isShout)
+        private async Task<IActionResult> DeleteReaction(int entityId, bool isShout, bool isLike)
         {
             ApiResponse<bool> apiResponse = new ApiResponse<bool>();
 
@@ -408,8 +422,12 @@ namespace Amplifir.UI.Web.Controllers
             {
                 await this._shoutService.DeleteReactionAsync(
                     isShout ? EntityType.Shout : EntityType.Comment,
-                    entityId,
-                    Convert.ToInt32( this._JWTService.GetClaimId( HttpContext.User ) )
+                    new ShoutReaction()
+                    {
+                        ReactionTypeId = isLike ? ReactionTypeId.Like : ReactionTypeId.Dislike,
+                        UserId = Convert.ToInt32( this._JWTService.GetClaimId( HttpContext.User ) )
+                    },
+                    entityId
                 );
 
                 apiResponse.Message = Resource_ResponseMessages_en.Success;

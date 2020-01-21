@@ -93,10 +93,10 @@ namespace Amplifir.Core.Interfaces
         /// 
         /// </summary>
         /// <param name="entityType"></param>
-        /// <param name="id"></param>
-        /// <param name="userId"></param>
+        /// <param name="reaction"></param>
+        /// <param name="entityId"></param>
         /// <returns></returns>
-        Task<int> DeleteReactionByIdAsync( EntityType entityType, int id, int userId );
+        Task<int> DeleteReactionByIdAsync( EntityType entityType, ReactionBase reaction, int entityId );
 
         Task<bool> UserReactionExistsAsync( int shoutId, int userId );
     }

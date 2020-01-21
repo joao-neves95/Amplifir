@@ -140,7 +140,7 @@ namespace Amplifir.Core.DomainServices
                 else
                 {
                     // (Toggle Like/Dislike).
-                    await _shoutStore.DeleteReactionByIdAsync( entityType, createReactionResult.Reaction.Id, userId );
+                    await _shoutStore.DeleteReactionByIdAsync( entityType, createReactionResult.Reaction as ReactionBase, createReactionResult.Reaction.Id );
                 }
             }
             else
@@ -185,14 +185,14 @@ namespace Amplifir.Core.DomainServices
             await _shoutStore.DeleteCommentByIdAsync( commentId, userId );
         }
 
-        public async Task DeleteReactionAsync(EntityType entityType, int entityId, int userId)
+        public async Task DeleteReactionAsync(EntityType entityType, ReactionBase reaction, int entityId)
         {
-            if (entityId < 0 || userId < 0)
+            if (entityId < 0 || entityId < 0)
             {
                 throw new ArgumentOutOfRangeException();
             }
 
-            await _shoutStore.DeleteReactionByIdAsync( entityType, entityId, userId );
+            await _shoutStore.DeleteReactionByIdAsync( entityType, reaction, entityId );
         }
 
         #endregion PUBLIC FAÇADE METHODS

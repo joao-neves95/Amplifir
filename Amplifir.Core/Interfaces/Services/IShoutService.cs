@@ -38,6 +38,6 @@ namespace Amplifir.Core.Interfaces
 
         Task DeleteCommentAsync( int commentId, int userId );
 
-        Task DeleteReactionAsync( EntityType entityType, int entityId, int userId );
+        Task DeleteReactionAsync( EntityType entityType, ReactionBase reaction, int entityId );
     }
 }

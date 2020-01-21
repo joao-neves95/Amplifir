@@ -78,7 +78,6 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
         public async Task<int> AddShoutToExistingHashtag(int shoutId, string hashtag)
         {
             return await this.AddShoutToExistingHashtag(
-                shoutId,
                 new { ShoutId = shoutId, Hashtag = hashtag },
                 new { Content = hashtag }
             );
@@ -104,10 +103,10 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                 hashtagParameters.Add( new DynamicParameters( new { Content = currentHashtag } ) );
             }
 
-            return await this.AddShoutToExistingHashtag( shoutId, hashtagShoutParameters, hashtagParameters );
+            return await this.AddShoutToExistingHashtag( hashtagShoutParameters, hashtagParameters );
         }
 
-        private async Task<int> AddShoutToExistingHashtag(int shoutId, object hashtagShoutParameters, object hashtagParameters)
+        private async Task<int> AddShoutToExistingHashtag(object hashtagShoutParameters, object hashtagParameters)
         {
             return await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
             {
@@ -383,16 +382,28 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             } );
         }
 
-        public async Task<int> DeleteReactionByIdAsync(EntityType entityType, int id, int userId)
+        public async Task<int> DeleteReactionByIdAsync(EntityType entityType, ReactionBase reaction, int entityId)
         {
+            string reactionName = reaction.ReactionTypeId == ReactionTypeId.Like ? ReactionTypeColumnNames.Like : ReactionTypeColumnNames.Dislike;
+
             await base._dBContext.OpenDBConnectionAsync();
 
             using (base._dBContext.DbConnection)
             {
-                return await base._dBContext.DbConnection.ExecuteAsync(
-                    $@"DELETE FROM { (entityType == EntityType.Shout ? TableNames.ShoutReaction : TableNames.CommentReaction) }
-                       WHERE Id = { id } AND UserId = { userId }"
-                );
+                return await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
+                {
+                    {
+                        $@"DELETE FROM {( entityType == EntityType.Shout ? TableNames.ShoutReaction : TableNames.CommentReaction )}
+                           WHERE Id = { reaction.Id } AND UserId = { reaction.UserId }",
+                        null
+                    },
+                    {
+                        $@"UPDATE {( entityType == EntityType.Shout ? TableNames.Shout : TableNames.Comment )}
+                           SET {reactionName} = {reactionName} + 1
+                           WHERE Id = {entityId}",
+                        null
+                    }
+                } );
             }
         }
 
