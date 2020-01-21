@@ -239,8 +239,34 @@
 						{
 							"name": "Post Shout Comment",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0yMVQwMDozNjoxMyIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5NTY2OTczLCJleHAiOjE1ODAxNzE3NzMsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.Vffxvb6Ip4rW73vO-tlEqhKSo613WGx6Ew1x7OQsqIfEviwjq-ngi0y07DkYULetCeXC1pvNSP8G_8xNe_S7Dg",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"content\": \"This is a test comment!\"\n}\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "http://localhost:21291/api/shouts/1/comments",
 									"protocol": "http",
@@ -386,6 +412,16 @@
 				{
 					"name": "Like Shout",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0yMVQwMDozNjoxMyIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5NTY2OTczLCJleHAiOjE1ODAxNzE3NzMsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.Vffxvb6Ip4rW73vO-tlEqhKSo613WGx6Ew1x7OQsqIfEviwjq-ngi0y07DkYULetCeXC1pvNSP8G_8xNe_S7Dg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"url": {
@@ -408,6 +444,16 @@
 				{
 					"name": "Dislike Shout",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0yMVQwMDozNjoxMyIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5NTY2OTczLCJleHAiOjE1ODAxNzE3NzMsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.Vffxvb6Ip4rW73vO-tlEqhKSo613WGx6Ew1x7OQsqIfEviwjq-ngi0y07DkYULetCeXC1pvNSP8G_8xNe_S7Dg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"url": {
