@@ -167,13 +167,19 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
 
         public async Task<int> CreateCommentAsync(Comment newComment)
         {
-            return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
-                $@"INSERT INTO Comment (ShoutId, UserId, Content)
-                   VALUES ({ newComment.ShoutId.ToString() }, { newComment.UserId.ToString() }, @Content);
-                   ${DapperHelperQueries.SelectSessionLastInserted( "Comment", "id" )}
-                ",
-                new { Content = newComment.Content }
-            );
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
+                    $@"INSERT INTO Comment (ShoutId, UserId, Content)
+                       VALUES ({ newComment.ShoutId.ToString() }, { newComment.UserId.ToString() }, @Content);
+                       {DapperHelperQueries.SelectSessionLastInserted( "Comment", "id" )}
+                    ",
+                    new { Content = newComment.Content }
+                );
+            }
+
         }
 
         #endregion CREATE
