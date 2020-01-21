@@ -14,9 +14,15 @@
 
 ------------------------
 
--- DROP TABLES
+-- DROP ALL TABLES (public schema)
 
---DROP TABLE appuserprofile, appuser, eventtype, auditlog;
+-- (Create the script with sql)
+
+--SELECT 'DROP TABLE IF EXISTS "' || tablename || '" CASCADE;' 
+--FROM pg_tables
+--WHERE schemaname = 'public';
+
+-- (run result)
 
 ------------------------
 

@@ -62,21 +62,21 @@ CREATE TABLE HashtagShout (
     ShoutId INT NOT NULL REFERENCES Shout(Id)
 );
 
+CREATE TABLE AssetType (
+    Id SMALLSERIAL PRIMARY KEY,
+    Label VARCHAR(20) NOT NULL
+);
+
 CREATE TABLE ShoutAsset (
     Id SERIAL PRIMARY KEY,
     ShoutId INT NOT NULL REFERENCES Shout(Id),
-    AssetTypeId SMALLINT NOT NULL,
+    AssetTypeId SMALLINT NOT NULL REFERENCES AssetType(Id),
     URL VARCHAR(200) NOT NULL
-);
-
-CREATE TABLE AssetType (
-    Id SMALLSERIAL PRIMARY KEY,
-    Label VARCHAR(20) NOT NULL,
 );
 
 CREATE TABLE ReactionType (
     Id SMALLSERIAL PRIMARY KEY,
-    Label VARCHAR(30) NOT NULL,
+    Label VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE ShoutReaction (
@@ -103,6 +103,11 @@ CREATE TABLE CommentReaction (
     ReactionType SMALLINT NOT NULL REFERENCES ReactionType(Id)
 );
 
+CREATE TABLE NotificationType (
+    Id SMALLSERIAL PRIMARY KEY,
+    Label VARCHAR(50) NOT NULL
+);
+
 CREATE TABLE Notification (
     Id SERIAL PRIMARY KEY,
     UserId INT NOT NULL REFERENCES AppUser(Id),
@@ -111,11 +116,6 @@ CREATE TABLE Notification (
     -- Relative link.
     LinksTo VARCHAR(100),
     CreateDate TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT( NOW() AT TIME ZONE 'UTC' )
-);
-
-CREATE TABLE NotificationType (
-    Id SMALLSERIAL PRIMARY KEY,
-    Label VARCHAR(50) NOT NULL,
 );
 
 CREATE TABLE AuditLog (
