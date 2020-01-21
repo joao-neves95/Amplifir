@@ -160,7 +160,7 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             }, false );
 
             // Reuse "shoutId" variable to alocate less memory.
-            entityId = await base._dBContext.DbConnection.ExecuteScalarAsync<int>( DapperHelperQueries.Exists( reactionTableName, "id" ) );
+            entityId = await base._dBContext.DbConnection.ExecuteScalarAsync<int>( DapperHelperQueries.SelectSessionLastInserted( reactionTableName, "id" ) );
             // Do not await.
             _ = base._dBContext.DbConnection.DisposeAsync();
             return entityId;
