@@ -6,9 +6,10 @@
  *
  */
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Amplifir.Core.Entities;
 using Amplifir.Core.Enums;
+using Amplifir.Core.Entities;
 
 namespace Amplifir.Core.Interfaces
 {
@@ -60,7 +61,7 @@ namespace Amplifir.Core.Interfaces
         /// <param name="lastId"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        Task<Shout> GetByUserIdAsync( int userId, int lastId = 0, short limit = 10 );
+        Task<List<Shout>> GetByUserIdAsync( int userId, int lastId = 0, short limit = 10 );
 
         /// <summary>
         /// 
@@ -71,7 +72,7 @@ namespace Amplifir.Core.Interfaces
         /// <param name="lastId"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        Task<Shout> GetFollowingShoutsByUserIdAsync( int userId, int lastId = 0, short limit = 10 );
+        Task<List<Shout>> GetFollowingShoutsByUserIdAsync( int userId, int lastId = 0, short limit = 10 );
 
         Task<ShoutReaction> GetShoutReactionAsync( int shoutId, int userId );
 

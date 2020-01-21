@@ -183,17 +183,46 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
 
         public async Task<Shout> GetByIdAsync(int shoutId)
         {
-            throw new NotImplementedException();
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return await base._dBContext.DbConnection.QueryFirstOrDefaultAsync<Shout>(
+                    $@"{DapperHelperQueries.GetShoutQueryWithoutWhere()}
+                       WHERE Id = { shoutId }
+                    "
+                );
+            }
         }
 
-        public async Task<Shout> GetByUserIdAsync(int userId, int lastId = 0, short limit = 10)
+        public async Task<List<Shout>> GetByUserIdAsync(int userId, int lastId = 0, short limit = 10)
         {
-            throw new NotImplementedException();
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return (List<Shout>)await base._dBContext.DbConnection.QueryAsync<Shout>(
+                    $@"{DapperHelperQueries.GetShoutQueryWithoutWhere()}
+                       WHERE Shout.UserId = { userId } AND {DapperHelperQueries.PaginatedQueryDESC( "Shout", lastId, limit )}
+                    "
+                );
+            }
         }
 
-        public async Task<Shout> GetFollowingShoutsByUserIdAsync(int userId, int lastId = 0, short limit = 10)
+        public async Task<List<Shout>> GetFollowingShoutsByUserIdAsync(int userId, int lastId = 0, short limit = 10)
         {
             throw new NotImplementedException();
+
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return (List<Shout>)await base._dBContext.DbConnection.QueryAsync<Shout>(
+                    $@"{DapperHelperQueries.GetShoutQueryWithoutWhere()}
+                       WHERE {DapperHelperQueries.PaginatedQueryDESC( "Shout", lastId, limit )}
+                    "
+                );
+            }
         }
 
         public async Task<List<string>> GetHashtagsAsync( List<string> hashtags )

@@ -165,6 +165,16 @@ namespace Amplifir.Core.DomainServices
             await _shoutStore.DeleteAsync( shoutId, userId );
         }
 
+        public async Task<List<Shout>> GetByUserIdAsync(int userId, int lastId = 0, short limit = 10)
+        {
+            if (userId < 0 || limit < 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            return await _shoutStore.GetByUserIdAsync( userId, lastId, limit );
+        }
+
         public async Task DeleteCommentAsync(int commentId, int userId)
         {
             if (commentId < 0 || userId < 0)

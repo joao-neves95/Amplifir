@@ -13,6 +13,7 @@ using Amplifir.Core.Entities;
 
 namespace Amplifir.Infrastructure.DataAccess
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage( "Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>" )]
     public static class DapperHelperQueries
     {
         public static string SelectSessionLastInsertedUserId()
@@ -26,6 +27,8 @@ namespace Amplifir.Infrastructure.DataAccess
         }
 
         /// <summary>
+        ///
+        /// This query must be made in the same connection of the inserted value.
         /// 
         /// </summary>
         /// <param name="tableName"></param>
@@ -49,6 +52,40 @@ namespace Amplifir.Infrastructure.DataAccess
         {
             return $@"INSERT INTO AuditLog (UserId, IPv4, EventTypeId)
                       VALUES ( { userId }, @IPv4, { eventTypeId } )
+                   ";
+        }
+
+        public static string GetShoutQueryWithoutWhere()
+        {
+            return $@"SELECT Shout.Id, Shout.UserId, AppUser.UserName, Shout.Content, Shout.CreateDate, Shout.LikesCount, Shout.DislikesCount
+                      FROM Shout
+                          INNER JOIN AppUser
+                          ON Shout.UserId = AppUser.Id
+                   ";
+        }
+
+
+        /// <summary>
+        /// 
+        /// Used inside the WHERE, and if any, the last AND of the condition.
+        /// 
+        /// </summary>
+        /// <param name="tablename"> ATENTION: This is not parameterized. Do not get it from any client. </param>
+        /// <param name="lastId"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public static string PaginatedQueryDESC(string tableName, int lastId, short limit)
+        {
+            return $@" {tableName}.Id {( lastId > 0 ? "< " + lastId.ToString() :
+                                                   $@" <= (
+                                                               SELECT Id
+                                                               FROM { tableName }
+                                                               ORDER BY Id
+                                                               LIMIT 1
+                                                   )"
+                                        )}
+                       ORDER BY {tableName}.Id DESC
+                       LIMIT {limit}
                    ";
         }
 

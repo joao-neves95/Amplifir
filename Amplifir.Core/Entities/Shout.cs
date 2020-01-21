@@ -16,6 +16,11 @@ namespace Amplifir.Core.Entities
     {
         public int Id { get; set; }
 
+        /// <summary>
+        /// [ForeignKey] From the AppUser table.
+        /// </summary>
+        public string UserName { get; set; }
+
         public DateTime CreateDate { get; set; }
 
         public int LikesCount { get; set; }

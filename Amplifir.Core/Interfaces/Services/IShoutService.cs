@@ -6,6 +6,7 @@
  *
  */
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amplifir.Core.Enums;
 using Amplifir.Core.Entities;
@@ -30,6 +31,8 @@ namespace Amplifir.Core.Interfaces
         /// <param name="reactionTypeId"></param>
         /// <returns></returns>
         Task<CreateReactionResult> CreateReactionAsync( EntityType entityType, int entityId, int userId, short reactionTypeId );
+
+        Task<List<Shout>> GetByUserIdAsync( int userId, int lastId = 0, short limit = 10 );
 
         Task DeleteAsync( int shoutId, int userId );
 

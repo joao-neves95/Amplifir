@@ -27,6 +27,7 @@ namespace Amplifir.UI.Web.Controllers
     [Route("api/shouts")]
     [ApiController]
     [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage( "Globalization", "CA1305:Specify IFormatProvider", Justification = "<Pending>" )]
     public class ShoutsController : ControllerBase
     {
         public ShoutsController(IShoutService shoutService, IJWTService jWTService)
@@ -93,24 +94,47 @@ namespace Amplifir.UI.Web.Controllers
         }
 
         /// <summary>
-        /// 
-        /// Gets all shouts paginated of a specific user id.
-        /// 
+        /// <para> Gets all shouts paginated of a specific user id. </para>
+        /// <para> If the user is -1, it defaults to the current user in session. </para>
+        /// <para> GET: " user/{userId} ? lastId={lastId::0} &amp; limit={limit::10} " </para>
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="userId"></param>
+        /// <param name="lastId"></param>
+        /// <param name="limit"></param>
         /// <returns></returns>
         [HttpGet( "user/{userId}" )]
-        public async Task<IActionResult> GetByUserId([FromRoute]int userId)
+        [Produces( typeof( ApiResponse<List<Shout>> ) )]
+        public async Task<IActionResult> GetByUserId([FromRoute]int userId, [FromQuery]int lastId = 0, [FromQuery]short limit = 10)
         {
+            ApiResponse<List<Shout>> apiResponse = new ApiResponse<List<Shout>>();
+
             try
             {
-                return Ok( new ApiResponse<string>()
+                if (userId == -1)
                 {
-                    EndpointResult = "GetByUserId"
-                } );
+                    userId = Convert.ToInt32( this._JWTService.GetClaimId( HttpContext.User ) );
+                }
+
+                apiResponse.EndpointResult = await this._shoutService.GetByUserIdAsync( userId, lastId, limit );
+                return Ok( apiResponse );
+            }
+            catch (FormatException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.BadRequest;
+                return BadRequest( apiResponse );
+            }
+            catch (DbException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
+                // TODO: Error handling.
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
             catch (Exception e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
         }
