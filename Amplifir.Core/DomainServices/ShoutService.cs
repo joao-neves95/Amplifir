@@ -14,6 +14,7 @@ using Amplifir.Core.Enums;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
 using Amplifir.Core.Models;
+using Amplifir.Core.DTOs;
 
 namespace Amplifir.Core.DomainServices
 {
@@ -172,6 +173,16 @@ namespace Amplifir.Core.DomainServices
             }
 
             return await this._shoutStore.GetByUserIdAsync( userId, lastId, limit );
+        }
+
+        public async Task<List<Shout>> GetAsync(ShoutsFilterDTO shoutsFilterDTO, int lastId = 0, short limit = 10)
+        {
+            if (lastId < 0 || limit < 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            return await this._shoutStore.GetAsync( shoutsFilterDTO, lastId, limit );
         }
 
         public async Task<List<Comment>> GetCommentsByShoutIdAsync(int shoutId, int lastId = 0, short limit = 10)

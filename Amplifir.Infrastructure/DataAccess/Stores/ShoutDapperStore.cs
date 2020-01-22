@@ -15,6 +15,8 @@ using Amplifir.Core.Constants;
 using Amplifir.Core.Enums;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
+using Amplifir.Core.DTOs;
+using Amplifir.Core.Utilities;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
 {
@@ -211,6 +213,77 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                        WHERE Shout.UserId = { userId } AND {DapperHelperQueries.PaginatedQueryDESC( "Shout", lastId, limit )}
                     "
                 );
+            }
+        }
+
+        public async Task<List<Shout>> GetAsync(ShoutsFilterDTO shoutsFilterDTO, int lastId = 0, short limit = 10)
+        {
+            string query = DapperHelperQueries.GetShoutQueryWithoutWhere();
+            string hashtagClause = "";
+
+            if (shoutsFilterDTO.Hashtags.Length > 0)
+            {
+                throw new NotImplementedException();
+
+                StringBuilder stringBuilder = new StringBuilder();
+
+                stringBuilder.Append( @"IN(
+                                          SELECT ShoutId
+                                          FROM HashtagShout
+                                          WHERE HashtagId IN(
+                                              SELECT Id
+                                              FROM Hashtag
+                                              WHERE Content IN( "
+                );
+
+                for (int i = 0; i < shoutsFilterDTO.Hashtags.Length; ++i)
+                {
+                    // TODO: Turn this into a parameterized query.
+                    stringBuilder.Append( shoutsFilterDTO.Hashtags );
+
+                    if (i < shoutsFilterDTO.Hashtags.Length - 1)
+                    {
+                        stringBuilder.Append( ", " );
+                    }
+                }
+
+                stringBuilder.Append( ") ) ) " );
+                hashtagClause = stringBuilder.ToString();
+
+            }
+
+            if(shoutsFilterDTO.FilteredBy == FilterType.MostComments)
+            {
+                query += $@"WHERE Id IN(
+                                SELECT ShoutId
+                                FROM Comment
+                                {( shoutsFilterDTO.Hashtags.Length > 0 ? $"AND ShoutId {hashtagClause}" : "" )}
+                                GROUP BY ShoutId
+                                ODER BY COUNT(ShoutId) DESC
+                                LIMIT {limit}
+                            )
+                         ";
+            }
+            else
+            {
+                query += $@"WHERE {DapperHelperQueries.PaginatedQuery( "Shout", lastId )} {( shoutsFilterDTO.Hashtags.Length > 0 ? $"AND Id {hashtagClause}" : "" )}";
+
+                query += "ORDER BY " + shoutsFilterDTO.FilteredBy.Switch( new Dictionary<FilterType, Func<string>>()
+                {
+                    { FilterType.Top, () => "Shout.LikesCount, Shout.CreateDate DESC" },
+                    { FilterType.Last, () => "Shout.CreateDate DESC" }
+                },
+                    () => "ORDER BY Shout.LikesCount DESC"
+                );
+
+                query += $" LIMIT {limit}";
+            }
+
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return (List<Shout>)await base._dBContext.DbConnection.QueryAsync<Shout>( query );
             }
         }
 

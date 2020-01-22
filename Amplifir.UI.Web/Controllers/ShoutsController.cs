@@ -50,22 +50,41 @@ namespace Amplifir.UI.Web.Controllers
 
         /// <summary>
         /// 
-        /// Gets shouts paginated.
+        /// Gets top shouts paginated.
+        ///
+        /// ?lastId=0 amp; limit=10
+        /// 
         /// 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Get()
+        [Produces( typeof( ApiResponse<List<Shout>> ) )]
+        public async Task<IActionResult> Get([FromBody]ShoutsFilterDTO shoutsFilterDTO, [FromQuery]int lastId = 0, [FromQuery]short limit = 10)
         {
+            ApiResponse<List<Shout>> apiResponse = new ApiResponse<List<Shout>>();
+
             try
             {
-                return Ok( new ApiResponse<string>()
-                {
-                    EndpointResult = "Get"
-                } );
+                apiResponse.EndpointResult = await this._shoutService.GetAsync( shoutsFilterDTO, lastId, limit );
+                return Ok( apiResponse );
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.BadRequest;
+                return BadRequest( apiResponse );
+            }
+            catch (DbException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
+                // TODO: Error handling.
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
             catch (Exception e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
         }

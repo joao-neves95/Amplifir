@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Amplifir.Core.Enums;
 using Amplifir.Core.Entities;
 using Amplifir.Core.Models;
+using Amplifir.Core.DTOs;
 
 namespace Amplifir.Core.Interfaces
 {
@@ -33,6 +34,8 @@ namespace Amplifir.Core.Interfaces
         Task<CreateReactionResult> CreateReactionAsync( EntityType entityType, int entityId, int userId, short reactionTypeId );
 
         Task<List<Shout>> GetByUserIdAsync( int userId, int lastId = 0, short limit = 10 );
+
+        Task<List<Shout>> GetAsync( ShoutsFilterDTO shoutsFilterDTO, int lastId = 0, short limit = 10 );
 
         Task<List<Comment>> GetCommentsByShoutIdAsync( int shoutId, int lastId = 0, short limit = 10 );
 
