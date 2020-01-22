@@ -168,10 +168,20 @@
 						{
 							"name": "Delete Shout Comment",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0yMVQwMDozNjoxMyIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5NTY2OTczLCJleHAiOjE1ODAxNzE3NzMsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.Vffxvb6Ip4rW73vO-tlEqhKSo613WGx6Ew1x7OQsqIfEviwjq-ngi0y07DkYULetCeXC1pvNSP8G_8xNe_S7Dg",
+											"type": "string"
+										}
+									]
+								},
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:21291/api/shouts/1/comments/1",
+									"raw": "http://localhost:21291/api/shouts/1/comments/2",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -182,7 +192,7 @@
 										"shouts",
 										"1",
 										"comments",
-										"1"
+										"2"
 									]
 								}
 							},
@@ -191,10 +201,20 @@
 						{
 							"name": "Like Shout Comment",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0yMVQwMDozNjoxMyIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5NTY2OTczLCJleHAiOjE1ODAxNzE3NzMsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.Vffxvb6Ip4rW73vO-tlEqhKSo613WGx6Ew1x7OQsqIfEviwjq-ngi0y07DkYULetCeXC1pvNSP8G_8xNe_S7Dg",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:21291/api/shouts/1/comments/1/likes",
+									"raw": "http://localhost:21291/api/shouts/1/comments/3/likes",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -205,7 +225,7 @@
 										"shouts",
 										"1",
 										"comments",
-										"1",
+										"3",
 										"likes"
 									]
 								}
@@ -215,10 +235,20 @@
 						{
 							"name": "Dislike Shout Comment",
 							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0yMVQwMDozNjoxMyIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5NTY2OTczLCJleHAiOjE1ODAxNzE3NzMsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.Vffxvb6Ip4rW73vO-tlEqhKSo613WGx6Ew1x7OQsqIfEviwjq-ngi0y07DkYULetCeXC1pvNSP8G_8xNe_S7Dg",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:21291/api/shouts/1/comments/1/dislikes",
+									"raw": "http://localhost:21291/api/shouts/1/comments/3/dislikes",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -229,7 +259,7 @@
 										"shouts",
 										"1",
 										"comments",
-										"1",
+										"3",
 										"dislikes"
 									]
 								}
