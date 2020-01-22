@@ -228,13 +228,12 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                 StringBuilder stringBuilder = new StringBuilder();
 
                 stringBuilder.Append( @"IN(
-                                          SELECT ShoutId
-                                          FROM HashtagShout
-                                          WHERE HashtagId IN(
-                                              SELECT Id
-                                              FROM Hashtag
-                                              WHERE Content IN( "
-                );
+                                            SELECT ShoutId
+                                            FROM HashtagShout
+                                                INNER JOIN Hashtag
+                                                ON HashtagShout.HashtagId = Hashtag.Id
+                                            WHERE Hashtag.Content IN(
+                " );
 
                 for (int i = 0; i < shoutsFilterDTO.Hashtags.Length; ++i)
                 {
@@ -247,28 +246,29 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                     }
                 }
 
-                stringBuilder.Append( ") ) ) " );
+                stringBuilder.Append( ") ) " );
                 hashtagClause = stringBuilder.ToString();
-
             }
+
+            query += $"WHERE {DapperHelperQueries.PaginatedQuery( "Shout", lastId )} ";
 
             if(shoutsFilterDTO.FilteredBy == FilterType.MostComments)
             {
-                query += $@"WHERE Id IN(
+                query += $@"AND Id IN(
                                 SELECT ShoutId
                                 FROM Comment
-                                {( shoutsFilterDTO.Hashtags.Length > 0 ? $"AND ShoutId {hashtagClause}" : "" )}
+                                {( shoutsFilterDTO.Hashtags.Length > 0 ? $"WHERE ShoutId {hashtagClause}" : "" )}
                                 GROUP BY ShoutId
-                                ODER BY COUNT(ShoutId) DESC
+                                ORDER BY COUNT(ShoutId) DESC
                                 LIMIT {limit}
                             )
                          ";
             }
             else
             {
-                query += $@"WHERE {DapperHelperQueries.PaginatedQuery( "Shout", lastId )} {( shoutsFilterDTO.Hashtags.Length > 0 ? $"AND Id {hashtagClause}" : "" )}";
+                query += $"{( shoutsFilterDTO.Hashtags.Length > 0 ? $"AND Id {hashtagClause}" : "" )}";
 
-                query += "ORDER BY " + shoutsFilterDTO.FilteredBy.Switch( new Dictionary<FilterType, Func<string>>()
+                query += " ORDER BY " + shoutsFilterDTO.FilteredBy.Switch( new Dictionary<FilterType, Func<string>>()
                 {
                     { FilterType.Top, () => "Shout.LikesCount, Shout.CreateDate DESC" },
                     { FilterType.Last, () => "Shout.CreateDate DESC" }
