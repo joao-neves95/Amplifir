@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 - 2020 Jo„o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
+ * Copyright (c) 2019 - 2020 Jo√£o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
  *
  * Amplifir and all its content is licensed under the GNU Lesser General Public License (LGPL),
  * version 3, located in the root of this project, under the name "LICENSE.md".
@@ -19,11 +19,16 @@ namespace Amplifir.Core.DomainServices
     [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class AuthenticationService : IAuthenticationService
     {
-        public AuthenticationService(IAppUserStore<AppUser, int> appUserStore, IPasswordService passwordService, IAppSettings appSettings)
+        public AuthenticationService(
+            IAppUserStore<AppUser, int> appUserStore, IPasswordService passwordService,
+            IAppSettings appSettings,
+            IEmailValidatorService emailValidatorService
+        )
         {
             this._appUserStore = appUserStore;
             this._passwordService = passwordService;
             this._appSettings = appSettings;
+            this._emailValidatorService = emailValidatorService;
         }
 
         private readonly IAppUserStore<AppUser, int> _appUserStore;
@@ -31,6 +36,8 @@ namespace Amplifir.Core.DomainServices
         private readonly IPasswordService _passwordService;
 
         private readonly IAppSettings _appSettings;
+
+        private readonly IEmailValidatorService _emailValidatorService;
 
         public async Task<ValidateSignInResult> ValidateSignInAsync(string email, string password)
         {
@@ -50,28 +57,38 @@ namespace Amplifir.Core.DomainServices
 
         public async Task<RegisterUserResult> RegisterUserAsync(IAppUser appUser)
         {
-            // TODO: Add the password length to a app settings file.
+            RegisterUserResult registerUserResult = new RegisterUserResult();
+            registerUserResult.User = null;
+
             if (!String.IsNullOrEmpty( appUser.Password ) && appUser.Password.Length < _appSettings.Password_MinLength)
             {
-                return new RegisterUserResult() { State = RegisterUserState.PasswordTooSmall, User = null };
+                registerUserResult.State = RegisterUserState.PasswordTooSmall;
+                return registerUserResult;
             }
 
-            // TODO: Check if it's a valid email.
+            if (String.IsNullOrEmpty( appUser.Email ) || !this._emailValidatorService.IsValid( appUser.Email ))
+            {
+                registerUserResult.State = RegisterUserState.InvalidEmail;
+                return registerUserResult;
+            }
+
             // TODO: Check if it's a temporary email or a spam email.
 
-            if (!String.IsNullOrEmpty( appUser.Email ) && await _appUserStore.EmailExistsAsync( appUser.Email ))
+            if (await _appUserStore.EmailExistsAsync( appUser.Email ))
             {
-                return new RegisterUserResult() { State = RegisterUserState.EmailExists, User = null };
+                registerUserResult.State = RegisterUserState.EmailExists;
+                return registerUserResult;
             }
 
             appUser.UserName = StringUtils.GenerateRandomString( 8 );
-            appUser.Password = await _passwordService.HashPasswordAsync( appUser.Password );
 
-            // This call can return an Exception from the DataAccess layer.
+            appUser.Password = await _passwordService.HashPasswordAsync( appUser.Password );
             await _appUserStore.CreateAsync( appUser as AppUser );
             appUser.Id = await _appUserStore.GetLastInsertedUserId();
 
-            return new RegisterUserResult() { State = RegisterUserState.Success, User = appUser };
+            registerUserResult.State = RegisterUserState.Success;
+            registerUserResult.User = appUser;
+            return registerUserResult;
         }
     }
 }
