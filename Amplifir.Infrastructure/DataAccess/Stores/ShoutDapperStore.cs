@@ -387,7 +387,7 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                 {
                     $@"                  
                     DELETE FROM CommentReaction
-                    WHERE ShoutId = { id }
+                    WHERE CommentId = { id };
                     
                     DELETE FROM Comment
                     WHERE Id = { id } AND UserId = { userId };
