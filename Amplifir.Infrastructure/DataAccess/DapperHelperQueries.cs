@@ -64,6 +64,14 @@ namespace Amplifir.Infrastructure.DataAccess
                    ";
         }
 
+        public static string GetCommentQueryWithoutWhere()
+        {
+            return $@"SELECT Comment.Id, Comment.ShoutId, Comment.UserId, AppUser.UserName, Comment.Content, Comment.CreateDate, Comment.LikesCount, Comment.DislikesCount
+                      FROM Comment
+                          INNER JOIN AppUser
+                          ON Comment.UserId = AppUser.Id
+                   ";
+        }
 
         /// <summary>
         /// 

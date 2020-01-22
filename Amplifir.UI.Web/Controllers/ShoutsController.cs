@@ -124,6 +124,44 @@ namespace Amplifir.UI.Web.Controllers
                 apiResponse.Message = Resource_ResponseMessages_en.BadRequest;
                 return BadRequest( apiResponse );
             }
+            catch (ArgumentOutOfRangeException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.BadRequest;
+                return BadRequest( apiResponse );
+            }
+            catch (DbException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
+                // TODO: Error handling.
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
+            catch (Exception e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
+                return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
+            }
+        }
+
+        [HttpGet( "{shoutId}/comments" )]
+        [Produces( typeof( ApiResponse<List<Comment>> ) )]
+        public async Task<IActionResult> GetComments([FromRoute]int shoutId, [FromQuery]int lastId = 0, [FromQuery]short limit = 10)
+        {
+            ApiResponse<List<Comment>> apiResponse = new ApiResponse<List<Comment>>();
+
+            try
+            {
+                apiResponse.EndpointResult = await this._shoutService.GetCommentsByShoutIdAsync( shoutId, lastId, limit );
+                return Ok( apiResponse );
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.BadRequest;
+                return BadRequest( apiResponse );
+            }
             catch (DbException e)
             {
                 apiResponse.Error = true;
@@ -296,6 +334,12 @@ namespace Amplifir.UI.Web.Controllers
                 apiResponse.Message = Resource_ResponseMessages_en.Success;
 
                 return Ok( apiResponse );
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.BadRequest;
+                return BadRequest( apiResponse );
             }
             catch (DbException e)
             {

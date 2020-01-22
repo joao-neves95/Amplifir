@@ -264,9 +264,18 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             }
         }
 
-        public Task<List<Comment>> GetCommentsByShoutIdAsync(int shoutId, int lastId = 0, int limit = 10)
+        public async Task<List<Comment>> GetCommentsByShoutIdAsync(int shoutId, int lastId = 0, short limit = 10)
         {
-            throw new NotImplementedException();
+            await base._dBContext.OpenDBConnectionAsync();
+
+            using (base._dBContext.DbConnection)
+            {
+                return (List<Comment>)await base._dBContext.DbConnection.QueryAsync<Comment>(
+                    $@"{DapperHelperQueries.GetCommentQueryWithoutWhere()}
+                       WHERE Comment.ShoutId = { shoutId } AND {DapperHelperQueries.PaginatedQueryDESC( "Comment", lastId, limit )}
+                    "
+                );
+            }
         }
 
         public async Task<ShoutReaction> GetShoutReactionAsync(int shoutId, int userId)

@@ -171,7 +171,17 @@ namespace Amplifir.Core.DomainServices
                 throw new ArgumentOutOfRangeException();
             }
 
-            return await _shoutStore.GetByUserIdAsync( userId, lastId, limit );
+            return await this._shoutStore.GetByUserIdAsync( userId, lastId, limit );
+        }
+
+        public async Task<List<Comment>> GetCommentsByShoutIdAsync(int shoutId, int lastId = 0, short limit = 10)
+        {
+            if (shoutId < 0 || limit < 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            return await this._shoutStore.GetCommentsByShoutIdAsync( shoutId, lastId, limit );
         }
 
         #endregion GET

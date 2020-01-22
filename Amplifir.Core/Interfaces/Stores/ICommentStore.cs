@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 - 2020 Jo„o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
+ * Copyright (c) 2019 - 2020 Jo√£o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
  *
  * Amplifir and all its content is licensed under the GNU Lesser General Public License (LGPL),
  * version 3, located in the root of this project, under the name "LICENSE.md".
@@ -24,7 +24,7 @@ namespace Amplifir.Core.Interfaces
         /// <returns></returns>
         Task<int> CreateCommentAsync( Comment newComment );
 
-        Task<List<Comment>> GetCommentsByShoutIdAsync( int shoutId, int lastId = 0, int limit = 10 );
+        Task<List<Comment>> GetCommentsByShoutIdAsync( int shoutId, int lastId = 0, short limit = 10 );
 
         Task<CommentReaction> GetCommentReactionAsync( int commentId, int userId );
 
