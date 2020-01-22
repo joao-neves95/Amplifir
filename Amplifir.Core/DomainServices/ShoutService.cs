@@ -36,6 +36,8 @@ namespace Amplifir.Core.DomainServices
 
         #region PUBLIC FAÇADE METHODS
 
+        #region CREATE
+
         public async Task<CreateShoutResult> CreateAsync(Shout newShout)
         {
             CreateShoutResult createShoutResult = new CreateShoutResult()
@@ -158,15 +160,9 @@ namespace Amplifir.Core.DomainServices
             return createReactionResult;
         }
 
-        public async Task DeleteAsync( int shoutId, int userId )
-        {
-            if (shoutId < 0 || userId < 0)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
+        #endregion CREATE
 
-            await _shoutStore.DeleteAsync( shoutId, userId );
-        }
+        #region GET
 
         public async Task<List<Shout>> GetByUserIdAsync(int userId, int lastId = 0, short limit = 10)
         {
@@ -176,6 +172,20 @@ namespace Amplifir.Core.DomainServices
             }
 
             return await _shoutStore.GetByUserIdAsync( userId, lastId, limit );
+        }
+
+        #endregion GET
+
+        #region DELETE
+
+        public async Task DeleteAsync( int shoutId, int userId )
+        {
+            if (shoutId < 0 || userId < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            await _shoutStore.DeleteAsync( shoutId, userId );
         }
 
         public async Task DeleteCommentAsync(int commentId, int userId)
@@ -197,6 +207,8 @@ namespace Amplifir.Core.DomainServices
 
             await _shoutStore.DeleteReactionByIdAsync( entityType, reaction, entityId );
         }
+
+        #endregion DELETE
 
         #endregion PUBLIC FAÇADE METHODS
 
