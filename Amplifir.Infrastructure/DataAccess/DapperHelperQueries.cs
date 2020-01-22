@@ -73,6 +73,19 @@ namespace Amplifir.Infrastructure.DataAccess
                    ";
         }
 
+        public static string PaginatedQuery(string tableName, int lastId)
+        {
+            return $@" {tableName}.Id {(lastId > 0 ? "< " + lastId.ToString() :
+                                                  $@" <= (
+                                                             SELECT Id
+                                                             FROM { tableName }
+                                                             ORDER BY Id
+                                                             LIMIT 1
+                                                  )"
+                                      )}
+                   ";
+        }
+
         /// <summary>
         /// 
         /// Used inside the WHERE, and if any, the last AND of the condition.
@@ -84,14 +97,7 @@ namespace Amplifir.Infrastructure.DataAccess
         /// <returns></returns>
         public static string PaginatedQueryDESC(string tableName, int lastId, short limit)
         {
-            return $@" {tableName}.Id {( lastId > 0 ? "< " + lastId.ToString() :
-                                                   $@" <= (
-                                                               SELECT Id
-                                                               FROM { tableName }
-                                                               ORDER BY Id
-                                                               LIMIT 1
-                                                   )"
-                                        )}
+            return $@" {DapperHelperQueries.PaginatedQuery( tableName, lastId )}
                        ORDER BY {tableName}.Id DESC
                        LIMIT {limit}
                    ";
