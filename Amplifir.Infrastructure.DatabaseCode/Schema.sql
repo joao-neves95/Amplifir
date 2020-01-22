@@ -100,7 +100,7 @@ CREATE TABLE CommentReaction (
     Id SERIAL PRIMARY KEY,
     CommentId INT NOT NULL REFERENCES Comment(Id),
     UserId INT NOT NULL REFERENCES AppUser(Id),
-    ReactionType SMALLINT NOT NULL REFERENCES ReactionType(Id)
+    ReactionTypeId SMALLINT NOT NULL REFERENCES ReactionType(Id)
 );
 
 CREATE TABLE NotificationType (
