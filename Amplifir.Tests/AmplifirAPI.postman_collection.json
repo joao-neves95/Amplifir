@@ -505,11 +505,30 @@
 				},
 				{
 					"name": "Get Shouts",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filteredBy\": 1,\n    \"hashtags\": []\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:21291/api/shouts",
+							"raw": "http://localhost:21291/api/shouts?limit=15",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -518,6 +537,12 @@
 							"path": [
 								"api",
 								"shouts"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "15"
+								}
 							]
 						}
 					},
@@ -527,14 +552,7 @@
 					"name": "Get Shouts By User Id",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiaWF0IjoiMjAyMC0wMS0yMVQwMDozNjoxMyIsImlkIjoiMSIsImlwdjQiOiIwLjAuMC4xIiwibmJmIjoxNTc5NTY2OTczLCJleHAiOjE1ODAxNzE3NzMsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MjEyOTEiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjIxMjkxIn0.Vffxvb6Ip4rW73vO-tlEqhKSo613WGx6Ew1x7OQsqIfEviwjq-ngi0y07DkYULetCeXC1pvNSP8G_8xNe_S7Dg",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
