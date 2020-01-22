@@ -86,6 +86,7 @@ namespace Amplifir.UI.Web
 
             services.AddSingleton( typeof( IJWTService ), typeof( JWTService ) );
             services.AddSingleton( typeof( IBadWordsService ), typeof( BadWordsService ) );
+            services.AddSingleton( typeof( IEmailValidatorService ), typeof( EmailValidatorService ) );
             services.AddSingleton( typeof( IAppSecrets ), TypeFactory.Get( ApplicationTypes.AppSecrets ) );
             services.AddSingleton( typeof( IAppSettings ), TypeFactory.Get( ApplicationTypes.AppSettings ) );
             services.AddScoped( typeof( IAuditLogStore ), TypeFactory.Get( ApplicationTypes.AuditLogDapperStore ) );
