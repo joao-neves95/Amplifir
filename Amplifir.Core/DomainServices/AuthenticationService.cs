@@ -22,14 +22,18 @@ namespace Amplifir.Core.DomainServices
         public AuthenticationService(
             IAppUserStore<AppUser, int> appUserStore, IPasswordService passwordService,
             IAppSettings appSettings,
-            IEmailValidatorService emailValidatorService
+            IEmailValidatorService emailValidatorService,
+            ISanitizerService sanitizerService
         )
         {
             this._appUserStore = appUserStore;
             this._passwordService = passwordService;
             this._appSettings = appSettings;
             this._emailValidatorService = emailValidatorService;
+            this._sanitizerService = sanitizerService;
         }
+
+        #region PROPERTIES
 
         private readonly IAppUserStore<AppUser, int> _appUserStore;
 
@@ -38,6 +42,10 @@ namespace Amplifir.Core.DomainServices
         private readonly IAppSettings _appSettings;
 
         private readonly IEmailValidatorService _emailValidatorService;
+
+        private readonly ISanitizerService _sanitizerService;
+
+        #endregion PROPERTIES
 
         public async Task<ValidateSignInResult> ValidateSignInAsync(string email, string password)
         {
@@ -81,6 +89,7 @@ namespace Amplifir.Core.DomainServices
             }
 
             appUser.UserName = StringUtils.GenerateRandomString( 8 );
+            appUser.Email = this._sanitizerService.SanitizeHTML( appUser.Email );
 
             appUser.Password = await _passwordService.HashPasswordAsync( appUser.Password );
             await _appUserStore.CreateAsync( appUser as AppUser );

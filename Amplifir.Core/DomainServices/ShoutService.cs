@@ -21,19 +21,34 @@ namespace Amplifir.Core.DomainServices
     [System.Diagnostics.CodeAnalysis.SuppressMessage( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" )]
     public class ShoutService : IShoutService
     {
-        public ShoutService(IShoutStore shoutStore, IAppSettings appSettings, IBadWordsService badWordsService)
+        public ShoutService(
+            IShoutStore shoutStore,
+            IAppSettings appSettings,
+            ISanitizerService sanitizerService,
+            IBadWordsService badWordsService
+        )
         {
             this._shoutStore = shoutStore;
             this._appSettings = appSettings;
+            this._sanitizerService = sanitizerService;
             this._badWordsService = badWordsService;
         }
 
+        #region PROPERTIES
+
         private const char HASHTAG_CHAR = '#';
+
         private const string ALLOWED_HASHTAG_NONAPHANUM_CHARS = "_";
 
         private readonly IShoutStore _shoutStore;
-        private readonly IBadWordsService _badWordsService;
+
         private readonly IAppSettings _appSettings;
+
+        private readonly ISanitizerService _sanitizerService;
+
+        private readonly IBadWordsService _badWordsService;
+
+        #endregion PROPERTIES
 
         #region PUBLIC FAÇADE METHODS
 
@@ -58,14 +73,15 @@ namespace Amplifir.Core.DomainServices
                 return createShoutResult;
             }
 
-            newShout.Content = await _badWordsService.CleanAsync( newShout.Content );
+            newShout.Content = this._sanitizerService.SanitizeHTML( newShout.Content );
+            newShout.Content = await this._badWordsService.CleanAsync( newShout.Content );
             List<string> newShoutHashtags = this.GetHashtagsFromShoutContent( newShout.Content ).ToList();
-            List<string> hashtagsThatExist = await _shoutStore.GetHashtagsAsync( newShoutHashtags );
+            List<string> hashtagsThatExist = await this._shoutStore.GetHashtagsAsync( newShoutHashtags );
             newShoutHashtags.RemoveAll( hashtag => hashtagsThatExist.Contains( hashtag ) );
 
             if (newShoutHashtags.Count > 0)
             {
-                await _shoutStore.CreateHashtagAsync( newShoutHashtags );
+                await this._shoutStore.CreateHashtagAsync( newShoutHashtags );
             }
 
             newShout.Id = await _shoutStore.CreateAsync( newShout );
@@ -73,7 +89,7 @@ namespace Amplifir.Core.DomainServices
 
             if (hashtagsThatExist.Count > 0)
             {
-                await _shoutStore.AddShoutToExistingHashtag( newShout.Id, hashtagsThatExist );
+                await this._shoutStore.AddShoutToExistingHashtag( newShout.Id, hashtagsThatExist );
             }
 
             createShoutResult.State = CreateShoutState.Success;
@@ -100,8 +116,9 @@ namespace Amplifir.Core.DomainServices
                 return createCommentResult;
             }
 
-            newComment.Content = await _badWordsService.CleanAsync( newComment.Content );
-            newComment.Id = await _shoutStore.CreateCommentAsync( newComment );
+            newComment.Content = this._sanitizerService.SanitizeHTML( newComment.Content );
+            newComment.Content = await this._badWordsService.CleanAsync( newComment.Content );
+            newComment.Id = await this._shoutStore.CreateCommentAsync( newComment );
             newComment.ShoutId = newComment.ShoutId;
             newComment.UserId = newComment.UserId;
             newComment.CreateDate = DateTime.UtcNow;

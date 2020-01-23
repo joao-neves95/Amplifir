@@ -53,6 +53,10 @@
               "target": "Package",
               "version": "[1.0.3, )"
             },
+            "HtmlSanitizer": {
+              "target": "Package",
+              "version": "[4.0.217, )"
+            },
             "Isopoh.Cryptography.Argon2": {
               "target": "Package",
               "version": "[1.1.3, )"
