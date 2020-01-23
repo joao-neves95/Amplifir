@@ -8,7 +8,7 @@
 
 import { Component, AfterViewInit, Input } from '@angular/core';
 
-import { Constants } from '../../shared/constants';
+import { Constants } from '../../constants';
 import { ModalType } from '../../enums/modalType';
 
 /**

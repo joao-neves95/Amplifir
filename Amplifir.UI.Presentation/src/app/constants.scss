@@ -1,0 +1,29 @@
+
+// #region MEDIA QUERIES
+// https://css-tricks.com/snippets/css/media-queries-for-standard-devices/
+
+$max-width-mobile: 480px;
+
+// #region MEDIA QUERIES
+
+// #region SIZES
+
+$sidenavbar-big-width: 13em;
+$sidenavbar-small-width: 4.8em;
+$sidenavbar-icons-size: 1.5rem;
+$page-margin-left: 1em;
+$page-header-height: 3.7em;
+
+// #endregion SIZES
+
+// #region COLORS
+
+$background-dark-blue: #16202a;
+$background-medium-blue: #192734;
+$blue: #2c9de1;
+$border-color: #39434d;
+$grey-text: #808e9b;
+
+$border: 0.01rem solid $border-color !important;
+
+// #endregion COLORS

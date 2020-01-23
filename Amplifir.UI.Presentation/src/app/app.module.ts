@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 - 2020 Jo„o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
+ * Copyright (c) 2019 - 2020 Jo√£o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
  *
  * Amplifir and all its content is licensed under the GNU Lesser General Public License (LGPL),
  * version 3, located in the root of this project, under the name "LICENSE.md".
@@ -18,6 +18,8 @@ import { SettingsComponent } from './components/pages/settings/settings.componen
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { AuthModalComponent } from './components/modals/auth-modal/auth-modal.component';
 import { ModalsComponent } from './components/modals/modals.component';
+import { ShoutCardComponent } from './components/shared/shout-card/shout-card.component';
+import { CommentCardComponent } from './components/shared/comment-card/comment-card.component'
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { ModalsComponent } from './components/modals/modals.component';
     SettingsComponent,
     PageHeaderComponent,
     AuthModalComponent,
-    ModalsComponent
+    ModalsComponent,
+    ShoutCardComponent,
+    CommentCardComponent
   ],
   imports: [
     BrowserModule,
