@@ -8,19 +8,20 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { ProfileComponent } from './components/pages/profile/profile.component';
-import { FeedComponent } from './components/pages/feed/feed.component';
-import { SettingsComponent } from './components/pages/settings/settings.component';
-import { PageHeaderComponent } from './components/page-header/page-header.component';
-import { AuthModalComponent } from './components/modals/auth-modal/auth-modal.component';
-import { ModalsComponent } from './components/modals/modals.component';
 import { ShoutCardComponent } from './components/shared/shout-card/shout-card.component';
-import { CommentCardComponent } from './components/shared/comment-card/comment-card.component';
+import { ModalsComponent } from './components/modals/modals.component';
+import { AuthModalComponent } from './components/modals/auth-modal/auth-modal.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { ExploreComponent } from './components/pages/explore/explore.component';
+import { FeedComponent } from './components/pages/feed/feed.component';
+import { ProfileComponent } from './components/pages/profile/profile.component';
+import { SettingsComponent } from './components/pages/settings/settings.component';
+import { ShoutsService } from './services/apiClient.service';
 
 @NgModule({
   declarations: [
@@ -33,14 +34,14 @@ import { ExploreComponent } from './components/pages/explore/explore.component';
     AuthModalComponent,
     ModalsComponent,
     ShoutCardComponent,
-    CommentCardComponent,
     ExploreComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ ShoutsService ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

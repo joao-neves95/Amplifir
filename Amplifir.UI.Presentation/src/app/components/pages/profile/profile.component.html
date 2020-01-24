@@ -1,4 +1,3 @@
-
 <header>
   <h2> &#64;{{ userName }}</h2>
 
@@ -6,7 +5,8 @@
   <p> {{ website }} </p>
   <address class="text-grey"> {{ location }} </address>
   <time class="text-grey"> {{ birthDate }} </time>
-  <p class="follow-count text-grey"><b> {{ followingCount }} </b> Following </p> <p class="follow-count text-grey"><b> {{ followersCount }} </b> Followers </p>
+  <p class="follow-count text-grey"><b> {{ followingCount }} </b> Following </p>
+  <p class="follow-count text-grey"><b> {{ followersCount }} </b> Followers </p>
 
 </header>
 
@@ -22,8 +22,8 @@
 
   </div>
 
-  <article *ngFor="let shout of shouts">
-    {{ shout }}
-  </article>
+  <app-shout-card *ngFor="let shout of shouts"
+                  [shout]="shout">
+  </app-shout-card>
 
 </section>
