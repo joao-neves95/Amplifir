@@ -1,1 +1,16 @@
-<p>shout-card works!</p>
+
+<article>
+  <header>
+    <p> &#64;{{ shout.userName }} </p>
+    <time class="text-grey"> {{ shout.createDate }} </time>
+  </header>
+
+  <p> {{ shout.content }} </p>
+
+  <footer>
+    <!-- <p class="comments-count text-grey"><b> {{ shout.commmentCount }} </b> </p> -->
+    <p class="likes-count text-grey"><b> {{ shout.likesCount }} </b> </p>
+    <p class="dislikes-count text-grey"><b> {{ shout.dislikesCount }} </b> </p>
+  </footer>
+
+</article>
