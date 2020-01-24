@@ -45,7 +45,7 @@
       "typeStyle": "Class",
       "classTypes": [],
       "extendedClasses": [],
-      "extensionCode": "../Amplifir.UI.Presentation/src/app/services/apiClient_TEST.service.extensions.ts",
+      "extensionCode": "../Amplifir.UI.Presentation/src/app/services/apiClientBase.ts",
       "generateDefaultValues": true,
       "excludedTypeNames": [],
       "excludedParameterNames": [],
@@ -64,7 +64,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": ".",
       "serviceSchemes": null,
-      "output": "../Amplifir.UI.Presentation/src/app/services/apiClient_TEST.service.ts"
+      "output": "../Amplifir.UI.Presentation/src/app/services/apiClient.service.ts"
     },
     "openApiToCSharpClient": {
       "clientBaseClass": null,
