@@ -19,7 +19,8 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
 import { AuthModalComponent } from './components/modals/auth-modal/auth-modal.component';
 import { ModalsComponent } from './components/modals/modals.component';
 import { ShoutCardComponent } from './components/shared/shout-card/shout-card.component';
-import { CommentCardComponent } from './components/shared/comment-card/comment-card.component'
+import { CommentCardComponent } from './components/shared/comment-card/comment-card.component';
+import { ExploreComponent } from './components/pages/explore/explore.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { CommentCardComponent } from './components/shared/comment-card/comment-c
     AuthModalComponent,
     ModalsComponent,
     ShoutCardComponent,
-    CommentCardComponent
+    CommentCardComponent,
+    ExploreComponent
   ],
   imports: [
     BrowserModule,
