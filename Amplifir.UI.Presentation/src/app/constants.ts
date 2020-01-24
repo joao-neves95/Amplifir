@@ -11,6 +11,7 @@ export const Constants = Object.freeze({
     modalsComponent: 'modals'
   },
   defaultLabels: {
+    appName: 'Amplifir',
     authModalTitle: 'Login',
     shoutModalTitle: 'Shout!',
     userName: 'Guest',

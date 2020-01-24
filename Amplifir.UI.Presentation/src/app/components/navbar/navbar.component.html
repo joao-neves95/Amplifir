@@ -2,7 +2,6 @@
 <nav class="nav flex-column">
 
   <a *ngFor="let link of navLinks"
-      (click)="click(link.label)"
       class="nav-link {{ link.label }}" routerLink="{{ link.url }}" routerLinkActive="active">
 
     <figure>

@@ -6,7 +6,8 @@
  *
  */
 
-import { Component, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 
 import { RouterLinkViewModel } from '../../viewModels/routerLinkViewModel';
 
@@ -15,37 +16,28 @@ import { RouterLinkViewModel } from '../../viewModels/routerLinkViewModel';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements AfterViewInit {
+export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor( private router: Router ) { }
 
   navLinks: RouterLinkViewModel[] = [
+    new RouterLinkViewModel( 'Explore', '/explore', 'fi fi-hashtag' ),
     new RouterLinkViewModel( 'Feed', '/feed', 'fi fi-podcast' /* 'fi fi-earth' */ ),
-    // new RouterLinkViewModel( 'Explore', '/explore', 'fi fi-hashtag' ),
     new RouterLinkViewModel( 'Profile', '/profile', 'fi fi-person' ),
     new RouterLinkViewModel( 'Settings', '/settings', 'fi fi-player-settings' )
   ]
 
-  @Output() clicked = new EventEmitter<string>();
+  @Output() pageChange = new EventEmitter<string>();
 
-  ngAfterViewInit(): void {
-    // TODO: Instead of using localStorage, change the title from a route event.
-    // TEMPORARY.
-    const linkLabel = localStorage.getItem( 'linkLabel' );
+  ngOnInit(): void {
+    this.router.events.subscribe( ( navEvent ) => {
+      if (navEvent instanceof NavigationEnd) {
+        const navLink = this.navLinks.find( (link) => link.url === navEvent.url );
 
-    if (linkLabel) {
-      setTimeout(() => {
-        ( document.querySelectorAll( `a.nav-link.${linkLabel}` )[0] as HTMLAnchorElement ).click();
-      });
-
-    } else {
-      this.click( this.navLinks[0].label );
-    }
+        if (navLink) {
+          this.pageChange.emit( navLink.label );
+        }
+      }
+    })
   }
-
-  click(linkLabel: string) {
-    localStorage.setItem( 'linkLabel', linkLabel );
-    this.clicked.emit(linkLabel);
-  }
-
 }
