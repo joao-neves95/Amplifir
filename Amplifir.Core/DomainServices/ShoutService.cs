@@ -192,14 +192,14 @@ namespace Amplifir.Core.DomainServices
             return await this._shoutStore.GetByUserIdAsync( userId, lastId, limit );
         }
 
-        public async Task<List<Shout>> GetAsync(ShoutsFilterDTO shoutsFilterDTO, int lastId = 0, short limit = 10)
+        public async Task<List<Shout>> GetAsync(ShoutsFilter shoutsFilter, int lastId = 0, short limit = 10)
         {
             if (lastId < 0 || limit < 1)
             {
                 throw new ArgumentOutOfRangeException();
             }
 
-            return await this._shoutStore.GetAsync( shoutsFilterDTO, lastId, limit );
+            return await this._shoutStore.GetAsync( shoutsFilter, lastId, limit );
         }
 
         public async Task<List<Comment>> GetCommentsByShoutIdAsync(int shoutId, int lastId = 0, short limit = 10)

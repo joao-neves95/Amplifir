@@ -35,7 +35,7 @@ namespace Amplifir.Core.Interfaces
 
         Task<List<Shout>> GetByUserIdAsync( int userId, int lastId = 0, short limit = 10 );
 
-        Task<List<Shout>> GetAsync( ShoutsFilterDTO shoutsFilterDTO, int lastId = 0, short limit = 10 );
+        Task<List<Shout>> GetAsync( ShoutsFilter shoutsFilter, int lastId = 0, short limit = 10 );
 
         Task<List<Comment>> GetCommentsByShoutIdAsync( int shoutId, int lastId = 0, short limit = 10 );
 

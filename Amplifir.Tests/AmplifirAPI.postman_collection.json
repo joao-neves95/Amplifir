@@ -528,7 +528,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:21291/api/shouts?limit=15",
+							"raw": "http://localhost:21291/api/shouts?filterBy=1&limit=15",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -539,6 +539,10 @@
 								"shouts"
 							],
 							"query": [
+								{
+									"key": "filterBy",
+									"value": "1"
+								},
 								{
 									"key": "limit",
 									"value": "15"

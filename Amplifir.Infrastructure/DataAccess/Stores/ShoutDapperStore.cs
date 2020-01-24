@@ -15,7 +15,7 @@ using Amplifir.Core.Constants;
 using Amplifir.Core.Enums;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
-using Amplifir.Core.DTOs;
+using Amplifir.Core.Models;
 using Amplifir.Core.Utilities;
 
 namespace Amplifir.Infrastructure.DataAccess.Stores
@@ -216,12 +216,12 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             }
         }
 
-        public async Task<List<Shout>> GetAsync(ShoutsFilterDTO shoutsFilterDTO, int lastId = 0, short limit = 10)
+        public async Task<List<Shout>> GetAsync(ShoutsFilter shoutsFilter, int lastId = 0, short limit = 10)
         {
             string query = DapperHelperQueries.GetShoutQueryWithoutWhere();
             string hashtagClause = "";
 
-            if (shoutsFilterDTO.Hashtags.Length > 0)
+            if (shoutsFilter?.Hashtags.Length > 0)
             {
                 throw new NotImplementedException();
 
@@ -235,12 +235,12 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
                                             WHERE Hashtag.Content IN(
                 " );
 
-                for (int i = 0; i < shoutsFilterDTO.Hashtags.Length; ++i)
+                for (int i = 0; i < shoutsFilter.Hashtags.Length; ++i)
                 {
                     // TODO: Turn this into a parameterized query.
-                    stringBuilder.Append( shoutsFilterDTO.Hashtags );
+                    stringBuilder.Append( shoutsFilter.Hashtags );
 
-                    if (i < shoutsFilterDTO.Hashtags.Length - 1)
+                    if (i < shoutsFilter.Hashtags.Length - 1)
                     {
                         stringBuilder.Append( ", " );
                     }
@@ -252,12 +252,12 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
 
             query += $"WHERE {DapperHelperQueries.PaginatedQuery( "Shout", lastId )} ";
 
-            if(shoutsFilterDTO.FilteredBy == FilterType.MostComments)
+            if(shoutsFilter.FilteredBy == FilterType.MostComments)
             {
                 query += $@"AND Id IN(
                                 SELECT ShoutId
                                 FROM Comment
-                                {( shoutsFilterDTO.Hashtags.Length > 0 ? $"WHERE ShoutId {hashtagClause}" : "" )}
+                                {( shoutsFilter.Hashtags.Length > 0 ? $"WHERE ShoutId {hashtagClause}" : "" )}
                                 GROUP BY ShoutId
                                 ORDER BY COUNT(ShoutId) DESC
                                 LIMIT {limit}
@@ -266,9 +266,9 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
             }
             else
             {
-                query += $"{( shoutsFilterDTO.Hashtags.Length > 0 ? $"AND Id {hashtagClause}" : "" )}";
+                query += $"{( shoutsFilter.Hashtags.Length > 0 ? $"AND Id {hashtagClause}" : "" )}";
 
-                query += " ORDER BY " + shoutsFilterDTO.FilteredBy.Switch( new Dictionary<FilterType, Func<string>>()
+                query += " ORDER BY " + shoutsFilter.FilteredBy.Switch( new Dictionary<FilterType, Func<string>>()
                 {
                     { FilterType.Top, () => "Shout.LikesCount, Shout.CreateDate DESC" },
                     { FilterType.Last, () => "Shout.CreateDate DESC" }

@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amplifir.Core.Enums;
 using Amplifir.Core.Entities;
-using Amplifir.Core.DTOs;
+using Amplifir.Core.Models;
 
 namespace Amplifir.Core.Interfaces
 {
@@ -64,7 +64,7 @@ namespace Amplifir.Core.Interfaces
         /// <returns></returns>
         Task<List<Shout>> GetByUserIdAsync( int userId, int lastId = 0, short limit = 10 );
 
-        Task<List<Shout>> GetAsync( ShoutsFilterDTO shoutsFilterDTO, int lastId = 0, short limit = 10 );
+        Task<List<Shout>> GetAsync( ShoutsFilter shoutsFilter, int lastId = 0, short limit = 10 );
 
         /// <summary>
         /// 

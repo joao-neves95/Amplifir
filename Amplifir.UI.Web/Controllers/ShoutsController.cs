@@ -52,20 +52,20 @@ namespace Amplifir.UI.Web.Controllers
         /// 
         /// Gets top shouts paginated.
         ///
-        /// ?lastId=0 amp; limit=10
+        /// ?filterBy=1 amp; lastId=0 amp; limit=10
         /// 
         /// 
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [Produces( typeof( ApiResponse<List<Shout>> ) )]
-        public async Task<IActionResult> Get([FromBody]ShoutsFilterDTO shoutsFilterDTO, [FromQuery]int lastId = 0, [FromQuery]short limit = 10)
+        public async Task<IActionResult> Get([FromQuery]FilterType filterBy = FilterType.Top, [FromQuery]int lastId = 0, [FromQuery]short limit = 10)
         {
             ApiResponse<List<Shout>> apiResponse = new ApiResponse<List<Shout>>();
 
             try
             {
-                apiResponse.EndpointResult = await this._shoutService.GetAsync( shoutsFilterDTO, lastId, limit );
+                apiResponse.EndpointResult = await this._shoutService.GetAsync( new ShoutsFilter( filterBy ), lastId, limit );
                 return Ok( apiResponse );
             }
             catch (ArgumentOutOfRangeException e)
