@@ -20,7 +20,7 @@ export class ApiClientBase {
 
   protected transformOptions( options: any ) {
     if ( options && options.headers ) {
-      ( <Headers> options.headers ).set( 'Authorization', 'TEST' );
+      options.headers = ( <Headers>options.headers ).set( 'Authorization', 'TEST' );
     }
 
     return Promise.resolve( options );
@@ -29,7 +29,7 @@ export class ApiClientBase {
 }
 
 @Injectable()
-export class AuthClient extends ApiClientBase {
+export class AuthService extends ApiClientBase {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -150,7 +150,7 @@ export class AuthClient extends ApiClientBase {
 }
 
 @Injectable()
-export class ProfilesClient extends ApiClientBase {
+export class ProfilesService extends ApiClientBase {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -328,7 +328,7 @@ export class ProfilesClient extends ApiClientBase {
 }
 
 @Injectable()
-export class ShoutsClient extends ApiClientBase {
+export class ShoutsService extends ApiClientBase {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -342,12 +342,17 @@ export class ShoutsClient extends ApiClientBase {
     /**
      * Gets top shouts paginated.
                 
-    ?lastId=0 amp; limit=10
+    ?filterBy=1 amp; lastId=0 amp; limit=10
+     * @param filterBy (optional) 
      * @param lastId (optional) 
      * @param limit (optional) 
      */
-    get(shoutsFilterDTO: ShoutsFilterDTO, lastId?: number | undefined, limit?: number | undefined): Observable<ApiResponseOfListOfShout> {
+    get(filterBy?: FilterType | undefined, lastId?: number | undefined, limit?: number | undefined): Observable<ApiResponseOfListOfShout> {
         let url_ = this.baseUrl + "/api/shouts?";
+        if (filterBy === null)
+            throw new Error("The parameter 'filterBy' cannot be null.");
+        else if (filterBy !== undefined)
+            url_ += "filterBy=" + encodeURIComponent("" + filterBy) + "&"; 
         if (lastId === null)
             throw new Error("The parameter 'lastId' cannot be null.");
         else if (lastId !== undefined)
@@ -358,14 +363,10 @@ export class ShoutsClient extends ApiClientBase {
             url_ += "limit=" + encodeURIComponent("" + limit) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(shoutsFilterDTO);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",			
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -1567,54 +1568,6 @@ export interface IShoutAsset {
     shoutId: number;
     assetTypeId: number;
     url?: string | undefined;
-}
-
-export class ShoutsFilterDTO implements IShoutsFilterDTO {
-    filteredBy!: FilterType;
-    hashtags?: string[] | undefined;
-
-    constructor(data?: IShoutsFilterDTO) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.filteredBy = _data["filteredBy"];
-            if (Array.isArray(_data["hashtags"])) {
-                this.hashtags = [] as any;
-                for (let item of _data["hashtags"])
-                    this.hashtags!.push(item);
-            }
-        }
-    }
-
-    static fromJS(data: any): ShoutsFilterDTO {
-        data = typeof data === 'object' ? data : {};
-        let result = new ShoutsFilterDTO();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["filteredBy"] = this.filteredBy;
-        if (Array.isArray(this.hashtags)) {
-            data["hashtags"] = [];
-            for (let item of this.hashtags)
-                data["hashtags"].push(item);
-        }
-        return data; 
-    }
-}
-
-export interface IShoutsFilterDTO {
-    filteredBy: FilterType;
-    hashtags?: string[] | undefined;
 }
 
 export enum FilterType {

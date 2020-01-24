@@ -5,7 +5,7 @@ export class ApiClientBase {
 
   protected transformOptions( options: any ) {
     if ( options && options.headers ) {
-      ( <Headers> options.headers ).set( 'Authorization', 'TEST' );
+      options.headers = ( <Headers>options.headers ).set( 'Authorization', 'TEST' );
     }
 
     return Promise.resolve( options );
