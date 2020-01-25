@@ -663,8 +663,8 @@ namespace Amplifir.UI.Web.APIClient
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Gets all shouts paginated of a specific user id. 
-        /// If the user is -1, it defaults to the current user in session. 
-        /// GET: " user/{userId} ? lastId={lastId::0} &amp; limit={limit::10} "</summary>
+        ///  If the user is -1, it defaults to the current user in session. 
+        ///  GET: " user/{userId} ? lastId={lastId::0} &amp; limit={limit::10} "</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<ApiResponseOfListOfShout> GetByUserIdAsync(int userId, int? lastId = null, int? limit = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
@@ -961,8 +961,8 @@ namespace Amplifir.UI.Web.APIClient
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Gets all shouts paginated of a specific user id. 
-        /// If the user is -1, it defaults to the current user in session. 
-        /// GET: " user/{userId} ? lastId={lastId::0} &amp; limit={limit::10} "</summary>
+        ///  If the user is -1, it defaults to the current user in session. 
+        ///  GET: " user/{userId} ? lastId={lastId::0} &amp; limit={limit::10} "</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async System.Threading.Tasks.Task<ApiResponseOfListOfShout> GetByUserIdAsync(int userId, int? lastId = null, int? limit = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {

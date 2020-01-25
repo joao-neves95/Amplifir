@@ -80,6 +80,10 @@ export class ShoutCardComponent implements OnInit {
   }
 
   private handlePostReactionError( err: ApiException, isLike: boolean ) {
+    if ( ApiClientHandlers.handle500Status( err ) ) {
+      return false;
+    }
+
     if ( ApiClientHandlers.handle401Status( err, isLike ? 'like a shout.' : 'dislike a shout.' ) ) {
       return false;
     }

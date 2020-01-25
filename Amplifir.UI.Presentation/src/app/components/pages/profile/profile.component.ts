@@ -14,9 +14,9 @@ import {
 import {
   Constants
 } from '../../../constants';
+import { ApiClientHandlers } from '../../../services/apiClientHandlers';
 import {
   Shout,
-  FilterType,
   ShoutsService,
   ApiResponseOfListOfShout,
   ApiException
@@ -53,6 +53,10 @@ export class ProfileComponent implements OnInit {
         this.shouts = ( < ApiResponseOfListOfShout > res ).endpointResult || this.shouts;
 
       }, err => {
+        if ( ApiClientHandlers.handle500Status( err ) ) {
+          return false;
+        }
+
         // TODO: Create a global generic method for error handling.
         // TODO: Create a global generic method to get ApiException the serialized responses.
         const errRes: ApiResponseOfListOfShout = ApiResponseOfListOfShout.fromJS( JSON.parse( ( < ApiException > err ).response ) );

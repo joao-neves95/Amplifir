@@ -23,4 +23,19 @@ export class ApiClientHandlers {
     return false;
   }
 
+  /**
+   * Returns true if it handled an internal server error, or false otherwise.
+   *
+   * @param err
+   * @param message
+   */
+  static handle500Status( err: ApiException, message: string = 'Unkown Error.' ): boolean {
+    if ( ( err as ApiException ).status === 500 ) {
+      alert( message );
+      return true;
+    }
+
+    return false;
+  }
+
 }

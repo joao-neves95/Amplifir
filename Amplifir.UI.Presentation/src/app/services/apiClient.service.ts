@@ -521,8 +521,8 @@ export class ShoutsService extends ApiClientBase {
 
     /**
      * Gets all shouts paginated of a specific user id. 
-    If the user is -1, it defaults to the current user in session. 
-    GET: " user/{userId} ? lastId={lastId::0} & limit={limit::10} "
+     If the user is -1, it defaults to the current user in session. 
+     GET: " user/{userId} ? lastId={lastId::0} & limit={limit::10} "
      * @param lastId (optional) 
      * @param limit (optional) 
      */
