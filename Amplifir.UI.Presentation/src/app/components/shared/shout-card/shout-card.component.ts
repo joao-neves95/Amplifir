@@ -12,10 +12,10 @@ export class ShoutCardComponent implements OnInit {
   constructor() { }
 
   @Input() shout: Shout = new Shout();
+  createDate: string = new Date().toLocaleString();
 
   ngOnInit() {
-    // Ignore error.
-    this.shout.createDate = new Date( this.shout.createDate ).toLocaleString();
+    this.createDate = this.shout.createDate.toLocaleString();
   }
 
 }
