@@ -299,7 +299,7 @@ namespace Amplifir.UI.Web.APIClient
         /// 
         ///   GET: [controller-route]/69</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<FileResponse> GetAsync(int id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponseOfAppUserProfile> GetAsync(int id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Updates the complete profile of the current authenticated user.
@@ -361,7 +361,7 @@ namespace Amplifir.UI.Web.APIClient
         /// 
         ///   GET: [controller-route]/69</summary>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async System.Threading.Tasks.Task<FileResponse> GetAsync(int id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponseOfAppUserProfile> GetAsync(int id, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             if (id == null)
                 throw new System.ArgumentNullException("id");
@@ -376,7 +376,7 @@ namespace Amplifir.UI.Web.APIClient
                 using (var request_ = new System.Net.Http.HttpRequestMessage())
                 {
                     request_.Method = new System.Net.Http.HttpMethod("GET");
-                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/octet-stream"));
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
     
                     PrepareRequest(client_, request_, urlBuilder_);
                     var url_ = urlBuilder_.ToString();
@@ -396,12 +396,10 @@ namespace Amplifir.UI.Web.APIClient
                         ProcessResponse(client_, response_);
     
                         var status_ = ((int)response_.StatusCode).ToString();
-                        if (status_ == "200" || status_ == "206") 
+                        if (status_ == "200") 
                         {
-                            var responseStream_ = response_.Content == null ? System.IO.Stream.Null : await response_.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                            var fileResponse_ = new FileResponse((int)response_.StatusCode, headers_, responseStream_, client_, response_); 
-                            client_ = null; response_ = null; // response and client are disposed by FileResponse
-                            return fileResponse_;
+                            var objectResponse_ = await ReadObjectResponseAsync<ApiResponseOfAppUserProfile>(response_, headers_).ConfigureAwait(false);
+                            return objectResponse_.Object;
                         }
                         else
                         if (status_ != "200" && status_ != "204")
@@ -410,7 +408,7 @@ namespace Amplifir.UI.Web.APIClient
                             throw new ApiException("The HTTP status code of the response was not expected (" + (int)response_.StatusCode + ").", (int)response_.StatusCode, responseData_, headers_, null);
                         }
             
-                        return default(FileResponse);
+                        return default(ApiResponseOfAppUserProfile);
                     }
                     finally
                     {
@@ -1986,6 +1984,52 @@ namespace Amplifir.UI.Web.APIClient
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.4.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class ApiResponseOfAppUserProfile 
+    {
+        [Newtonsoft.Json.JsonProperty("error", Required = Newtonsoft.Json.Required.Always)]
+        public bool Error { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("message", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Message { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("endpointResult", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public AppUserProfile EndpointResult { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.4.0 (Newtonsoft.Json v12.0.0.0)")]
+    public partial class AppUserProfile 
+    {
+        [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
+        public int Id { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("userId", Required = Newtonsoft.Json.Required.Always)]
+        public int UserId { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("bio", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Bio { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("website", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Website { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("followingCount", Required = Newtonsoft.Json.Required.Always)]
+        public int FollowingCount { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("followersCount", Required = Newtonsoft.Json.Required.Always)]
+        public int FollowersCount { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("userlocation", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string Userlocation { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("birthDate", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.DateTimeOffset BirthDate { get; set; }
+    
+    
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.1.4.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class ApiResponseOfListOfShout 
     {
         [Newtonsoft.Json.JsonProperty("error", Required = Newtonsoft.Json.Required.Always)]
@@ -2018,6 +2062,9 @@ namespace Amplifir.UI.Web.APIClient
     
         [Newtonsoft.Json.JsonProperty("dislikesCount", Required = Newtonsoft.Json.Required.Always)]
         public int DislikesCount { get; set; }
+    
+        [Newtonsoft.Json.JsonProperty("commentsCount", Required = Newtonsoft.Json.Required.Always)]
+        public int CommentsCount { get; set; }
     
         [Newtonsoft.Json.JsonProperty("assets", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<ShoutAsset> Assets { get; set; }

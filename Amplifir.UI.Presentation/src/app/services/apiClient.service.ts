@@ -169,7 +169,7 @@ export class ProfilesService extends ApiClientBase {
     
       GET: [controller-route]/69
      */
-    get(id: number): Observable<FileResponse | null> {
+    get(id: number): Observable<ApiResponseOfAppUserProfile> {
         let url_ = this.baseUrl + "/api/profiles/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -180,7 +180,7 @@ export class ProfilesService extends ApiClientBase {
             observe: "response",
             responseType: "blob",			
             headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -193,31 +193,33 @@ export class ProfilesService extends ApiClientBase {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse | null>><any>_observableThrow(e);
+                    return <Observable<ApiResponseOfAppUserProfile>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse | null>><any>_observableThrow(response_);
+                return <Observable<ApiResponseOfAppUserProfile>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<FileResponse | null> {
+    protected processGet(response: HttpResponseBase): Observable<ApiResponseOfAppUserProfile> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ApiResponseOfAppUserProfile.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse | null>(<any>null);
+        return _observableOf<ApiResponseOfAppUserProfile>(<any>null);
     }
 
     /**
@@ -1369,6 +1371,114 @@ export interface IUserCredentialsDTO {
     password: string;
 }
 
+export class ApiResponseOfAppUserProfile implements IApiResponseOfAppUserProfile {
+    error!: boolean;
+    message?: string | undefined;
+    endpointResult?: AppUserProfile | undefined;
+
+    constructor(data?: IApiResponseOfAppUserProfile) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.error = _data["error"];
+            this.message = _data["message"];
+            this.endpointResult = _data["endpointResult"] ? AppUserProfile.fromJS(_data["endpointResult"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ApiResponseOfAppUserProfile {
+        data = typeof data === 'object' ? data : {};
+        let result = new ApiResponseOfAppUserProfile();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["error"] = this.error;
+        data["message"] = this.message;
+        data["endpointResult"] = this.endpointResult ? this.endpointResult.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IApiResponseOfAppUserProfile {
+    error: boolean;
+    message?: string | undefined;
+    endpointResult?: AppUserProfile | undefined;
+}
+
+export class AppUserProfile implements IAppUserProfile {
+    id!: number;
+    userId!: number;
+    bio?: string | undefined;
+    website?: string | undefined;
+    followingCount!: number;
+    followersCount!: number;
+    userlocation?: string | undefined;
+    birthDate!: Date;
+
+    constructor(data?: IAppUserProfile) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.userId = _data["userId"];
+            this.bio = _data["bio"];
+            this.website = _data["website"];
+            this.followingCount = _data["followingCount"];
+            this.followersCount = _data["followersCount"];
+            this.userlocation = _data["userlocation"];
+            this.birthDate = _data["birthDate"] ? new Date(_data["birthDate"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): AppUserProfile {
+        data = typeof data === 'object' ? data : {};
+        let result = new AppUserProfile();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["userId"] = this.userId;
+        data["bio"] = this.bio;
+        data["website"] = this.website;
+        data["followingCount"] = this.followingCount;
+        data["followersCount"] = this.followersCount;
+        data["userlocation"] = this.userlocation;
+        data["birthDate"] = this.birthDate ? this.birthDate.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IAppUserProfile {
+    id: number;
+    userId: number;
+    bio?: string | undefined;
+    website?: string | undefined;
+    followingCount: number;
+    followersCount: number;
+    userlocation?: string | undefined;
+    birthDate: Date;
+}
+
 export class ApiResponseOfListOfShout implements IApiResponseOfListOfShout {
     error!: boolean;
     message?: string | undefined;
@@ -1467,6 +1577,7 @@ export class Shout extends NewShoutDTO implements IShout {
     createDate!: Date;
     likesCount!: number;
     dislikesCount!: number;
+    commentsCount!: number;
     assets?: ShoutAsset[] | undefined;
 
     constructor(data?: IShout) {
@@ -1481,6 +1592,7 @@ export class Shout extends NewShoutDTO implements IShout {
             this.createDate = _data["createDate"] ? new Date(_data["createDate"].toString()) : <any>undefined;
             this.likesCount = _data["likesCount"];
             this.dislikesCount = _data["dislikesCount"];
+            this.commentsCount = _data["commentsCount"];
             if (Array.isArray(_data["assets"])) {
                 this.assets = [] as any;
                 for (let item of _data["assets"])
@@ -1503,6 +1615,7 @@ export class Shout extends NewShoutDTO implements IShout {
         data["createDate"] = this.createDate ? this.createDate.toISOString() : <any>undefined;
         data["likesCount"] = this.likesCount;
         data["dislikesCount"] = this.dislikesCount;
+        data["commentsCount"] = this.commentsCount;
         if (Array.isArray(this.assets)) {
             data["assets"] = [];
             for (let item of this.assets)
@@ -1519,6 +1632,7 @@ export interface IShout extends INewShoutDTO {
     createDate: Date;
     likesCount: number;
     dislikesCount: number;
+    commentsCount: number;
     assets?: ShoutAsset[] | undefined;
 }
 
