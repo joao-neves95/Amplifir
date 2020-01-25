@@ -20,7 +20,7 @@ export class ApiClientBase {
 
   protected transformOptions( options: any ) {
     if ( options && options.headers ) {
-      options.headers = ( <Headers>options.headers ).set( 'Authorization', 'TEST' );
+      options.headers = ( options.headers as Headers ).set( 'Authorization', 'TEST' );
     }
 
     return Promise.resolve( options );
@@ -2112,10 +2112,7 @@ export class ApiException extends Error {
 }
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
-    if (result !== null && result !== undefined)
-        return _observableThrow(result);
-    else
-        return _observableThrow(new ApiException(message, status, response, headers, null));
+    return _observableThrow(new ApiException(message, status, response, headers, result));
 }
 
 function blobToText(blob: any): Observable<string> {
