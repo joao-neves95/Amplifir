@@ -23,7 +23,7 @@ import { ExploreComponent } from './components/pages/explore/explore.component';
 import { FeedComponent } from './components/pages/feed/feed.component';
 import { ProfileComponent } from './components/pages/profile/profile.component';
 import { SettingsComponent } from './components/pages/settings/settings.component';
-import { ShoutsService } from './services/apiClient.service';
+import { ShoutsService, AuthService } from './services/apiClient.service';
 import { NewShoutButtonComponent } from './components/shared/new-shout-button/new-shout-button.component';
 
 @NgModule({
@@ -47,7 +47,10 @@ import { NewShoutButtonComponent } from './components/shared/new-shout-button/ne
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [ ShoutsService ],
+  providers: [
+    ShoutsService,
+    AuthService
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

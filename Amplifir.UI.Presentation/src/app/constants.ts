@@ -8,7 +8,8 @@
 
 export const Constants = Object.freeze({
   localStorageIds: {
-    currentShout: 'current-shout'
+    currentShout: 'current-shout',
+    loggedUserId: 'this-user-id'
   },
   ids: {
     modalsComponent: 'modals'
