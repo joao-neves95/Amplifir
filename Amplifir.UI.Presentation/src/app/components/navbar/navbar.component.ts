@@ -6,19 +6,29 @@
  *
  */
 
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter
+} from '@angular/core';
+import {
+  Router,
+  NavigationEnd
+} from '@angular/router';
 
-import { RouterLinkViewModel } from '../../viewModels/routerLinkViewModel';
+import {
+  RouterLinkViewModel
+} from '../../viewModels/routerLinkViewModel';
 
-@Component({
+@Component( {
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
-})
+  styleUrls: [ './navbar.component.scss' ]
+} )
 export class NavbarComponent implements OnInit {
 
-  constructor( private router: Router ) { }
+  constructor( private router: Router ) {}
 
   navLinks: RouterLinkViewModel[] = [
     new RouterLinkViewModel( 'Explore', '/explore', 'fi fi-hashtag' ),
@@ -27,17 +37,19 @@ export class NavbarComponent implements OnInit {
     new RouterLinkViewModel( 'Settings', '/settings', 'fi fi-player-settings' )
   ]
 
-  @Output() pageChange = new EventEmitter<string>();
+  @Output() pageChange = new EventEmitter < string > ();
 
   ngOnInit(): void {
-    this.router.events.subscribe( ( navEvent ) => {
-      if (navEvent instanceof NavigationEnd) {
-        const navLink = this.navLinks.find( (link) => link.url === navEvent.url );
+    this.pageChange.emit( this.navLinks[ 0 ].label );
 
-        if (navLink) {
+    this.router.events.subscribe( ( navEvent ) => {
+      if ( navEvent instanceof NavigationEnd ) {
+        const navLink = this.navLinks.find( ( link ) => link.url === navEvent.url );
+
+        if ( navLink ) {
           this.pageChange.emit( navLink.label );
         }
       }
-    })
+    } );
   }
 }
