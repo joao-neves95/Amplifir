@@ -21,3 +21,8 @@
 .text-grey {
   color: $grey-text;
 }
+
+.cancel-clickable {
+  cursor: default;
+  pointer-events: none;
+}

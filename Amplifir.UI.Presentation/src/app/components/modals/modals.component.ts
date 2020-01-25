@@ -53,8 +53,14 @@ export class ModalsComponent implements AfterViewInit {
         break;
 
       case ModalType.ShoutModal:
-        ModalsComponent._.title = Constants.defaultLabels.shoutModalTitle;
+        ModalsComponent._.title = '';
+        ModalsComponent._.goBtnLabel = '';
         break;
+
+        case ModalType.NewShoutModal:
+          ModalsComponent._.title = Constants.defaultLabels.newShoutModalTitle;
+          ModalsComponent._.goBtnLabel = Constants.defaultLabels.newShoutModalTitle;
+          break;
 
       default:
         break;

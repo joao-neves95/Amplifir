@@ -24,6 +24,7 @@ import { FeedComponent } from './components/pages/feed/feed.component';
 import { ProfileComponent } from './components/pages/profile/profile.component';
 import { SettingsComponent } from './components/pages/settings/settings.component';
 import { ShoutsService } from './services/apiClient.service';
+import { NewShoutButtonComponent } from './components/shared/new-shout-button/new-shout-button.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ShoutsService } from './services/apiClient.service';
     SettingsComponent,
     ModalsComponent,
     ExploreComponent,
-    ShoutCardComponent
+    ShoutCardComponent,
+    NewShoutButtonComponent
   ],
   imports: [
     BrowserModule,

@@ -3,8 +3,9 @@
   <article class="modal-dialog" role="document">
     <section class="modal-content">
 
-      <header class="modal-header">
+      <header *ngIf="title.length > 0" class="modal-header">
         <h5 class="modal-title" id="{{ id }}Label"> {{ title }} </h5>
+
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -20,7 +21,10 @@
 
       <footer class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary go">{{ goBtnLabel }}</button>
+        <button *ngIf="goBtnLabel.length > 0"
+                type="button" class="btn btn-primary go">
+          {{ goBtnLabel }}
+        </button>
       </footer>
 
     </section>

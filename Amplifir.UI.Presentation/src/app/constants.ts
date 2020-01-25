@@ -7,13 +7,17 @@
  */
 
 export const Constants = Object.freeze({
+  localStorageIds: {
+    currentShout: 'current-shout'
+  },
   ids: {
     modalsComponent: 'modals'
   },
   defaultLabels: {
     appName: 'Amplifir',
     authModalTitle: 'Login',
-    shoutModalTitle: 'Shout!',
+    shoutModalTitle: 'Shout',
+    newShoutModalTitle: 'New Shout!',
     userName: 'Guest',
     emptyProfileShouts: 'Whow, so empty! Shout a little!'
   },
