@@ -1,0 +1,15 @@
+@import '../../../constants.scss';
+
+article {
+  padding: 1em;
+
+  &:hover {
+    background-color: $background-medium-blue;
+    // cursor: pointer;
+  }
+
+  .reaction-count {
+    display: inline-block;
+    margin-right: 1em;
+  }
+}
