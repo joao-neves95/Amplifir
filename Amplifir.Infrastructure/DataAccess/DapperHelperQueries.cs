@@ -57,7 +57,8 @@ namespace Amplifir.Infrastructure.DataAccess
 
         public static string GetShoutQueryWithoutWhere()
         {
-            return $@"SELECT Shout.Id, Shout.UserId, AppUser.UserName, Shout.Content, Shout.CreateDate, Shout.LikesCount, Shout.DislikesCount
+            return $@"SELECT Shout.Id, Shout.UserId, AppUser.UserName, Shout.Content,
+                             Shout.CreateDate, Shout.LikesCount, Shout.DislikesCount, Shout.CommentsCount
                       FROM Shout
                           INNER JOIN AppUser
                           ON Shout.UserId = AppUser.Id
@@ -66,7 +67,8 @@ namespace Amplifir.Infrastructure.DataAccess
 
         public static string GetCommentQueryWithoutWhere()
         {
-            return $@"SELECT Comment.Id, Comment.ShoutId, Comment.UserId, AppUser.UserName, Comment.Content, Comment.CreateDate, Comment.LikesCount, Comment.DislikesCount
+            return $@"SELECT Comment.Id, Comment.ShoutId, Comment.UserId, AppUser.UserName,
+                             Comment.Content, Comment.CreateDate, Comment.LikesCount, Comment.DislikesCount
                       FROM Comment
                           INNER JOIN AppUser
                           ON Comment.UserId = AppUser.Id

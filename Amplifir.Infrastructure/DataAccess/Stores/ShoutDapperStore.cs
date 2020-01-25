@@ -169,19 +169,31 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
 
         public async Task<int> CreateCommentAsync(Comment newComment)
         {
-            await base._dBContext.OpenDBConnectionAsync();
-
-            using (base._dBContext.DbConnection)
+            await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
             {
-                return await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
+                {
                     $@"INSERT INTO Comment (ShoutId, UserId, Content)
-                       VALUES ({ newComment.ShoutId.ToString() }, { newComment.UserId.ToString() }, @Content);
-                       {DapperHelperQueries.SelectSessionLastInserted( "Comment", "id" )}
+                       VALUES ({ newComment.ShoutId.ToString() }, { newComment.UserId.ToString() }, @Content)
                     ",
-                    new { Content = newComment.Content }
-                );
-            }
+                    null
+                },
+                {
+                    $@"UPDATE Shout
+                       SET CommentCount = CommentCount + 1
+                       WHERE Id = { newComment.ShoutId }
+                    ",
+                    null
+                }
 
+            }, false );
+
+            int commentId = await base._dBContext.DbConnection.ExecuteScalarAsync<int>(
+                DapperHelperQueries.SelectSessionLastInserted( "Comment", "id" ),
+                new { Content = newComment.Content }
+            );
+
+            _ = base._dBContext.DbConnection.DisposeAsync();
+            return commentId;
         }
 
         #endregion CREATE
@@ -457,6 +469,17 @@ namespace Amplifir.Infrastructure.DataAccess.Stores
         {
             return await base._dBContext.ExecuteTransactionAsync( new Dictionary<string, object>()
             {
+                {
+                    $@"UPDATE Shout
+                       SET CommentCount = CommentCount - 1
+                       WHERE Id = (
+                           SELECT ShoutId
+                           FROM Comment
+                           WHERE Id = { id }
+                       )
+                    ",
+                    null
+                },
                 {
                     $@"                  
                     DELETE FROM CommentReaction

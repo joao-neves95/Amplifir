@@ -27,6 +27,8 @@ namespace Amplifir.Core.Entities
 
         public int DislikesCount { get; set; }
 
+        public int CommentsCount { get; set; }
+
         public List<ShoutAsset> Assets { get; set; }
     }
 }

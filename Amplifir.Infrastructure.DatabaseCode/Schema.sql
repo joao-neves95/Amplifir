@@ -47,7 +47,8 @@ CREATE TABLE Shout (
     Content VARCHAR(90) NOT NULL CHECK( LENGTH( Content ) > 0 ),
     CreateDate TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT( NOW() AT TIME ZONE 'UTC' ),
     LikesCount INT NOT NULL DEFAULT 0,
-    DislikesCount INT NOT NULL DEFAULT 0
+    DislikesCount INT NOT NULL DEFAULT 0,
+    CommentsCount INT NOT NULL DEFAULT 0
 );
 
 CREATE TABLE Hashtag (
