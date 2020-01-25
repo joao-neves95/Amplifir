@@ -12,7 +12,9 @@
 
       <div class="modal-body">
 
-        <app-auth-modal *ngIf="activeModal == 1"></app-auth-modal>
+        <app-auth-modal *ngIf="activeModal === 1"></app-auth-modal>
+        <app-shout-modal *ngIf="activeModal === 2"></app-shout-modal>
+        <app-new-shout-modal *ngIf="activeModal === 3"></app-new-shout-modal>
 
       </div>
 

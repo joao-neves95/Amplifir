@@ -15,6 +15,8 @@ import { AppComponent } from './app.component';
 import { ShoutCardComponent } from './components/shared/shout-card/shout-card.component';
 import { ModalsComponent } from './components/modals/modals.component';
 import { AuthModalComponent } from './components/modals/auth-modal/auth-modal.component';
+import { NewShoutModalComponent } from './components/modals/new-shout-modal/new-shout-modal.component';
+import { ShoutModalComponent } from './components/modals/shout-modal/shout-modal.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { ExploreComponent } from './components/pages/explore/explore.component';
@@ -27,14 +29,16 @@ import { ShoutsService } from './services/apiClient.service';
   declarations: [
     AppComponent,
     NavbarComponent,
+    AuthModalComponent,
+    NewShoutModalComponent,
+    ShoutModalComponent,
+    PageHeaderComponent,
     ProfileComponent,
     FeedComponent,
     SettingsComponent,
-    PageHeaderComponent,
-    AuthModalComponent,
     ModalsComponent,
-    ShoutCardComponent,
-    ExploreComponent
+    ExploreComponent,
+    ShoutCardComponent
   ],
   imports: [
     BrowserModule,
