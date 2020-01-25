@@ -1,1 +1,13 @@
-<p>explore works!</p>
+<header class="add-border-bottom">
+  <h2> Top Shouts </h2>
+  <!-- TODO: Add the filter here. -->
+
+</header>
+
+<section>
+
+  <app-shout-card *ngFor="let shout of shouts"
+                  [shout]="shout">
+  </app-shout-card>
+
+</section>
