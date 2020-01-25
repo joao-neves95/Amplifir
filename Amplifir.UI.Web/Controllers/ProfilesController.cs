@@ -51,17 +51,22 @@ namespace Amplifir.UI.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}", Name = "Get")]
-        [Authorize]
         [Produces( typeof( ApiResponse<AppUserProfile> ) )]
         public async Task<IActionResult> Get([FromRoute]int id)
         {
             ApiResponse<AppUserProfile> apiResponse = new ApiResponse<AppUserProfile>();
+
             try
             {
                 if (id == -1)
                 {
-                    // If FormatException Exception occurs, let the catch handle.
-                    id = Convert.ToInt32( _jWTService.GetClaimId( HttpContext.User ) );
+                    bool parsed = int.TryParse( _jWTService.GetClaimId( HttpContext.User ), out id );
+
+                    // The user is not authenticated (guest).
+                    if (!parsed)
+                    {
+                        return Ok( apiResponse );
+                    }
                 }
 
                 apiResponse.EndpointResult = await _userProfileService.GetByUserIdAsync( id );

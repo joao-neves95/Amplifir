@@ -113,9 +113,11 @@ namespace Amplifir.UI.Web.Controllers
         }
 
         /// <summary>
+        /// 
         /// <para> Gets all shouts paginated of a specific user id. </para>
         /// <para> If the user is -1, it defaults to the current user in session. </para>
         /// <para> GET: " user/{userId} ? lastId={lastId::0} &amp; limit={limit::10} " </para>
+        /// 
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="lastId"></param>
@@ -131,7 +133,14 @@ namespace Amplifir.UI.Web.Controllers
             {
                 if (userId == -1)
                 {
-                    userId = Convert.ToInt32( this._JWTService.GetClaimId( HttpContext.User ) );
+                    bool parsed = int.TryParse( this._JWTService.GetClaimId( HttpContext.User ), out userId );
+
+                    // The user is not authenticated (guest).
+                    if (!parsed)
+                    {
+                        apiResponse.EndpointResult = new List<Shout>( 0 );
+                        return Ok( apiResponse );
+                    }
                 }
 
                 apiResponse.EndpointResult = await this._shoutService.GetByUserIdAsync( userId, lastId, limit );
