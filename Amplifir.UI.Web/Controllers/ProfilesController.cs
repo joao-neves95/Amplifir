@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 - 2020 Jo„o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
+ * Copyright (c) 2019 - 2020 Jo√£o Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
  *
  * Amplifir and all its content is licensed under the GNU Lesser General Public License (LGPL),
  * version 3, located in the root of this project, under the name "LICENSE.md".
@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
 using Amplifir.Core.DTOs;
+using Amplifir.UI.Web.Resources;
 
 namespace Amplifir.UI.Web.Controllers
 {
@@ -51,8 +52,10 @@ namespace Amplifir.UI.Web.Controllers
         /// <returns></returns>
         [HttpGet("{id}", Name = "Get")]
         [Authorize]
+        [Produces( typeof( ApiResponse<AppUserProfile> ) )]
         public async Task<IActionResult> Get([FromRoute]int id)
         {
+            ApiResponse<AppUserProfile> apiResponse = new ApiResponse<AppUserProfile>();
             try
             {
                 if (id == -1)
@@ -61,13 +64,21 @@ namespace Amplifir.UI.Web.Controllers
                     id = Convert.ToInt32( _jWTService.GetClaimId( HttpContext.User ) );
                 }
 
-                return Ok( new ApiResponse<AppUserProfile>()
+                apiResponse.EndpointResult = await _userProfileService.GetByUserIdAsync( id );
+
+                if (apiResponse.EndpointResult == null)
                 {
-                    EndpointResult = await _userProfileService.GetByUserIdAsync(id)
-                } );
+                    apiResponse.Error = true;
+                    apiResponse.Message = Resource_ResponseMessages_en.NotFound;
+                    return NotFound( apiResponse );
+                }
+
+                return Ok( apiResponse );
             }
             catch (Exception e)
             {
+                apiResponse.Error = true;
+                apiResponse.Message = Resource_ResponseMessages_en.Unknown;
                 return Problem( statusCode: 500, detail: Newtonsoft.Json.JsonConvert.SerializeObject( e, Newtonsoft.Json.Formatting.Indented ) );
             }
         }
