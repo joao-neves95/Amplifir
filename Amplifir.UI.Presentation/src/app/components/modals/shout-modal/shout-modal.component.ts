@@ -8,6 +8,9 @@
 
 import { Component, OnInit } from '@angular/core';
 
+import { Constants } from '../../../constants';
+import { Shout } from '../../../services/apiClient.service';
+
 @Component({
   selector: 'app-shout-modal',
   templateUrl: './shout-modal.component.html',
@@ -17,7 +20,10 @@ export class ShoutModalComponent implements OnInit {
 
   constructor() { }
 
+  shout: Shout = new Shout();
+
   ngOnInit() {
+    this.shout = new Shout( JSON.parse( localStorage.getItem( Constants.localStorageIds.currentShout ) || '' ));
   }
 
 }
