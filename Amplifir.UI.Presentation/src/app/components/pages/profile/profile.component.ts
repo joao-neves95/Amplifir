@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit {
 
   readonly CONSTANTS = Constants;
 
+  userId: number = -1;
   userName: string = Constants.defaultLabels.userName;
   bio: string = '';
   location: string = '';
@@ -47,7 +48,7 @@ export class ProfileComponent implements OnInit {
   }
 
   nextPage() {
-    this.shoutsService.get( FilterType.Top, this.shouts.length > 0 ? this.shouts[this.shouts.length - 1].id : 0, 15 )
+    this.shoutsService.getByUserId( this.userId, this.shouts.length > 0 ? this.shouts[this.shouts.length - 1].id : 0, 15 )
       .subscribe( res => {
         this.shouts = ( < ApiResponseOfListOfShout > res ).endpointResult || this.shouts;
 
