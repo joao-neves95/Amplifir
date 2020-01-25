@@ -9,7 +9,11 @@
   <p> {{ shout.content }} </p>
 
   <footer>
-    <!-- <p class="comments-count text-grey"><b> {{ shout.commmentCount }} </b> </p> -->
+    <p class="reaction-count text-grey">
+      <b> {{ shout.commentCount }} </b>
+      <i class="fi fi-comments"></i>
+    </p>
+
     <p (click)="likeShout()" class="reaction-count text-grey">
       <b> {{ shout.likesCount }} </b>
       <i class="fi fi-like"></i>
