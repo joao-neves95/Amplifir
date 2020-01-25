@@ -1,5 +1,6 @@
 
-<article>
+<article (click)="openShoutModal( $event )" class="add-border-bottom {{ canceledClasses }}">
+
   <header>
     <p> &#64;{{ shout.userName }} </p>
     <time class="text-grey"> {{ createDate }} </time>
@@ -9,8 +10,15 @@
 
   <footer>
     <!-- <p class="comments-count text-grey"><b> {{ shout.commmentCount }} </b> </p> -->
-    <p class="reaction-count text-grey"><b> {{ shout.likesCount }} </b> Likes </p>
-    <p class="reaction-count text-grey"><b> {{ shout.dislikesCount }} </b> Dislikes </p>
+    <p (click)="likeShout()" class="reaction-count text-grey">
+      <b> {{ shout.likesCount }} </b>
+      <i class="fi fi-like"></i>
+    </p>
+
+    <p (click)="dislikeShout()" class="reaction-count text-grey">
+      <b> {{ shout.dislikesCount }} </b>
+      <i class="fi fi-dislike"></i>
+    </p>
   </footer>
 
 </article>

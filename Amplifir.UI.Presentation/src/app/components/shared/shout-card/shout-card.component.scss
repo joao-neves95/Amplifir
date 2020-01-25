@@ -1,15 +1,21 @@
 @import '../../../constants.scss';
+@import '../../../../assets/util-classes.scss';
 
 article {
   padding: 1em;
 
   &:hover {
     background-color: $background-medium-blue;
-    // cursor: pointer;
+    cursor: pointer;
   }
 
   .reaction-count {
     display: inline-block;
-    margin-right: 1em;
+    margin-right: 2em;
+    pointer-events: all !important;
+
+    &:hover > i {
+        font-size: larger;
+    }
   }
 }
