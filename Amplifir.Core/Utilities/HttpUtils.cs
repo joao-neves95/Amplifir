@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2019 - 2020 João Pedro Martins Neves (SHIVAYL) - All Rights Reserved.
  *
  * Amplifir and all its content is licensed under the GNU Lesser General Public License (LGPL),
@@ -12,9 +12,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Amplifir.UI.Web.Utilities
+namespace Amplifir.Core.Utilities
 {
-    public class HttpUtils
+    public static class HttpUtils
     {
         public static string GetUserIp( HttpContext httpContext )
         {

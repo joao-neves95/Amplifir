@@ -9,7 +9,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Amplifir.Core.Interfaces;
-using Amplifir.UI.Web.Utilities;
 
 namespace Amplifir.UI.Web.Filters
 {
@@ -24,7 +23,7 @@ namespace Amplifir.UI.Web.Filters
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if (!this._JWTService.ValidateJWTUserIp( context.HttpContext.User, HttpUtils.GetUserIp( context.HttpContext ) ))
+            if (!this._JWTService.ValidateJWTUserIp( context.HttpContext ))
             {
                 context.Result = new UnauthorizedResult();
             }

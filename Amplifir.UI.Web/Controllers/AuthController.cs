@@ -17,7 +17,6 @@ using Amplifir.Core.DTOs;
 using Amplifir.Core.Models;
 using Amplifir.Core.Entities;
 using Amplifir.Core.Utilities;
-using Amplifir.UI.Web.Utilities;
 using Amplifir.UI.Web.Resources;
 
 // TODO: Before production, remove every API exception returns.

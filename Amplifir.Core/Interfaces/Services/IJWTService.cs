@@ -6,10 +6,8 @@
  *
  */
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace Amplifir.Core.Interfaces
 {
@@ -17,7 +15,7 @@ namespace Amplifir.Core.Interfaces
     {
         string Generate( IAppUser appUser );
 
-        bool ValidateJWTUserIp( ClaimsPrincipal userClaims, string userIp );
+        bool ValidateJWTUserIp( HttpContext httpContext );
 
         /// <summary>
         /// 

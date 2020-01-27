@@ -14,6 +14,8 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Amplifir.Core.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Amplifir.Core.Utilities;
 
 namespace Amplifir.Core.DomainServices
 {
@@ -54,9 +56,9 @@ namespace Amplifir.Core.DomainServices
             return new JwtSecurityTokenHandler().WriteToken( token );
         }
 
-        public bool ValidateJWTUserIp(ClaimsPrincipal userClaims, string userIp)
+        public bool ValidateJWTUserIp(HttpContext httpContext)
         {
-            return this.GetClaimIPv4( userClaims ) == userIp;
+            return this.GetClaimIPv4( httpContext.User ) == HttpUtils.GetUserIp( httpContext );
         }
 
         public string GetClaim(ClaimsPrincipal userClaims, string claimType)
@@ -78,5 +80,6 @@ namespace Amplifir.Core.DomainServices
         {
             return GetClaim( userClaims, "ipv4" );
         }
+
     }
 }
