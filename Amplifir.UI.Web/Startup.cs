@@ -26,6 +26,7 @@ using Amplifir.Core.Interfaces;
 using Amplifir.Core.Entities;
 using Amplifir.Core.Utilities;
 using Amplifir.Core.DomainServices;
+using System.Collections.Generic;
 
 namespace Amplifir.UI.Web
 {
@@ -145,7 +146,7 @@ namespace Amplifir.UI.Web
             }
 
             // https://www.owasp.org/index.php/OWASP_Secure_Headers_Project#tab=Headers
-            HeaderPolicyCollection headerPolicy = new HeaderPolicyCollection()
+            app.UseSecurityHeaders( new HeaderPolicyCollection()
                 .AddFrameOptionsDeny()
                 .AddXssProtectionBlock()
                 .AddContentTypeOptionsNoSniff()
@@ -156,24 +157,27 @@ namespace Amplifir.UI.Web
                 {
                     builder.AddUpgradeInsecureRequests();
                     builder.AddBlockAllMixedContent();
-                    builder.AddFrameSource().None();
-                    builder.AddFrameAncestors().None();
+                    builder.AddFrameSource().None().BlockResources = true;
+                    builder.AddFrameAncestors().None().BlockResources = true;
                     builder.AddFormAction().OverHttps().Self();
+                    builder.AddWorkerSrc().OverHttps().Self();
                     builder.AddDefaultSrc().OverHttps().Self();
-                    builder.AddObjectSrc().None();
-                    // TODO: In the future add any CDN here.
-                    builder.AddFontSrc().OverHttps().Self();
+                    builder.AddObjectSrc().None().BlockResources = true;
+                    builder.AddFontSrc().OverHttps().Self().From( "https://unpkg.com" );
                     builder.AddImgSrc().OverHttps().Self();
-                    builder.AddStyleSrc().OverHttps().Self();
-                    builder.AddScriptSrc().OverHttps().Self();
+                    // Angular uses unsafe inline injections and (function) eval.
+                    builder.AddStyleSrc().OverHttps().Self().UnsafeInline();
+                    builder.AddScriptSrc().OverHttps().Self().UnsafeInline().UnsafeEval();
                 } )
-                .AddCustomHeader( "X-Download-Options", "noopen" );
+                .AddCustomHeader( "X-Download-Options", "noopen" )
+                .AddFeaturePolicy( builder => {
+                    builder.AddGeolocation().None();
+                } )
+            );
 
             app.UseForwardedHeaders( new ForwardedHeadersOptions
             {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-                ForwardedHostHeaderName = "Anonymous",
-                OriginalHostHeaderName = "Anonymous"
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             } );
 
             app.UseAuthentication();
