@@ -19,6 +19,7 @@ using Amplifir.Core.Models;
 using Amplifir.Core.Enums;
 using Amplifir.Core.Utilities;
 using Amplifir.UI.Web.Resources;
+using Amplifir.UI.Web.Filters;
 
 // TODO: Before production, remove every API exception returns.
 
@@ -211,6 +212,7 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpPost]
         [Authorize]
+        [TypeFilter( typeof( ValidateIPClaimActionFilter ) )]
         [Produces( typeof( ApiResponse<CreateShoutResult> ) )]
         public async Task<IActionResult> Post([FromBody]NewShoutDTO newShoutDTO)
         {
@@ -256,14 +258,16 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpPost("{shoutId}/likes")]
         [Authorize]
+        [TypeFilter( typeof( ValidateIPClaimActionFilter ) )]
         [Produces( typeof( ApiResponse<CreateReactionResult> ) )]
         public async Task<IActionResult> PostLike([FromRoute]int shoutId)
         {
             return await this.PostReaction( shoutId, true, true );
         }
 
-        [Authorize]
         [HttpPost( "{shoutId}/dislikes" )]
+        [Authorize]
+        [TypeFilter( typeof( ValidateIPClaimActionFilter ) )]
         [Produces( typeof( ApiResponse<CreateReactionResult> ) )]
         public async Task<IActionResult> PostDislike([FromRoute]int shoutId)
         {
@@ -272,6 +276,7 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpPost( "{shoutId}/comments" )]
         [Authorize]
+        [TypeFilter( typeof( ValidateIPClaimActionFilter ) )]
         [Produces( typeof( ApiResponse<CreateCommentResult> ) )]
         public async Task<IActionResult> PostComment([FromRoute]int shoutId, [FromBody]NewCommentDTO newCommentDTO)
         {
@@ -318,6 +323,7 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpPost( "{shoutId}/comments/{commentId}/likes" )]
         [Authorize]
+        [TypeFilter( typeof( ValidateIPClaimActionFilter ) )]
         [Produces( typeof( ApiResponse<CreateReactionResult> ) )]
         public async Task<IActionResult> PostCommentLike([FromRoute]int commentId)
         {
@@ -326,6 +332,7 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpPost( "{shoutId}/comments/{commentId}/dislikes" )]
         [Authorize]
+        [TypeFilter( typeof( ValidateIPClaimActionFilter ) )]
         [Produces( typeof( ApiResponse<CreateReactionResult> ) )]
         public async Task<IActionResult> PostCommentDislike([FromRoute]int commentId)
         {
@@ -390,6 +397,7 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpDelete("{shoutId}")]
         [Authorize]
+        [TypeFilter( typeof( ValidateIPClaimActionFilter ) )]
         [Produces( typeof( ApiResponse<bool> ) )]
         public async Task<IActionResult> Delete([FromRoute]int shoutId)
         {
@@ -422,6 +430,7 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpDelete( "{shoutId}/likes" )]
         [Authorize]
+        [TypeFilter( typeof( ValidateIPClaimActionFilter ) )]
         [Produces( typeof( ApiResponse<bool> ) )]
         public async Task<IActionResult> DeleteShoutLike([FromRoute]int shoutId)
         {
@@ -430,6 +439,7 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpDelete( "{shoutId}/dislikes" )]
         [Authorize]
+        [TypeFilter( typeof( ValidateIPClaimActionFilter ) )]
         [Produces( typeof( ApiResponse<bool> ) )]
         public async Task<IActionResult> DeleteShoutDislike([FromRoute]int shoutId)
         {
@@ -438,6 +448,7 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpDelete( "{shoutId}/comments/{commentId}" )]
         [Authorize]
+        [TypeFilter( typeof( ValidateIPClaimActionFilter ) )]
         [Produces( typeof( ApiResponse<bool> ) )]
         public async Task<IActionResult> DeleteComment([FromRoute]int commentId)
         {
@@ -473,6 +484,7 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpDelete( "{shoutId}/comments/{commentId}/likes" )]
         [Authorize]
+        [TypeFilter( typeof( ValidateIPClaimActionFilter ) )]
         [Produces( typeof( ApiResponse<bool> ) )]
         public async Task<IActionResult> DeleteCommentLike([FromRoute]int commentId)
         {
@@ -481,6 +493,7 @@ namespace Amplifir.UI.Web.Controllers
 
         [HttpDelete( "{shoutId}/comments/{commentId}/dislikes" )]
         [Authorize]
+        [TypeFilter( typeof( ValidateIPClaimActionFilter ) )]
         [Produces( typeof( ApiResponse<bool> ) )]
         public async Task<IActionResult> DeleteCommentDislike([FromRoute]int commentId)
         {

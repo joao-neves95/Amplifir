@@ -54,6 +54,11 @@ namespace Amplifir.Core.DomainServices
             return new JwtSecurityTokenHandler().WriteToken( token );
         }
 
+        public bool ValidateJWTUserIp(ClaimsPrincipal userClaims, string userIp)
+        {
+            return this.GetClaimIPv4( userClaims ) == userIp;
+        }
+
         public string GetClaim(ClaimsPrincipal userClaims, string claimType)
         {
             if (userClaims == null || !userClaims.Claims.Any())

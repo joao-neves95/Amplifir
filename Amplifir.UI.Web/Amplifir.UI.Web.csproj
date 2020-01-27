@@ -69,10 +69,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Filters\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Amplifir.ApplicationTypeFactory\Amplifir.ApplicationTypeFactory.csproj" />
   </ItemGroup>
 
